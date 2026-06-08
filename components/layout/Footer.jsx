@@ -150,7 +150,7 @@ export function Footer() {
             href={redes.facebook}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Facebook oficial del Gobierno Municipal de Arivechi"
+            aria-label="Facebook oficial del Gobierno Municipal de Baviácora"
             className="group inline-flex items-center gap-3 rounded-xl bg-white/5 p-3 transition hover:bg-white/10"
           >
             <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--color-guinda)] text-white transition group-hover:bg-[var(--color-dorado)] group-hover:text-[var(--color-guinda-deep)]">
@@ -161,7 +161,7 @@ export function Footer() {
                 Facebook oficial
               </span>
               <span className="block text-sm font-semibold text-white">
-                @ArivechiOficial
+                Municipio de Baviácora
               </span>
             </span>
           </Link>

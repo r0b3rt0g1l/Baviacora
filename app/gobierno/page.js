@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export const metadata = buildMetadata({
   title: "Gobierno",
   description:
-    "Conoce la estructura del Gobierno Municipal de Arivechi: cabildo completo, organigrama institucional y plan municipal de desarrollo.",
+    "Conoce la estructura del Gobierno Municipal de Baviácora: cabildo completo, organigrama institucional y plan municipal de desarrollo.",
   path: "/gobierno",
 });
 
@@ -19,21 +19,21 @@ const accesos = [
     href: "/gobierno/directorio",
     titulo: "Directorio del Cabildo",
     descripcion:
-      "Vista en cuadrícula con cada integrante del Cabildo Municipal y la Presidencia del DIF. Click para ver detalles y datos de contacto.",
+      "Vista en cuadrícula con cada integrante del Cabildo y el gabinete municipal. Click para ver detalles y datos de contacto.",
     icon: Users,
   },
   {
     href: "/gobierno/estructura-organica",
     titulo: "Estructura Orgánica",
     descripcion:
-      "Personas que integran el Cabildo y la Presidencia del DIF Municipal. Las direcciones se publicarán conforme a las designaciones oficiales.",
+      "Personas que integran el Cabildo y el gabinete municipal. Las direcciones se publicarán conforme a las designaciones oficiales.",
     icon: Network,
   },
   {
     href: "/gobierno/plan-municipal",
     titulo: "Plan Municipal de Desarrollo",
     descripcion:
-      "Ejes rectores, programas y compromisos del Gobierno Municipal de Arivechi para el periodo 2024-2027.",
+      "Ejes rectores, programas y compromisos del Gobierno Municipal de Baviácora para el periodo 2024-2027.",
     icon: FileText,
   },
 ];
@@ -51,7 +51,7 @@ export default function GobiernoPage() {
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
             Conoce la estructura institucional del Gobierno Municipal de
-            Arivechi: el Cabildo, sus Direcciones, Organismos Descentralizados
+            Baviácora: el Cabildo, sus Direcciones, Organismos Descentralizados
             y el Plan Municipal de Desarrollo.
           </p>
         </div>

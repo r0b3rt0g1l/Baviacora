@@ -91,7 +91,7 @@ export default async function SevacPage({ searchParams }) {
             </h2>
             <p className="mt-3 max-w-2xl text-sm text-[var(--color-text-secondary)]">
               Información financiera y presupuestal publicada por el Gobierno
-              Municipal de Arivechi en cumplimiento de la armonización
+              Municipal de Baviácora en cumplimiento de la armonización
               contable. Los documentos se visualizan directamente en este
               portal.
             </p>

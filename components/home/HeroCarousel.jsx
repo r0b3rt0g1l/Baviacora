@@ -75,7 +75,7 @@ export function HeroCarousel({ slides }) {
     <section
       ref={heroRef}
       aria-roledescription="carrusel"
-      aria-label="Vistas destacadas de Arivechi"
+      aria-label="Vistas destacadas de Baviácora"
       className="relative isolate h-[100svh] w-full overflow-hidden bg-[var(--color-guinda-deep)] text-white"
     >
       {/* Background layer: Embla images, parallax translateY 0 → -200 */}

@@ -26,8 +26,8 @@ export function ContactoForm({ accessKey }) {
 
     const formData = new FormData(e.currentTarget);
     formData.append("access_key", accessKey);
-    formData.append("subject", "Nuevo mensaje de contacto — Portal Arivechi");
-    formData.append("from_name", "Portal Arivechi · Contacto");
+    formData.append("subject", "Nuevo mensaje de contacto — Portal Baviácora");
+    formData.append("from_name", "Portal Baviácora · Contacto");
 
     try {
       const res = await fetch(WEB3FORMS_ENDPOINT, {

@@ -7,7 +7,7 @@ export const revalidate = 3600;
 export const metadata = buildMetadata({
   title: "Estructura Orgánica",
   description:
-    "Estructura institucional del Gobierno Municipal de Arivechi: Cabildo, Sindicatura, Regidurías y Presidencia del DIF Municipal. Administración 2024-2027.",
+    "Estructura institucional del Gobierno Municipal de Baviácora: Cabildo, Sindicatura, Regidurías y Presidencia del DIF Municipal. Administración 2024-2027.",
   path: "/gobierno/estructura-organica",
 });
 
@@ -24,7 +24,7 @@ export default function EstructuraOrganicaPage() {
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
             Personas que integran el Cabildo y la Presidencia del DIF Municipal
-            del Gobierno Municipal de Arivechi durante la Administración
+            del Gobierno Municipal de Baviácora durante la Administración
             2024-2027. Las direcciones generales y de área se publicarán
             conforme a las designaciones oficiales.
           </p>

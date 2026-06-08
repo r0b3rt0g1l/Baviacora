@@ -7,7 +7,7 @@ export const revalidate = 60;
 export const metadata = buildMetadata({
   title: "Acciones de Gobierno",
   description:
-    "Últimas noticias y comunicados oficiales del Gobierno Municipal de Arivechi. Mantente al día con las acciones, obras y avisos de la Administración 2024-2027.",
+    "Últimas noticias y comunicados oficiales del Gobierno Municipal de Baviácora. Mantente al día con las acciones, obras y avisos de la Administración 2024-2027.",
   path: "/acciones-de-gobierno",
 });
 
@@ -26,7 +26,7 @@ export default async function AccionesDeGobiernoPage() {
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
             Noticias y comunicados oficiales de la Administración 2024-2027 del
-            Gobierno Municipal de Arivechi.
+            Gobierno Municipal de Baviácora.
           </p>
         </div>
       </header>

@@ -14,7 +14,7 @@ export const revalidate = 3600;
 export const metadata = buildMetadata({
   title: "Transparencia",
   description:
-    "Hub de Transparencia del Gobierno Municipal de Arivechi: información pública, leyes, estructura orgánica, SEvAC y enlaces a las plataformas nacional y estatal de transparencia.",
+    "Hub de Transparencia del Gobierno Municipal de Baviácora: información pública, leyes, estructura orgánica, SEvAC y enlaces a las plataformas nacional y estatal de transparencia.",
   path: "/transparencia",
 });
 
@@ -61,7 +61,7 @@ const cards = [
     icon: <ExternalLink className={ICON_CLASS} aria-hidden="true" />,
     label: "Portal Estatal · Sonora",
     description:
-      "Información pública del municipio de Arivechi disponible en el Portal de Transparencia del Estado de Sonora.",
+      "Información pública del municipio de Baviácora disponible en el Portal de Transparencia del Estado de Sonora.",
     href: municipalConfig.enlacesExternos.transparenciaSonora,
     external: true,
   },
@@ -88,7 +88,7 @@ export default function TransparenciaHubPage() {
               Hub institucional
             </span>
             <h1 className="mt-4 font-display text-4xl font-bold leading-tight tracking-tight text-[var(--color-cream)] md:text-5xl lg:text-6xl">
-              Transparencia para el Pueblo de Arivechi
+              Transparencia para el Pueblo de Baviácora
             </h1>
             <p className="mt-4 max-w-2xl text-base text-[var(--color-cream)]/85 md:text-lg">
               Información pública, marco legal, evaluaciones SEvAC y el

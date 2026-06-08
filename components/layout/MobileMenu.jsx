@@ -64,7 +64,7 @@ export function MobileMenu() {
                   Menú de navegación
                 </Dialog.Title>
                 <Dialog.Description className="sr-only">
-                  Acceso a las secciones del Portal Institucional de Arivechi.
+                  Acceso a las secciones del Portal Institucional de Baviácora.
                 </Dialog.Description>
 
                 <div className="flex items-center justify-between border-b border-[var(--color-border)] px-5 py-4">
@@ -75,7 +75,7 @@ export function MobileMenu() {
                     aria-label="Ir al inicio"
                   >
                     <Image
-                      src="/escudo-arivechi-hd.png"
+                      src="/escudo-baviacora-hd.png"
                       alt=""
                       width={48}
                       height={48}
@@ -83,7 +83,7 @@ export function MobileMenu() {
                     />
                     <div className="leading-tight">
                       <p className="font-display text-sm font-bold">
-                        Arivechi
+                        {identidad.nombreCorto}
                       </p>
                       <p className="text-[10px] uppercase tracking-widest text-[var(--color-text-secondary)]">
                         {identidad.administracion}
@@ -164,7 +164,7 @@ export function MobileMenu() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={handleClose}
-                    aria-label="Facebook oficial de Arivechi"
+                    aria-label="Facebook oficial de Baviácora"
                     className="mt-3 inline-flex items-center gap-3 rounded-lg bg-[var(--color-guinda-deep)] px-4 py-3 text-white transition hover:bg-[var(--color-guinda)]"
                   >
                     <Facebook
@@ -176,7 +176,7 @@ export function MobileMenu() {
                         Facebook oficial
                       </span>
                       <span className="block text-sm font-semibold">
-                        @ArivechiOficial
+                        Municipio de Baviácora
                       </span>
                     </span>
                   </Link>

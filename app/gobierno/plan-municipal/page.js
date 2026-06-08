@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Plan Municipal de Desarrollo",
   description:
-    "Ejes rectores, programas y compromisos del Plan Municipal de Desarrollo del Gobierno Municipal de Arivechi para el periodo 2024-2027.",
+    "Ejes rectores, programas y compromisos del Plan Municipal de Desarrollo del Gobierno Municipal de Baviácora para el periodo 2024-2027.",
   path: "/gobierno/plan-municipal",
 });
 
@@ -54,7 +54,7 @@ export default function PlanMunicipalPage() {
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
             Documento rector que define la visión, los ejes estratégicos y los
-            compromisos del Gobierno Municipal de Arivechi para el periodo
+            compromisos del Gobierno Municipal de Baviácora para el periodo
             2024-2027.
           </p>
         </div>

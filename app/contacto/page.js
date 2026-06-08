@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export const metadata = buildMetadata({
   title: "Contacto",
   description:
-    "Contacta al Gobierno Municipal de Arivechi. Datos de contacto del Palacio Municipal, formulario de mensajes y ubicación geográfica.",
+    "Contacta al Gobierno Municipal de Baviácora. Datos de contacto del Palacio Municipal, formulario de mensajes y ubicación geográfica.",
   path: "/contacto",
 });
 
@@ -31,7 +31,7 @@ export default function ContactoPage() {
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
             Escríbenos para consultas, sugerencias o para realizar trámites con
-            el Gobierno Municipal de Arivechi. Atenderemos tu solicitud en el
+            el Gobierno Municipal de Baviácora. Atenderemos tu solicitud en el
             menor tiempo posible.
           </p>
         </div>
@@ -67,7 +67,7 @@ export default function ContactoPage() {
         <MapaEmbed
           lat={datos.coordenadas.lat}
           lon={datos.coordenadas.lon}
-          label="Palacio Municipal · Plaza Principal s/n, Centro, Arivechi"
+          label="Palacio Municipal · Plaza Principal s/n, Centro, Baviácora"
           zoom={15}
         />
       </section>

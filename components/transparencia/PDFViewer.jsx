@@ -18,6 +18,8 @@ export function PDFViewer({
   const open = isControlled ? openProp : internalOpen;
   const setOpen = isControlled ? onOpenChange : setInternalOpen;
 
+  if (!pdfUrl) return null;
+
   const iframeSrc = pdfUrl.startsWith("http")
     ? pdfUrl
     : `${pdfUrl}#toolbar=1&navpanes=0&view=FitH`;

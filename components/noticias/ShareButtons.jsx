@@ -33,7 +33,7 @@ function buildShareTargets(url, text) {
 export function ShareButtons({ slug, basePath, title }) {
   const [copied, setCopied] = useState(false);
   const url = `${SITE_URL}${basePath}/${slug}`;
-  const text = `${title} · Gobierno Municipal de Arivechi`;
+  const text = `${title} · Gobierno Municipal de Baviácora`;
   const targets = buildShareTargets(url, text);
 
   const onCopy = async () => {

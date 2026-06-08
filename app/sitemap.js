@@ -1,7 +1,7 @@
 import { atractivos } from "@/lib/atractivos";
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://arivechi-v2.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://baviacora.gob.mx";
 
 export default function sitemap() {
   const now = new Date();

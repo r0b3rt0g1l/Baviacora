@@ -58,7 +58,7 @@ export function LineaTiempo() {
   return (
     <section
       id="linea-del-tiempo"
-      aria-label="Línea del tiempo de Arivechi"
+      aria-label="Línea del tiempo de Baviácora"
       className="bg-[#FAFAF7]"
     >
       <div className="mx-auto max-w-3xl px-6 py-20 lg:py-28">
@@ -71,7 +71,7 @@ export function LineaTiempo() {
             Línea del tiempo
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold leading-tight tracking-tight text-[var(--color-guinda)] lg:text-4xl">
-            Hitos de Arivechi
+            Hitos de Baviácora
           </h2>
         </header>
 

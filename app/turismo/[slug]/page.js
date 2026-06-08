@@ -107,7 +107,7 @@ export default async function AtractivoPage({ params }) {
             <MapaEmbed
               lat={atractivo.coordenadas.lat}
               lon={atractivo.coordenadas.lon}
-              label={`${atractivo.nombre} · Arivechi`}
+              label={`${atractivo.nombre} · Baviácora`}
             />
           </aside>
         </div>
@@ -125,7 +125,7 @@ export default async function AtractivoPage({ params }) {
                   Sigue explorando
                 </p>
                 <h3 className="mt-1 font-display text-2xl font-bold tracking-tight md:text-3xl">
-                  Otros atractivos de Arivechi
+                  Otros atractivos de Baviácora
                 </h3>
               </div>
               <Link

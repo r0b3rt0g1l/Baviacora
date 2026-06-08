@@ -28,7 +28,7 @@ export function TransparenciaCTA() {
             Transparencia institucional
           </span>
           <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
-            Transparencia para el pueblo de Arivechi
+            Transparencia para el pueblo de Baviácora
           </h2>
           <p className="mt-4 max-w-xl text-base text-[var(--color-cream)]/85 md:text-lg">
             Información pública, leyes, evaluaciones SEvAC y el organigrama

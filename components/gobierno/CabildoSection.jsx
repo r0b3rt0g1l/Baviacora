@@ -85,7 +85,7 @@ export function CabildoSection() {
               Regidurías
             </h3>
             <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-              Cinco regidurías propietarias del Cabildo Municipal
+              Regidurías propietarias del Cabildo Municipal
             </p>
           </header>
 
@@ -104,6 +104,8 @@ export function CabildoSection() {
           </motion.ul>
         </section>
 
+        {dif && (
+        <>
         <DivisorJerarquico />
 
         <section
@@ -156,6 +158,8 @@ export function CabildoSection() {
             </motion.article>
           )}
         </section>
+        </>
+        )}
       </div>
     </section>
   );

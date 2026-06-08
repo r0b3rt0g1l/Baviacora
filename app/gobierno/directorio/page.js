@@ -7,7 +7,7 @@ export const revalidate = 3600;
 export const metadata = buildMetadata({
   title: "Directorio del Cabildo",
   description:
-    "Directorio oficial del Cabildo del Gobierno Municipal de Arivechi: Presidente, Síndica, Regidurías y Presidencia del DIF Municipal. Administración 2024-2027.",
+    "Directorio oficial del Cabildo del Gobierno Municipal de Baviácora: Presidente, Síndica, Regidurías y Presidencia del DIF Municipal. Administración 2024-2027.",
   path: "/gobierno/directorio",
 });
 
@@ -25,7 +25,7 @@ export default function DirectorioPage() {
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
             Conoce al Presidente, Síndica, Regidurías y Presidencia del DIF
             Municipal que integran la Administración 2024-2027 del Gobierno
-            Municipal de Arivechi. Selecciona una persona para ver sus datos.
+            Municipal de Baviácora. Selecciona una persona para ver sus datos.
           </p>
         </div>
       </header>

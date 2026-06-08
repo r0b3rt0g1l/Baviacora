@@ -41,10 +41,10 @@ export function MainNav() {
         <Link
           href="/"
           className="flex items-center gap-3 outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2 rounded-md"
-          aria-label="Ir al inicio del Gobierno Municipal de Arivechi"
+          aria-label={`Ir al inicio del ${identidad.nombreOficial}`}
         >
           <Image
-            src="/escudo-arivechi-hd.png"
+            src="/escudo-baviacora-hd.png"
             alt=""
             width={64}
             height={64}
@@ -88,7 +88,7 @@ export function MainNav() {
           href={redes.facebook}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Facebook oficial de Arivechi"
+          aria-label="Facebook oficial de Baviácora"
           className="hidden h-10 w-10 items-center justify-center rounded-full text-[#1877F2] transition-transform duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2 lg:inline-flex"
         >
           <Facebook aria-hidden="true" className="h-5 w-5 fill-current" />

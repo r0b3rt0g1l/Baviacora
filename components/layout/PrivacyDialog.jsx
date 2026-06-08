@@ -11,6 +11,7 @@ export function PrivacyDialog({ trigger }) {
   const [open, setOpen] = useState(false);
   const [pdfOpen, setPdfOpen] = useState(false);
   const { identidad, contacto } = municipalConfig;
+  const hasAvisoPdf = Boolean(municipalConfig.enlacesExternos.avisoPrivacidadPdf);
 
   function handleOpenPdf() {
     setOpen(false);
@@ -168,21 +169,24 @@ export function PrivacyDialog({ trigger }) {
                   </section>
 
                   <p className="mt-2 rounded-lg border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-xs italic text-[var(--color-text-muted)]">
-                    Aviso de Privacidad Simplificado. El documento oficial
-                    publicado por el Ayuntamiento puede consultarse y
-                    descargarse desde el botón inferior.
+                    Aviso de Privacidad Simplificado.
+                    {hasAvisoPdf
+                      ? " El documento oficial publicado por el Ayuntamiento puede consultarse y descargarse desde el botón inferior."
+                      : " El documento oficial completo se publicará próximamente."}
                   </p>
                 </div>
 
                 <div className="flex flex-col-reverse items-stretch gap-3 border-t border-[var(--color-border)] bg-[var(--color-bg)] px-6 py-4 sm:flex-row sm:items-center sm:justify-end">
-                  <button
-                    type="button"
-                    onClick={handleOpenPdf}
-                    className="inline-flex items-center justify-center gap-2 rounded-md border border-[var(--color-border)] bg-white px-4 py-2 text-center text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-guinda)] hover:text-[var(--color-guinda)]"
-                  >
-                    <Eye className="h-4 w-4" aria-hidden="true" />
-                    Ver Aviso oficial
-                  </button>
+                  {hasAvisoPdf && (
+                    <button
+                      type="button"
+                      onClick={handleOpenPdf}
+                      className="inline-flex items-center justify-center gap-2 rounded-md border border-[var(--color-border)] bg-white px-4 py-2 text-center text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-guinda)] hover:text-[var(--color-guinda)]"
+                    >
+                      <Eye className="h-4 w-4" aria-hidden="true" />
+                      Ver Aviso oficial
+                    </button>
+                  )}
                   <Dialog.Close asChild>
                     <button
                       type="button"

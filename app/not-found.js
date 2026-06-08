@@ -5,7 +5,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Página no encontrada",
   description:
-    "La página que buscas no se encuentra disponible. Verifica la URL o regresa al inicio del Portal Institucional de Arivechi.",
+    "La página que buscas no se encuentra disponible. Verifica la URL o regresa al inicio del Portal Institucional de Baviácora.",
   noIndex: true,
 });
 

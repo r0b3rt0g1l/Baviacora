@@ -1,4 +1,4 @@
-const SITE_URL = "https://arivechi-v2.vercel.app";
+const SITE_URL = "https://baviacora.gob.mx";
 
 export default function robots() {
   return {

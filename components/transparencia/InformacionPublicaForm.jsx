@@ -31,9 +31,9 @@ export function InformacionPublicaForm({ accessKey }) {
     formData.append("access_key", accessKey);
     formData.append(
       "subject",
-      "Solicitud de Información Pública — Portal Arivechi",
+      "Solicitud de Información Pública — Portal Baviácora",
     );
-    formData.append("from_name", "Portal Arivechi · Información Pública");
+    formData.append("from_name", "Portal Baviácora · Información Pública");
     formData.append("modalidad_entrega", modalidad);
 
     try {
@@ -132,7 +132,7 @@ export function InformacionPublicaForm({ accessKey }) {
                 </Label>
                 <Input
                   className={cn("mt-2", inputClasses)}
-                  placeholder="Arivechi, Bámori, Tarachi, etc."
+                  placeholder="Tu localidad o domicilio"
                 />
               </TextField>
             </div>

@@ -37,10 +37,12 @@ export function ContactoInfo() {
           Datos de contacto
         </p>
         <h2 className="mt-2 font-display text-xl font-bold leading-snug text-[var(--color-text)] md:text-2xl">
-          Palacio Municipal de Arivechi
+          Palacio Municipal de Baviácora
         </h2>
         <ul className="mt-6 space-y-5">
-          {items.map((item) => (
+          {items
+            .filter((item) => item.phones?.length || item.value || item.href)
+            .map((item) => (
             <li key={item.label} className="flex items-start gap-3">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--color-guinda)]/10 text-[var(--color-guinda)]">
                 <item.icon className="h-5 w-5" aria-hidden="true" />
@@ -95,7 +97,7 @@ export function ContactoInfo() {
           href={redes.facebook}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Facebook oficial del Gobierno Municipal de Arivechi"
+          aria-label="Facebook oficial del Gobierno Municipal de Baviácora"
           className="group mt-5 inline-flex items-center gap-3 rounded-xl bg-white/5 p-3 transition hover:bg-white/10"
         >
           <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--color-guinda)] text-white transition group-hover:bg-[var(--color-dorado)] group-hover:text-[var(--color-guinda-deep)]">
@@ -106,7 +108,7 @@ export function ContactoInfo() {
               Facebook oficial
             </span>
             <span className="block text-sm font-semibold text-white">
-              @ArivechiOficial
+              Municipio de Baviácora
             </span>
           </span>
         </Link>

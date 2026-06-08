@@ -14,7 +14,7 @@ export const navItems = [
     label: "Transparencia",
     externalHref: municipalConfig.enlacesExternos.transparenciaSonora,
     externalAriaLabel:
-      "Portal de Transparencia del Estado de Sonora — Municipio de Arivechi (abre en nueva pestaña)",
+      "Portal de Transparencia del Estado de Sonora — Municipio de Baviácora (abre en nueva pestaña)",
     children: [
       { label: "Información Pública", href: "/transparencia/informacion-publica" },
       { label: "Leyes y Reglamentos", href: "/transparencia/leyes" },

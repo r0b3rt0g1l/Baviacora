@@ -8,6 +8,9 @@ const TIPO_LABEL = {
   presidente: "Presidencia Municipal",
   sindica: "Sindicatura Municipal",
   regidor: "Regiduría",
+  secretario: "Secretaría Municipal",
+  tesorero: "Tesorería",
+  contralor: "Órgano Interno de Control",
   dif: "DIF Municipal",
 };
 

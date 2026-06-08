@@ -7,7 +7,7 @@ export const revalidate = 60;
 export const metadata = buildMetadata({
   title: "Galería",
   description:
-    "Galería fotográfica del Municipio de Arivechi: eventos, lugares, funcionarios y momentos destacados.",
+    "Galería fotográfica del Municipio de Baviácora: eventos, lugares, funcionarios y momentos destacados.",
   path: "/galeria",
 });
 
@@ -22,7 +22,7 @@ export default async function GaleriaPage() {
             Galería
           </h1>
           <p className="mt-4 max-w-2xl text-[var(--color-cream)]/85">
-            Imágenes del municipio de Arivechi: eventos, lugares, funcionarios y
+            Imágenes del municipio de Baviácora: eventos, lugares, funcionarios y
             momentos destacados.
           </p>
         </div>
