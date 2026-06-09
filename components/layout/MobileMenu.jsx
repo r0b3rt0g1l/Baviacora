@@ -64,7 +64,7 @@ export function MobileMenu() {
                   Menú de navegación
                 </Dialog.Title>
                 <Dialog.Description className="sr-only">
-                  Acceso a las secciones del Portal Institucional de Baviácora.
+                  Acceso a las secciones del Portal Institucional de {identidad.nombreCorto}.
                 </Dialog.Description>
 
                 <div className="flex items-center justify-between border-b border-[var(--color-border)] px-5 py-4">
@@ -159,27 +159,33 @@ export function MobileMenu() {
                   <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">
                     Síguenos
                   </p>
-                  <Link
-                    href={redes.facebook}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={handleClose}
-                    aria-label="Facebook oficial de Baviácora"
-                    className="mt-3 inline-flex items-center gap-3 rounded-lg bg-[var(--color-guinda-deep)] px-4 py-3 text-white transition hover:bg-[var(--color-guinda)]"
-                  >
-                    <Facebook
-                      aria-hidden="true"
-                      className="h-10 w-10 rounded-full bg-white/10 p-2"
-                    />
-                    <span>
-                      <span className="block text-xs uppercase tracking-widest text-white/70">
-                        Facebook oficial
+                  {redes.facebook ? (
+                    <Link
+                      href={redes.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleClose}
+                      aria-label={`Facebook oficial de ${identidad.nombreCorto}`}
+                      className="mt-3 inline-flex items-center gap-3 rounded-lg bg-[var(--color-guinda-deep)] px-4 py-3 text-white transition hover:bg-[var(--color-guinda)]"
+                    >
+                      <Facebook
+                        aria-hidden="true"
+                        className="h-10 w-10 rounded-full bg-white/10 p-2"
+                      />
+                      <span>
+                        <span className="block text-xs uppercase tracking-widest text-white/70">
+                          Facebook oficial
+                        </span>
+                        <span className="block text-sm font-semibold">
+                          Página oficial
+                        </span>
                       </span>
-                      <span className="block text-sm font-semibold">
-                        Municipio de Baviácora
-                      </span>
-                    </span>
-                  </Link>
+                    </Link>
+                  ) : (
+                    <p className="mt-3 rounded-lg border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-xs italic text-[var(--color-text-muted)]">
+                      TODO_MUNICIPIO: redes_sociales — URL oficial pendiente.
+                    </p>
+                  )}
                 </div>
               </motion.aside>
             </Dialog.Content>

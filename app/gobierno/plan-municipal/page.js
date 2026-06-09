@@ -1,10 +1,10 @@
 import { Construction, Target, Users, Sprout, Heart, Building2 } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
+import { municipalConfig } from "@/lib/municipalConfig";
 
 export const metadata = buildMetadata({
   title: "Plan Municipal de Desarrollo",
-  description:
-    "Ejes rectores, programas y compromisos del Plan Municipal de Desarrollo del Gobierno Municipal de Baviácora para el periodo 2024-2027.",
+  description: `Ejes rectores, programas y compromisos del Plan Municipal de Desarrollo del ${municipalConfig.identidad.nombreCompleto} para el periodo ${municipalConfig.identidad.administracion}.`,
   path: "/gobierno/plan-municipal",
 });
 
@@ -47,15 +47,15 @@ export default function PlanMunicipalPage() {
       <header className="bg-[var(--color-bg)] border-b border-[var(--color-border)]">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
-            Administración 2024-2027
+            Administración {municipalConfig.identidad.administracion}
           </p>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight md:text-5xl">
             Plan Municipal de Desarrollo
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
             Documento rector que define la visión, los ejes estratégicos y los
-            compromisos del Gobierno Municipal de Baviácora para el periodo
-            2024-2027.
+            compromisos del {municipalConfig.identidad.nombreCompleto} para el
+            periodo {municipalConfig.identidad.administracion}.
           </p>
         </div>
       </header>

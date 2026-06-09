@@ -1,10 +1,12 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { municipalConfig } from "@/lib/municipalConfig";
+
+const { nombreCompleto, administracion } = municipalConfig.identidad;
 
 export const runtime = "nodejs";
-export const alt =
-  "Gobierno Municipal de Baviácora, Sonora · Administración 2024-2027";
+export const alt = `${nombreCompleto} · Administración ${administracion}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -24,7 +26,7 @@ export default async function OpenGraphImage() {
           alignItems: "center",
           justifyContent: "center",
           background:
-            "linear-gradient(135deg, #2D4F1B 0%, #1F3813 100%)",
+            "linear-gradient(135deg, #6B1629 0%, #4A0E1C 100%)",
           color: "#F5F5DC",
           padding: "80px",
           fontFamily: "Georgia, serif",
@@ -35,7 +37,7 @@ export default async function OpenGraphImage() {
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(circle at 25% 30%, rgba(229,181,61,0.18) 0, transparent 55%), radial-gradient(circle at 75% 75%, rgba(255,255,255,0.08) 0, transparent 55%)",
+              "radial-gradient(circle at 25% 30%, rgba(212,160,23,0.18) 0, transparent 55%), radial-gradient(circle at 75% 75%, rgba(255,255,255,0.08) 0, transparent 55%)",
             display: "flex",
           }}
         />
@@ -73,7 +75,7 @@ export default async function OpenGraphImage() {
               display: "flex",
             }}
           >
-            Gobierno Municipal de Baviácora, Sonora
+            {nombreCompleto}
           </div>
           <div
             style={{
@@ -81,33 +83,17 @@ export default async function OpenGraphImage() {
                 "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
               fontSize: 24,
               fontWeight: 600,
-              color: "#E5B53D",
+              // Sincronizado con --color-dorado en app/globals.css.
+              color: "#BF9B30",
               letterSpacing: "0.16em",
               textTransform: "uppercase",
               display: "flex",
             }}
           >
-            Administración 2024-2027
+            Administración {administracion}
           </div>
         </div>
 
-        <div
-          style={{
-            position: "absolute",
-            bottom: 36,
-            left: "50%",
-            transform: "translateX(-50%)",
-            fontSize: 18,
-            fontFamily:
-              "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
-            color: "rgba(245, 245, 220, 0.65)",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            display: "flex",
-          }}
-        >
-          Estado de Sonora, México
-        </div>
       </div>
     ),
     { ...size },

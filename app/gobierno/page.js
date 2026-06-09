@@ -2,15 +2,16 @@ import Link from "next/link";
 import { Users, Network, FileText, ArrowRight } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
+import { cabildo as cabildoFallback } from "@/lib/cabildo";
+import { getCabildoFromCMS } from "@/lib/cms";
 import { GobiernoSubNav } from "@/components/gobierno/GobiernoSubNav";
 import { CabildoSection } from "@/components/gobierno/CabildoSection";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export const metadata = buildMetadata({
   title: "Gobierno",
-  description:
-    "Conoce la estructura del Gobierno Municipal de Baviácora: cabildo completo, organigrama institucional y plan municipal de desarrollo.",
+  description: `Conoce la estructura del ${municipalConfig.identidad.nombreCompleto}: cabildo completo, organigrama institucional y plan municipal de desarrollo.`,
   path: "/gobierno",
 });
 
@@ -19,26 +20,28 @@ const accesos = [
     href: "/gobierno/directorio",
     titulo: "Directorio del Cabildo",
     descripcion:
-      "Vista en cuadrícula con cada integrante del Cabildo y el gabinete municipal. Click para ver detalles y datos de contacto.",
+      "Vista en cuadrícula con cada integrante del Cabildo Municipal y la Presidencia del DIF. Click para ver detalles y datos de contacto.",
     icon: Users,
   },
   {
     href: "/gobierno/estructura-organica",
     titulo: "Estructura Orgánica",
     descripcion:
-      "Personas que integran el Cabildo y el gabinete municipal. Las direcciones se publicarán conforme a las designaciones oficiales.",
+      "Personas que integran el Cabildo y la Presidencia del DIF Municipal. Las direcciones se publicarán conforme a las designaciones oficiales.",
     icon: Network,
   },
   {
     href: "/gobierno/plan-municipal",
     titulo: "Plan Municipal de Desarrollo",
-    descripcion:
-      "Ejes rectores, programas y compromisos del Gobierno Municipal de Baviácora para el periodo 2024-2027.",
+    descripcion: `Ejes rectores, programas y compromisos del ${municipalConfig.identidad.nombreCompleto} para el periodo ${municipalConfig.identidad.administracion}.`,
     icon: FileText,
   },
 ];
 
-export default function GobiernoPage() {
+export default async function GobiernoPage() {
+  const cms = await getCabildoFromCMS();
+  const lista = cms && cms.length > 0 ? cms : cabildoFallback;
+
   return (
     <main className="flex flex-1 flex-col">
       <header className="bg-[var(--color-bg)] border-b border-[var(--color-border)]">
@@ -50,16 +53,16 @@ export default function GobiernoPage() {
             Gobierno Municipal
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
-            Conoce la estructura institucional del Gobierno Municipal de
-            Baviácora: el Cabildo, sus Direcciones, Organismos Descentralizados
-            y el Plan Municipal de Desarrollo.
+            Conoce la estructura institucional del Gobierno Municipal de{" "}
+            {municipalConfig.identidad.nombreCorto}: el Cabildo, sus Direcciones,
+            Organismos Descentralizados y el Plan Municipal de Desarrollo.
           </p>
         </div>
       </header>
 
       <GobiernoSubNav />
 
-      <CabildoSection />
+      <CabildoSection lista={lista} />
 
       <section className="bg-[var(--color-bg)] border-t border-[var(--color-border)]">
         <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-16">

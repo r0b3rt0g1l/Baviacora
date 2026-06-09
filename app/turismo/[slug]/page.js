@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
+import { municipalConfig } from "@/lib/municipalConfig";
 import {
   atractivos,
   getAtractivoPorSlug,
@@ -98,17 +99,24 @@ export default async function AtractivoPage({ params }) {
                     Horario / temporada
                   </dt>
                   <dd className="mt-1 text-[var(--color-text)]">
-                    {atractivo.horario}
+                    {atractivo.horario ?? "Por confirmar — coordinar con el municipio."}
                   </dd>
                 </div>
               </dl>
             </div>
 
-            <MapaEmbed
-              lat={atractivo.coordenadas.lat}
-              lon={atractivo.coordenadas.lon}
-              label={`${atractivo.nombre} · Baviácora`}
-            />
+            {atractivo.coordenadas?.lat != null &&
+            atractivo.coordenadas?.lon != null ? (
+              <MapaEmbed
+                lat={atractivo.coordenadas.lat}
+                lon={atractivo.coordenadas.lon}
+                label={`${atractivo.nombre} · ${municipalConfig.identidad.nombreCorto}`}
+              />
+            ) : (
+              <div className="rounded-2xl border border-dashed border-[var(--color-border)] bg-white p-6 text-sm italic text-[var(--color-text-muted)] shadow-[var(--shadow-card)]">
+                Ubicación exacta por confirmar con el municipio.
+              </div>
+            )}
           </aside>
         </div>
       </section>
@@ -125,7 +133,7 @@ export default async function AtractivoPage({ params }) {
                   Sigue explorando
                 </p>
                 <h3 className="mt-1 font-display text-2xl font-bold tracking-tight md:text-3xl">
-                  Otros atractivos de Baviácora
+                  Otros atractivos de {municipalConfig.identidad.nombreCorto}
                 </h3>
               </div>
               <Link

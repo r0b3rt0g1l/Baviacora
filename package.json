@@ -1,8 +1,8 @@
 {
-  "name": "arivechi-portal-v2",
-  "version": "2.0.0",
+  "name": "baviacora-portal",
+  "version": "1.0.0",
   "private": true,
-  "description": "Portal Institucional del Gobierno Municipal de Arivechi, Sonora — Master multi-municipio.",
+  "description": "Sitio oficial del Municipio de Baviácora, Sonora. Administración 2024-2027.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

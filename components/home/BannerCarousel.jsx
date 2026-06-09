@@ -161,7 +161,7 @@ export function BannerCarousel({ items = [] }) {
                             </time>
                           )}
                         </div>
-                        <h3 className="max-w-3xl font-display text-2xl font-bold leading-tight tracking-tight md:text-3xl lg:text-4xl">
+                        <h3 className="max-w-3xl font-display text-2xl font-bold leading-tight tracking-tight text-[var(--color-cream)] md:text-3xl lg:text-4xl">
                           {item.titulo}
                         </h3>
                         {item.resumen && (

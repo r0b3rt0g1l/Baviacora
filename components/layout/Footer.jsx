@@ -85,21 +85,31 @@ export function Footer() {
                 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-dorado)]"
               />
               <span className="leading-tight text-[var(--color-cream)]/85">
-                {contacto.telefonos.map((tel, i) => (
-                  <span key={tel} className="block">
-                    <a
-                      href={`tel:${tel.replace(/\s+/g, "")}`}
-                      className="hover:text-white hover:underline underline-offset-4"
-                    >
-                      {tel}
-                    </a>
-                    {i === 0 && (
-                      <span className="ml-2 text-[var(--color-cream)]/55">
-                        Lada {municipalConfig.datos.lada}
-                      </span>
-                    )}
-                  </span>
-                ))}
+                {contacto.telefonos.map((tel, i) => {
+                  const isPending =
+                    typeof tel === "string" && tel.startsWith("[PENDIENTE");
+                  return (
+                    <span key={tel} className="block">
+                      {isPending ? (
+                        <span className="italic text-[var(--color-cream)]/60">
+                          {tel}
+                        </span>
+                      ) : (
+                        <a
+                          href={`tel:${tel.replace(/\s+/g, "")}`}
+                          className="hover:text-white hover:underline underline-offset-4"
+                        >
+                          {tel}
+                        </a>
+                      )}
+                      {i === 0 && !isPending && municipalConfig.datos.lada && (
+                        <span className="ml-2 text-[var(--color-cream)]/55">
+                          Lada {municipalConfig.datos.lada}
+                        </span>
+                      )}
+                    </span>
+                  );
+                })}
               </span>
             </li>
             <li className="flex items-start gap-2.5">
@@ -107,12 +117,19 @@ export function Footer() {
                 aria-hidden="true"
                 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-dorado)]"
               />
-              <a
-                href={`mailto:${contacto.email}`}
-                className="text-[var(--color-cream)]/85 hover:text-white hover:underline underline-offset-4"
-              >
-                {contacto.email}
-              </a>
+              {typeof contacto.email === "string" &&
+              contacto.email.startsWith("[PENDIENTE") ? (
+                <span className="italic text-[var(--color-cream)]/60">
+                  {contacto.email}
+                </span>
+              ) : (
+                <a
+                  href={`mailto:${contacto.email}`}
+                  className="text-[var(--color-cream)]/85 hover:text-white hover:underline underline-offset-4"
+                >
+                  {contacto.email}
+                </a>
+              )}
             </li>
             <li className="flex items-start gap-2.5">
               <Clock
@@ -146,25 +163,31 @@ export function Footer() {
             Mantente al día con las acciones del Gobierno Municipal a través
             de nuestro canal oficial.
           </p>
-          <Link
-            href={redes.facebook}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook oficial del Gobierno Municipal de Baviácora"
-            className="group inline-flex items-center gap-3 rounded-xl bg-white/5 p-3 transition hover:bg-white/10"
-          >
-            <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--color-guinda)] text-white transition group-hover:bg-[var(--color-dorado)] group-hover:text-[var(--color-guinda-deep)]">
-              <Facebook className="h-6 w-6" aria-hidden="true" />
-            </span>
-            <span className="leading-tight">
-              <span className="block text-xs uppercase tracking-[0.18em] text-[var(--color-cream)]/60">
-                Facebook oficial
+          {redes.facebook ? (
+            <Link
+              href={redes.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Facebook oficial del ${identidad.nombreCompleto}`}
+              className="group inline-flex items-center gap-3 rounded-xl bg-white/5 p-3 transition hover:bg-white/10"
+            >
+              <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--color-guinda)] text-white transition group-hover:bg-[var(--color-dorado)] group-hover:text-[var(--color-guinda-deep)]">
+                <Facebook className="h-6 w-6" aria-hidden="true" />
               </span>
-              <span className="block text-sm font-semibold text-white">
-                Municipio de Baviácora
+              <span className="leading-tight">
+                <span className="block text-xs uppercase tracking-[0.18em] text-[var(--color-cream)]/60">
+                  Facebook oficial
+                </span>
+                <span className="block text-sm font-semibold text-white">
+                  Página oficial
+                </span>
               </span>
-            </span>
-          </Link>
+            </Link>
+          ) : (
+            <p className="rounded-xl border border-dashed border-white/20 bg-white/5 p-3 text-xs italic text-[var(--color-cream)]/60">
+              TODO_MUNICIPIO: redes_sociales — URL oficial pendiente.
+            </p>
+          )}
         </FooterColumn>
       </div>
 

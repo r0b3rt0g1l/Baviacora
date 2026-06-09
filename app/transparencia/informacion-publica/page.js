@@ -8,8 +8,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: "Información Pública",
-  description:
-    "Solicita información pública al Gobierno Municipal de Baviácora a través de la Unidad de Transparencia Municipal. Formulario seguro y respuesta en plazos legales.",
+  description: `Solicita información pública al ${municipalConfig.identidad.nombreCompleto} a través de la Unidad de Transparencia Municipal. Formulario seguro y respuesta en plazos legales.`,
   path: "/transparencia/informacion-publica",
 });
 
@@ -30,8 +29,9 @@ export default function InformacionPublicaPage() {
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
             El acceso a la información pública es un derecho humano garantizado
             por la Constitución y las leyes federales y estatales. Cualquier
-            persona puede solicitar información en posesión del Gobierno
-            Municipal de Baviácora a través de este formulario.
+            persona puede solicitar información en posesión del{" "}
+            {municipalConfig.identidad.nombreCompleto} a través de este
+            formulario.
           </p>
 
           <div className="mt-8 inline-flex items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-white px-5 py-4 shadow-[var(--shadow-card)]">

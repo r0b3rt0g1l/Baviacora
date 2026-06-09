@@ -33,7 +33,7 @@ export function AccionesRecientes({ noticias = [] }) {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.32em] text-[var(--color-dorado)]">
               <span
                 aria-hidden="true"
                 className="block h-px w-8 bg-[var(--color-dorado)]"
@@ -50,7 +50,7 @@ export function AccionesRecientes({ noticias = [] }) {
           </div>
           <Link
             href="/acciones-de-gobierno"
-            className="group inline-flex w-fit items-center gap-1.5 self-start rounded-full bg-[var(--color-dorado)] px-5 py-2.5 text-sm font-semibold text-[var(--color-guinda-deep)] shadow-md transition-all duration-200 hover:scale-105 hover:bg-[#E5B62A] hover:shadow-lg"
+            className="group inline-flex w-fit items-center gap-1.5 self-start rounded-full bg-[var(--color-cta-bg)] px-5 py-2.5 text-sm font-semibold text-[var(--color-cta-text)] shadow-md transition-all duration-200 hover:scale-105 hover:bg-[var(--color-cta-bg-hover)] hover:shadow-lg"
           >
             Ver todas
             <ArrowRight

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { hitos } from "@/lib/hitos";
+import { municipalConfig } from "@/lib/municipalConfig";
 
 const itemVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -40,14 +41,16 @@ function HitoItem({ hito, reduce, isLast }) {
         <p className="mt-3 max-w-prose font-serif text-base leading-snug text-[var(--color-text-secondary)] lg:text-lg">
           {hito.descripcion}
         </p>
-        <div className="mt-4 max-w-prose rounded-r border-l-4 border-[var(--color-dorado)] bg-white px-4 py-3 shadow-[var(--shadow-card)]">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
-            Dato curioso
-          </p>
-          <p className="mt-1 font-serif text-sm leading-snug text-[var(--color-text-secondary)]">
-            {hito.datoCurioso}
-          </p>
-        </div>
+        {hito.datoCurioso && (
+          <div className="mt-4 max-w-prose rounded-r border-l-4 border-[var(--color-dorado)] bg-white px-4 py-3 shadow-[var(--shadow-card)]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
+              Dato curioso
+            </p>
+            <p className="mt-1 font-serif text-sm leading-snug text-[var(--color-text-secondary)]">
+              {hito.datoCurioso}
+            </p>
+          </div>
+        )}
       </motion.div>
     </li>
   );
@@ -58,7 +61,7 @@ export function LineaTiempo() {
   return (
     <section
       id="linea-del-tiempo"
-      aria-label="Línea del tiempo de Baviácora"
+      aria-label={`Línea del tiempo de ${municipalConfig.identidad.nombreCorto}`}
       className="bg-[#FAFAF7]"
     >
       <div className="mx-auto max-w-3xl px-6 py-20 lg:py-28">
@@ -71,7 +74,7 @@ export function LineaTiempo() {
             Línea del tiempo
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold leading-tight tracking-tight text-[var(--color-guinda)] lg:text-4xl">
-            Hitos de Baviácora
+            Hitos de {municipalConfig.identidad.nombreCorto}
           </h2>
         </header>
 

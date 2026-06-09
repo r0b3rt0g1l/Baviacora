@@ -15,6 +15,7 @@ import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { ScrollIndicator } from "@/components/home/ScrollIndicator";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/cn";
+import { municipalConfig } from "@/lib/municipalConfig";
 
 const ALIGN_CLASSES = {
   left: "items-start text-left",
@@ -75,7 +76,7 @@ export function HeroCarousel({ slides }) {
     <section
       ref={heroRef}
       aria-roledescription="carrusel"
-      aria-label="Vistas destacadas de Baviácora"
+      aria-label={`Vistas destacadas de ${municipalConfig.identidad.nombreCorto}`}
       className="relative isolate h-[100svh] w-full overflow-hidden bg-[var(--color-guinda-deep)] text-white"
     >
       {/* Background layer: Embla images, parallax translateY 0 → -200 */}
@@ -110,23 +111,20 @@ export function HeroCarousel({ slides }) {
         </div>
       </motion.div>
 
-      {/* Overlay unificado guinda 65% (fijo, todos los slides) */}
+      {/* Degradado guinda: fuerte abajo donde vive el texto (~35% inferior),
+          transparente en el ~65% superior para apreciar la imagen del slide.
+          Texto blanco mantiene contraste WCAG AA en h1, subtítulo y eyebrow
+          incluso sobre imágenes con cielo muy claro. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[rgba(107,22,41,0.65)]"
+        className="absolute inset-0 bg-gradient-to-t from-[rgba(74,14,28,0.92)] via-[rgba(74,14,28,0.55)] via-40% to-transparent to-65%"
       />
 
-      {/* Degradado adicional desde abajo: guinda profundo 0.85 en el último 30% */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-[rgba(74,14,28,0.85)] via-transparent to-transparent"
-      />
-
-      {/* Transición Hero → Historia: últimos 120px funden a negro (T30) */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-black"
-      />
+      {/* Sin fade-a-negro al final: la transición a la sección Historia se
+          resuelve por continuidad de color. El bottom de este Hero queda en
+          guinda profundo (Capa 2 termina en rgba(74,14,28,0.92)) y el top
+          de Historia arranca con el mismo guinda profundo desvaneciéndose,
+          eliminando el salto duro a negro. Ver ConoceMunicipio.jsx. */}
 
       {/* Content layer: title + subtitle + CTA, translateY 0→-40 + opacity 1→0.4 */}
       <motion.div
@@ -163,7 +161,7 @@ export function HeroCarousel({ slides }) {
                   ALIGN_CLASSES[activeSlide.align ?? "center"],
                 )}
               >
-                <span className="inline-flex w-fit items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]">
+                <span className="inline-flex w-fit items-center gap-2 text-xs font-bold uppercase tracking-[0.32em] text-[var(--color-dorado)]">
                   <span
                     aria-hidden="true"
                     className="block h-px w-8 bg-[var(--color-dorado)]"
@@ -179,7 +177,7 @@ export function HeroCarousel({ slides }) {
                 <div>
                   <Link
                     href={activeSlide.cta.href}
-                    className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-dorado)] px-6 py-3 text-sm font-semibold text-[var(--color-guinda-deep)] shadow-lg transition-all duration-200 hover:scale-105 hover:bg-[#E5B62A] hover:shadow-xl"
+                    className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-cta-bg)] px-6 py-3 text-sm font-semibold text-[var(--color-cta-text)] shadow-lg transition-all duration-200 hover:scale-105 hover:bg-[var(--color-cta-bg-hover)] hover:shadow-xl"
                   >
                     {activeSlide.cta.label}
                     <ArrowRight

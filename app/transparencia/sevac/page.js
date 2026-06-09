@@ -1,5 +1,6 @@
 import { FileText, Eye } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
+import { municipalConfig } from "@/lib/municipalConfig";
 import { sevac } from "@/lib/sevac";
 import { getSevacFromCMS } from "@/lib/cms";
 import { PDFViewer } from "@/components/transparencia/PDFViewer";
@@ -41,15 +42,38 @@ function asString(v) {
   return Array.isArray(v) ? v[0] : v;
 }
 
+// Filtro tolerante: matchea aunque la categoría guardada en BD tenga
+// espacios, acentos o mayúsculas distintas (p. ej. label libre
+// "Boletín Oficial" / "Cuenta Pública").
+// Keep in sync con el admin del CMS.
+function normalizeCategoria(s) {
+  if (!s) return "";
+  return String(s)
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/\s+/g, "_")
+    .replace(/_+/g, "_");
+}
+
 export default async function SevacPage({ searchParams }) {
   const params = (await searchParams) ?? {};
   const anioRaw = asString(params.anio);
   const trimestreRaw = asString(params.trimestre);
+  const categoriaRaw = asString(params.categoria);
   const anio = anioRaw ? Number(anioRaw) : undefined;
   const trimestre = trimestreRaw || undefined;
+  const categoria = categoriaRaw || undefined;
 
-  const documentos = (await getSevacFromCMS({ anio, trimestre })) ?? [];
-  const hayFiltros = Boolean(anio || trimestre);
+  // No pasamos `categoria` al backend (filtro tolerante client-side).
+  let documentos = (await getSevacFromCMS({ anio, trimestre })) ?? [];
+  if (categoria) {
+    const target = normalizeCategoria(categoria);
+    documentos = documentos.filter(
+      (d) => normalizeCategoria(d.categoria) === target,
+    );
+  }
+  const hayFiltros = Boolean(anio || trimestre || categoria);
 
   return (
     <main className="flex flex-1 flex-col">
@@ -90,15 +114,19 @@ export default async function SevacPage({ searchParams }) {
               Documentos SEvAC
             </h2>
             <p className="mt-3 max-w-2xl text-sm text-[var(--color-text-secondary)]">
-              Información financiera y presupuestal publicada por el Gobierno
-              Municipal de Baviácora en cumplimiento de la armonización
-              contable. Los documentos se visualizan directamente en este
-              portal.
+              Información financiera y presupuestal publicada por el{" "}
+              {municipalConfig.identidad.nombreCompleto} en cumplimiento de la
+              armonización contable. Los documentos se visualizan directamente
+              en este portal.
             </p>
           </header>
 
           <div className="mb-6">
-            <SevacFiltros anioActivo={anio} trimestreActivo={trimestre} />
+            <SevacFiltros
+              anioActivo={anio}
+              trimestreActivo={trimestre}
+              categoriaActiva={categoria}
+            />
           </div>
 
           {documentos.length === 0 ? (

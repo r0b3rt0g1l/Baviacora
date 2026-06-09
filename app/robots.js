@@ -1,4 +1,6 @@
-const SITE_URL = "https://baviacora.gob.mx";
+import { municipalConfig } from "@/lib/municipalConfig";
+
+const SITE_URL = municipalConfig.servicios.siteUrl;
 
 export default function robots() {
   return {

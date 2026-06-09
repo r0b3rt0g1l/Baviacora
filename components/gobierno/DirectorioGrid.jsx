@@ -8,11 +8,15 @@ const TIPO_LABEL = {
   presidente: "Presidencia Municipal",
   sindica: "Sindicatura Municipal",
   regidor: "Regiduría",
-  secretario: "Secretaría Municipal",
-  tesorero: "Tesorería",
-  contralor: "Órgano Interno de Control",
   dif: "DIF Municipal",
+  secretario: "Secretaría Municipal",
+  tesorero: "Tesorería Municipal",
+  contralor: "Órgano Interno de Control",
 };
+
+function isPendingName(nombre) {
+  return typeof nombre === "string" && nombre.startsWith("[PENDIENTE");
+}
 
 function getInitials(nombre) {
   const cleaned = String(nombre ?? "")
@@ -36,6 +40,16 @@ function CardAvatar({ src, nombre }) {
           className="object-cover"
         />
       </div>
+    );
+  }
+  // Cuando el nombre es un placeholder "[PENDIENTE: …]", no calculamos
+  // iniciales (saldrían "[S", "[R", etc.). Mostramos un avatar gris neutro.
+  if (isPendingName(nombre)) {
+    return (
+      <div
+        aria-hidden="true"
+        className="h-24 w-24 rounded-full bg-[var(--color-border)] ring-4 ring-white shadow-[var(--shadow-card)]"
+      />
     );
   }
   return (
@@ -64,24 +78,32 @@ export function DirectorioGrid({ people = [] }) {
       <ul className="grid gap-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {people.map((person) => {
           const tipoLabel = TIPO_LABEL[person.tipo] ?? "Cabildo";
+          const isPending = isPendingName(person.nombre);
           return (
             <li key={person.id} className="flex">
               <button
                 type="button"
                 onClick={() => setSelected(person)}
-                aria-label={`Ver detalles de ${person.nombre}`}
+                aria-label={
+                  isPending
+                    ? `${tipoLabel} — por designar`
+                    : `Ver detalles de ${person.nombre}`
+                }
                 className="group flex h-full w-full flex-col items-center rounded-2xl border border-[var(--color-border)] bg-white p-6 text-center shadow-[var(--shadow-card)] transition duration-300 hover:-translate-y-1 hover:border-[var(--color-guinda)]/20 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
               >
                 <CardAvatar src={person.foto} nombre={person.nombre} />
                 <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
                   {tipoLabel}
                 </p>
-                <h3 className="mt-2 font-display text-base font-bold leading-snug text-[var(--color-text)] transition-colors group-hover:text-[var(--color-guinda)] md:text-lg">
-                  {person.nombre}
-                </h3>
-                <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-                  {person.cargo}
-                </p>
+                {isPending ? (
+                  <h3 className="mt-2 font-display text-base font-medium italic leading-snug text-[var(--color-text-muted)] md:text-lg">
+                    Por designar
+                  </h3>
+                ) : (
+                  <h3 className="mt-2 font-display text-base font-bold leading-snug text-[var(--color-text)] transition-colors group-hover:text-[var(--color-guinda)] md:text-lg">
+                    {person.nombre}
+                  </h3>
+                )}
               </button>
             </li>
           );

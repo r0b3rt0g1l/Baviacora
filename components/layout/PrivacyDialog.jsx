@@ -11,7 +11,6 @@ export function PrivacyDialog({ trigger }) {
   const [open, setOpen] = useState(false);
   const [pdfOpen, setPdfOpen] = useState(false);
   const { identidad, contacto } = municipalConfig;
-  const hasAvisoPdf = Boolean(municipalConfig.enlacesExternos.avisoPrivacidadPdf);
 
   function handleOpenPdf() {
     setOpen(false);
@@ -169,15 +168,14 @@ export function PrivacyDialog({ trigger }) {
                   </section>
 
                   <p className="mt-2 rounded-lg border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-xs italic text-[var(--color-text-muted)]">
-                    Aviso de Privacidad Simplificado.
-                    {hasAvisoPdf
-                      ? " El documento oficial publicado por el Ayuntamiento puede consultarse y descargarse desde el botón inferior."
-                      : " El documento oficial completo se publicará próximamente."}
+                    Aviso de Privacidad Simplificado. El documento oficial
+                    publicado por el Ayuntamiento puede consultarse y
+                    descargarse desde el botón inferior.
                   </p>
                 </div>
 
                 <div className="flex flex-col-reverse items-stretch gap-3 border-t border-[var(--color-border)] bg-[var(--color-bg)] px-6 py-4 sm:flex-row sm:items-center sm:justify-end">
-                  {hasAvisoPdf && (
+                  {municipalConfig.enlacesExternos.avisoPrivacidadPdf && (
                     <button
                       type="button"
                       onClick={handleOpenPdf}
@@ -206,7 +204,7 @@ export function PrivacyDialog({ trigger }) {
     <PDFViewer
       pdfUrl={municipalConfig.enlacesExternos.avisoPrivacidadPdf}
       title="Aviso de Privacidad"
-      subtitle={`${identidad.nombreOficial}, Sonora`}
+      subtitle={identidad.nombreCompleto}
       open={pdfOpen}
       onOpenChange={setPdfOpen}
     />

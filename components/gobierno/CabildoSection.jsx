@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { UserRound } from "lucide-react";
 import {
-  presidente,
-  sindica,
-  regidores,
-  dif,
+  derivePresidente,
+  deriveSindica,
+  deriveRegidores,
+  deriveDIF,
 } from "@/lib/cabildo";
 import { PresidenteCard } from "@/components/gobierno/PresidenteCard";
 import { SindicaCard } from "@/components/gobierno/SindicaCard";
@@ -31,7 +31,12 @@ const itemVariants = {
   },
 };
 
-export function CabildoSection() {
+export function CabildoSection({ lista }) {
+  const presidente = derivePresidente(lista);
+  const sindica = deriveSindica(lista);
+  const regidores = deriveRegidores(lista);
+  const dif = deriveDIF(lista);
+
   return (
     <section
       aria-label="Cabildo Municipal"
@@ -50,78 +55,75 @@ export function CabildoSection() {
           </p>
         </header>
 
-        <section
-          id="presidencia"
-          className="mt-12 scroll-mt-[144px] md:mt-16"
-        >
-          <PresidenteCard presidente={presidente} />
-        </section>
-
-        <DivisorJerarquico />
-
-        <section
-          id="sindica"
-          className="scroll-mt-[144px]"
-        >
-          <header className="mb-8 text-center md:mb-10">
-            <h3 className="font-display text-2xl font-bold tracking-tight text-[var(--color-guinda-deep)] md:text-[28px]">
-              Sindicatura Municipal
-            </h3>
-            <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-              Representación legal del Ayuntamiento
-            </p>
-          </header>
-          <SindicaCard sindica={sindica} />
-        </section>
-
-        <DivisorJerarquico />
-
-        <section
-          id="regidores"
-          className="scroll-mt-[144px]"
-        >
-          <header className="mb-10 text-center md:mb-12">
-            <h3 className="font-display text-2xl font-bold tracking-tight text-[var(--color-guinda-deep)] md:text-[28px]">
-              Regidurías
-            </h3>
-            <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-              Regidurías propietarias del Cabildo Municipal
-            </p>
-          </header>
-
-          <motion.ul
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={containerVariants}
-            className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5"
+        {presidente && (
+          <section
+            id="presidencia"
+            className="mt-12 scroll-mt-[144px] md:mt-16"
           >
-            {regidores.map((r) => (
-              <motion.li key={r.id} variants={itemVariants} className="flex">
-                <RegidorCard regidor={r} />
-              </motion.li>
-            ))}
-          </motion.ul>
-        </section>
+            <PresidenteCard presidente={presidente} />
+          </section>
+        )}
+
+        {(presidente || sindica) && <DivisorJerarquico />}
+
+        {sindica && (
+          <section id="sindica" className="scroll-mt-[144px]">
+            <header className="mb-8 text-center md:mb-10">
+              <h3 className="font-display text-2xl font-bold tracking-tight text-[var(--color-guinda-deep)] md:text-[28px]">
+                Sindicatura Municipal
+              </h3>
+              <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Representación legal del Ayuntamiento
+              </p>
+            </header>
+            <SindicaCard sindica={sindica} />
+          </section>
+        )}
+
+        {regidores.length > 0 && <DivisorJerarquico />}
+
+        {regidores.length > 0 && (
+          <section id="regidores" className="scroll-mt-[144px]">
+            <header className="mb-10 text-center md:mb-12">
+              <h3 className="font-display text-2xl font-bold tracking-tight text-[var(--color-guinda-deep)] md:text-[28px]">
+                Regidurías
+              </h3>
+              <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+                {regidores.length === 1
+                  ? "Una reguría propietaria del Cabildo Municipal"
+                  : `${regidores.length} regidurías propietarias del Cabildo Municipal`}
+              </p>
+            </header>
+
+            <motion.ul
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={containerVariants}
+              className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5"
+            >
+              {regidores.map((r) => (
+                <motion.li key={r.id} variants={itemVariants} className="flex">
+                  <RegidorCard regidor={r} />
+                </motion.li>
+              ))}
+            </motion.ul>
+          </section>
+        )}
+
+        {dif && <DivisorJerarquico />}
 
         {dif && (
-        <>
-        <DivisorJerarquico />
+          <section id="dif" className="scroll-mt-[144px]">
+            <header className="mb-10 text-center md:mb-12">
+              <h3 className="font-display text-2xl font-bold tracking-tight text-[var(--color-guinda-deep)] md:text-[28px]">
+                Sistema DIF Municipal
+              </h3>
+              <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Desarrollo Integral de la Familia
+              </p>
+            </header>
 
-        <section
-          id="dif"
-          className="scroll-mt-[144px]"
-        >
-          <header className="mb-10 text-center md:mb-12">
-            <h3 className="font-display text-2xl font-bold tracking-tight text-[var(--color-guinda-deep)] md:text-[28px]">
-              Sistema DIF Municipal
-            </h3>
-            <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-              Desarrollo Integral de la Familia
-            </p>
-          </header>
-
-          {dif && (
             <motion.article
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
@@ -156,9 +158,7 @@ export function CabildoSection() {
                 )}
               </div>
             </motion.article>
-          )}
-        </section>
-        </>
+          </section>
         )}
       </div>
     </section>

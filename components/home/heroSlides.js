@@ -1,36 +1,26 @@
 import { heroImages } from "@/lib/unsplashImages";
 import { municipalConfig } from "@/lib/municipalConfig";
 
-const { identidad } = municipalConfig;
-
-// Slides institucionales neutros para Baviácora. Sin atractivos ni narrativa
-// inventada; el contenido turístico/histórico entra después. Cada `id` debe
-// existir en heroImages (lib/unsplashImages) para resolver la imagen de fondo.
+// Slides del hero (fallback estático). Al clonar la plantilla, ajusta el copy
+// y agrega más entradas a META manteniendo los `id` alineados con `heroImages`
+// en lib/unsplashImages.js. La identidad se toma de municipalConfig.
 const META = [
   {
     id: "bienvenida",
-    eyebrow: identidad.estado,
-    title: `Bienvenidos a ${identidad.nombreCorto}`,
-    subtitle: `Portal oficial del ${identidad.nombreOficial}.`,
-    cta: { label: "Conoce el Gobierno", href: "/gobierno/directorio" },
+    eyebrow: `${municipalConfig.identidad.nombreCorto}, ${municipalConfig.identidad.estado}`,
+    title: `Bienvenidos a ${municipalConfig.identidad.nombreCorto}`,
+    subtitle:
+      "Descripción breve del municipio (en preparación).",
+    cta: { label: "Conoce el Municipio", href: "/turismo" },
     align: "center",
   },
   {
     id: "gobierno",
-    eyebrow: `Administración ${identidad.administracion}`,
-    title: "Gobierno Municipal",
+    eyebrow: `Administración ${municipalConfig.identidad.administracion}`,
+    title: municipalConfig.identidad.nombreCompleto,
     subtitle:
-      "Una administración cercana a la gente, con transparencia y rendición de cuentas.",
-    cta: { label: "Directorio del Cabildo", href: "/gobierno/directorio" },
-    align: "center",
-  },
-  {
-    id: "sierra",
-    eyebrow: "Transparencia",
-    title: "Información pública",
-    subtitle:
-      "Consulta los documentos y la información oficial del Ayuntamiento.",
-    cta: { label: "Ir a Transparencia", href: "/transparencia" },
+      "Una administración cercana a la gente, con transparencia, rendición de cuentas y trabajo en equipo.",
+    cta: { label: "Conoce el Gobierno", href: "/gobierno/directorio" },
     align: "center",
   },
 ];
@@ -41,9 +31,9 @@ export const heroSlides = META.map((meta) => {
   const img = imagesById[meta.id];
   return {
     ...meta,
-    image: img?.src ?? null,
-    alt: img?.alt ?? meta.title,
-    credit: img?.credit ?? null,
+    image: img.src,
+    alt: img.alt,
+    credit: img.credit,
   };
 });
 

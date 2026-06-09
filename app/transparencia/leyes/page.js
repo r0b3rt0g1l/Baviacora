@@ -1,5 +1,6 @@
 import { Scale } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
+import { municipalConfig } from "@/lib/municipalConfig";
 import { getDocumentosFromCMS } from "@/lib/cms";
 import { LeyCard } from "@/components/transparencia/LeyCard";
 
@@ -7,8 +8,7 @@ export const revalidate = 60;
 
 export const metadata = buildMetadata({
   title: "Leyes y Reglamentos",
-  description:
-    "Marco normativo del Municipio de Baviácora y del derecho de acceso a la información pública aplicable al Gobierno Municipal: reglamentos municipales, leyes federales y estatales.",
+  description: `Marco normativo del ${municipalConfig.identidad.nombreOficial} y del derecho de acceso a la información pública aplicable al Gobierno Municipal: reglamentos municipales, leyes federales y estatales.`,
   path: "/transparencia/leyes",
 });
 
@@ -41,10 +41,11 @@ export default async function LeyesPage() {
             Leyes y Reglamentos Municipales
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
-            Marco normativo del Municipio de Baviácora: reglamentos municipales,
-            ordenamientos del Cabildo y leyes aplicables al ejercicio del
-            gobierno municipal y al derecho de acceso a la información pública.
-            Todos los documentos se visualizan directamente en este portal.
+            Marco normativo del {municipalConfig.identidad.nombreOficial}:
+            reglamentos municipales, ordenamientos del Cabildo y leyes aplicables
+            al ejercicio del gobierno municipal y al derecho de acceso a la
+            información pública. Todos los documentos se visualizan directamente
+            en este portal.
           </p>
         </div>
       </header>
@@ -59,7 +60,7 @@ export default async function LeyesPage() {
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-[var(--color-text-secondary)]">
             Reglamentos, bandos y códigos que rigen la organización política,
-            administrativa y de servicios del Municipio de Baviácora.
+            administrativa y de servicios del {municipalConfig.identidad.nombreOficial}.
           </p>
         </header>
 

@@ -14,6 +14,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { municipalConfig } from "@/lib/municipalConfig";
 
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
@@ -31,9 +32,12 @@ export function InformacionPublicaForm({ accessKey }) {
     formData.append("access_key", accessKey);
     formData.append(
       "subject",
-      "Solicitud de Información Pública — Portal Baviácora",
+      `Solicitud de Información Pública — Portal ${municipalConfig.identidad.nombreCorto}`,
     );
-    formData.append("from_name", "Portal Baviácora · Información Pública");
+    formData.append(
+      "from_name",
+      `Portal ${municipalConfig.identidad.nombreCorto} · Información Pública`,
+    );
     formData.append("modalidad_entrega", modalidad);
 
     try {
@@ -132,7 +136,7 @@ export function InformacionPublicaForm({ accessKey }) {
                 </Label>
                 <Input
                   className={cn("mt-2", inputClasses)}
-                  placeholder="Tu localidad o domicilio"
+                  placeholder="Centro, localidad o colonia"
                 />
               </TextField>
             </div>

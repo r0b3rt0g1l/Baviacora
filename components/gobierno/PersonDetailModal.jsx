@@ -10,11 +10,15 @@ const TIPO_LABEL = {
   presidente: "Presidencia Municipal",
   sindica: "Sindicatura Municipal",
   regidor: "Regiduría",
-  secretario: "Secretaría Municipal",
-  tesorero: "Tesorería",
-  contralor: "Órgano Interno de Control",
   dif: "DIF Municipal",
+  secretario: "Secretaría Municipal",
+  tesorero: "Tesorería Municipal",
+  contralor: "Órgano Interno de Control",
 };
+
+function isPendingName(nombre) {
+  return typeof nombre === "string" && nombre.startsWith("[PENDIENTE");
+}
 
 function getInitials(nombre) {
   const cleaned = String(nombre ?? "")
@@ -32,7 +36,11 @@ export function PersonDetailModal({ person, open, onOpenChange }) {
   if (!person) return null;
 
   const tipoLabel = TIPO_LABEL[person.tipo] ?? "Cabildo";
-  const initials = getInitials(person.nombre);
+  const isPending = isPendingName(person.nombre);
+  // Cuando el nombre es placeholder no calculamos iniciales (saldrían "[P")
+  // ni mostramos el placeholder crudo. Mostramos "Por designar" en su lugar.
+  const initials = isPending ? null : getInitials(person.nombre);
+  const displayNombre = isPending ? "Por designar" : person.nombre;
 
   const handleCopy = async (value, label) => {
     try {
@@ -69,7 +77,7 @@ export function PersonDetailModal({ person, open, onOpenChange }) {
                 className="fixed left-1/2 top-1/2 z-[60] w-[min(94vw,768px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-2xl"
               >
                 <Dialog.Title className="sr-only">
-                  {person.nombre}
+                  {displayNombre}
                 </Dialog.Title>
                 <Dialog.Description className="sr-only">
                   {tipoLabel} · {person.cargo}
@@ -90,25 +98,34 @@ export function PersonDetailModal({ person, open, onOpenChange }) {
                     {person.foto ? (
                       <Image
                         src={person.foto}
-                        alt={`Fotografía de ${person.nombre}`}
+                        alt={`Fotografía de ${displayNombre}`}
                         fill
                         sizes="(min-width: 768px) 40vw, 100vw"
                         className="object-cover"
                       />
                     ) : (
                       <div className="flex flex-col items-center gap-3 text-center">
-                        <span
-                          aria-hidden="true"
-                          className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-[var(--color-dorado)] font-display text-4xl font-bold text-[var(--color-dorado)]"
-                        >
-                          {initials}
-                        </span>
+                        {isPending ? (
+                          <span
+                            aria-hidden="true"
+                            className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-[var(--color-dorado)]/60 text-[var(--color-cream)]/70"
+                          >
+                            <UserRound className="h-12 w-12" />
+                          </span>
+                        ) : (
+                          <span
+                            aria-hidden="true"
+                            className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-[var(--color-dorado)] font-display text-4xl font-bold text-[var(--color-dorado)]"
+                          >
+                            {initials}
+                          </span>
+                        )}
                         <span className="inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-widest text-[var(--color-cream)]/80">
                           <UserRound
                             aria-hidden="true"
                             className="h-3.5 w-3.5"
                           />
-                          Foto pendiente
+                          {isPending ? "Por designar" : "Foto pendiente"}
                         </span>
                       </div>
                     )}
@@ -118,9 +135,15 @@ export function PersonDetailModal({ person, open, onOpenChange }) {
                     <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
                       {tipoLabel}
                     </p>
-                    <h2 className="mt-2 font-display text-2xl font-bold leading-tight tracking-tight text-[var(--color-text)] md:text-3xl">
-                      {person.nombre}
-                    </h2>
+                    {isPending ? (
+                      <h2 className="mt-2 font-display text-2xl font-medium italic leading-tight tracking-tight text-[var(--color-text-muted)] md:text-3xl">
+                        Por designar
+                      </h2>
+                    ) : (
+                      <h2 className="mt-2 font-display text-2xl font-bold leading-tight tracking-tight text-[var(--color-text)] md:text-3xl">
+                        {person.nombre}
+                      </h2>
+                    )}
                     <p className="mt-1 text-sm font-medium text-[var(--color-text-secondary)]">
                       {person.cargo}
                     </p>

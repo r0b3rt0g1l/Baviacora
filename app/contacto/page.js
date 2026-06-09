@@ -9,8 +9,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: "Contacto",
-  description:
-    "Contacta al Gobierno Municipal de Baviácora. Datos de contacto del Palacio Municipal, formulario de mensajes y ubicación geográfica.",
+  description: `Contacta al ${municipalConfig.identidad.nombreCompleto}. Datos de contacto del Palacio Municipal, formulario de mensajes y ubicación geográfica.`,
   path: "/contacto",
 });
 
@@ -31,8 +30,8 @@ export default function ContactoPage() {
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
             Escríbenos para consultas, sugerencias o para realizar trámites con
-            el Gobierno Municipal de Baviácora. Atenderemos tu solicitud en el
-            menor tiempo posible.
+            el {municipalConfig.identidad.nombreCompleto}. Atenderemos tu
+            solicitud en el menor tiempo posible.
           </p>
         </div>
       </header>
@@ -67,7 +66,7 @@ export default function ContactoPage() {
         <MapaEmbed
           lat={datos.coordenadas.lat}
           lon={datos.coordenadas.lon}
-          label="Palacio Municipal · Plaza Principal s/n, Centro, Baviácora"
+          label={municipalConfig.contacto.direccionCompleta || `Palacio Municipal · ${municipalConfig.contacto.ciudad}`}
           zoom={15}
         />
       </section>

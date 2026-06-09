@@ -1,4 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
+import { municipalConfig } from "@/lib/municipalConfig";
 import { getAllImagenes } from "@/lib/imagenesService";
 import { GaleriaGrid } from "@/components/galeria/GaleriaGrid";
 
@@ -6,8 +7,7 @@ export const revalidate = 60;
 
 export const metadata = buildMetadata({
   title: "Galería",
-  description:
-    "Galería fotográfica del Municipio de Baviácora: eventos, lugares, funcionarios y momentos destacados.",
+  description: `Galería fotográfica del ${municipalConfig.identidad.nombreOficial}: eventos, lugares, funcionarios y momentos destacados.`,
   path: "/galeria",
 });
 
@@ -18,12 +18,12 @@ export default async function GaleriaPage() {
     <main className="flex flex-1 flex-col">
       <section className="relative bg-[var(--color-guinda)] text-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-          <h1 className="font-display text-4xl font-bold md:text-5xl">
+          <h1 className="font-display text-4xl font-bold text-[var(--color-cream)] md:text-5xl">
             Galería
           </h1>
           <p className="mt-4 max-w-2xl text-[var(--color-cream)]/85">
-            Imágenes del municipio de Baviácora: eventos, lugares, funcionarios y
-            momentos destacados.
+            Imágenes del {municipalConfig.identidad.nombreOficial}: eventos,
+            lugares, funcionarios y momentos destacados.
           </p>
         </div>
       </section>

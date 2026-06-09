@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { ArrowLeft, FileQuestion } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
+import { municipalConfig } from "@/lib/municipalConfig";
 
 export const metadata = buildMetadata({
   title: "Página no encontrada",
-  description:
-    "La página que buscas no se encuentra disponible. Verifica la URL o regresa al inicio del Portal Institucional de Baviácora.",
+  description: `La página que buscas no se encuentra disponible. Verifica la URL o regresa al inicio del Portal Institucional de ${municipalConfig.identidad.nombreCorto}.`,
   noIndex: true,
 });
 

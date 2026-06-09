@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Scale, FileText, Network, BarChart3, ArrowRight } from "lucide-react";
+import { municipalConfig } from "@/lib/municipalConfig";
 
 const pillars = [
   { icon: FileText, label: "Información Pública" },
@@ -28,7 +29,7 @@ export function TransparenciaCTA() {
             Transparencia institucional
           </span>
           <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
-            Transparencia para el pueblo de Baviácora
+            Transparencia para el pueblo de {municipalConfig.identidad.nombreCorto}
           </h2>
           <p className="mt-4 max-w-xl text-base text-[var(--color-cream)]/85 md:text-lg">
             Información pública, leyes, evaluaciones SEvAC y el organigrama
@@ -37,7 +38,7 @@ export function TransparenciaCTA() {
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
               href="/transparencia"
-              className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-dorado)] px-6 py-3 text-sm font-semibold text-[var(--color-guinda-deep)] shadow-lg transition hover:bg-white"
+              className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-cta-bg)] px-6 py-3 text-sm font-semibold text-[var(--color-cta-text)] shadow-lg transition hover:bg-[var(--color-cta-bg-hover)]"
             >
               Ir al Hub de Transparencia
               <ArrowRight

@@ -1,17 +1,21 @@
 import { buildMetadata } from "@/lib/seo";
-import { cabildo } from "@/lib/cabildo";
+import { municipalConfig } from "@/lib/municipalConfig";
+import { cabildo as cabildoFallback } from "@/lib/cabildo";
+import { getCabildoFromCMS } from "@/lib/cms";
 import { DirectorioGrid } from "@/components/gobierno/DirectorioGrid";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export const metadata = buildMetadata({
   title: "Estructura Orgánica",
-  description:
-    "Estructura institucional del Gobierno Municipal de Baviácora: Cabildo, Sindicatura, Regidurías y Presidencia del DIF Municipal. Administración 2024-2027.",
+  description: `Estructura institucional del ${municipalConfig.identidad.nombreCompleto}: Cabildo, Sindicatura, Regidurías y Presidencia del DIF Municipal. Administración ${municipalConfig.identidad.administracion}.`,
   path: "/gobierno/estructura-organica",
 });
 
-export default function EstructuraOrganicaPage() {
+export default async function EstructuraOrganicaPage() {
+  const cms = await getCabildoFromCMS();
+  const lista = cms && cms.length > 0 ? cms : cabildoFallback;
+
   return (
     <main className="flex flex-1 flex-col">
       <header className="bg-[var(--color-bg)] border-b border-[var(--color-border)]">
@@ -24,15 +28,16 @@ export default function EstructuraOrganicaPage() {
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
             Personas que integran el Cabildo y la Presidencia del DIF Municipal
-            del Gobierno Municipal de Baviácora durante la Administración
-            2024-2027. Las direcciones generales y de área se publicarán
-            conforme a las designaciones oficiales.
+            del {municipalConfig.identidad.nombreCompleto} durante la
+            Administración {municipalConfig.identidad.administracion}. Las
+            direcciones generales y de área se publicarán conforme a las
+            designaciones oficiales.
           </p>
         </div>
       </header>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-16">
-        <DirectorioGrid people={cabildo} />
+        <DirectorioGrid people={lista} />
       </section>
     </main>
   );

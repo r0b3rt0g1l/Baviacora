@@ -12,6 +12,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { municipalConfig } from "@/lib/municipalConfig";
 
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
@@ -26,8 +27,14 @@ export function ContactoForm({ accessKey }) {
 
     const formData = new FormData(e.currentTarget);
     formData.append("access_key", accessKey);
-    formData.append("subject", "Nuevo mensaje de contacto — Portal Baviácora");
-    formData.append("from_name", "Portal Baviácora · Contacto");
+    formData.append(
+      "subject",
+      `Nuevo mensaje de contacto — Portal ${municipalConfig.identidad.nombreCorto}`,
+    );
+    formData.append(
+      "from_name",
+      `Portal ${municipalConfig.identidad.nombreCorto} · Contacto`,
+    );
 
     try {
       const res = await fetch(WEB3FORMS_ENDPOINT, {

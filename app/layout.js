@@ -1,6 +1,7 @@
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { playfair, inter, mono, lora } from "@/lib/fonts";
+import { municipalConfig } from "@/lib/municipalConfig";
 import { buildMetadata, defaultViewport } from "@/lib/seo";
 import { MainNav } from "@/components/layout/MainNav";
 import { Footer } from "@/components/layout/Footer";
@@ -9,7 +10,27 @@ import { ToastProvider } from "@/components/ui/Toast";
 import { TermsModalGate } from "@/components/layout/TermsModalGate";
 import "./globals.css";
 
-export const metadata = buildMetadata();
+const { nombreOficial, nombreCompleto, administracion } = municipalConfig.identidad;
+const ROOT_TITLE = `${nombreCompleto} | ${administracion}`;
+const ROOT_DESCRIPTION = `Sitio oficial del ${nombreOficial}. Administración ${administracion}. Trámites, transparencia, gobierno y servicios para la ciudadanía.`;
+
+const baseMetadata = buildMetadata();
+
+export const metadata = {
+  ...baseMetadata,
+  title: ROOT_TITLE,
+  description: ROOT_DESCRIPTION,
+  openGraph: {
+    ...baseMetadata.openGraph,
+    title: ROOT_TITLE,
+    description: ROOT_DESCRIPTION,
+  },
+  twitter: {
+    ...baseMetadata.twitter,
+    title: ROOT_TITLE,
+    description: ROOT_DESCRIPTION,
+  },
+};
 export const viewport = defaultViewport;
 
 export default function RootLayout({ children }) {

@@ -1,7 +1,7 @@
 import { atractivos } from "@/lib/atractivos";
+import { municipalConfig } from "@/lib/municipalConfig";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://baviacora.gob.mx";
+const SITE_URL = municipalConfig.servicios.siteUrl;
 
 export default function sitemap() {
   const now = new Date();

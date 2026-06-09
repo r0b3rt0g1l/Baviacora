@@ -37,7 +37,7 @@ export function PresidenteCard({ presidente }) {
         </div>
 
         <div className="space-y-2">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-dorado)]/30 bg-[var(--color-dorado)]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-dorado)]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-dorado)]/30 bg-[var(--color-dorado)]/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.25em] text-[var(--color-dorado)]">
             <Award className="h-3.5 w-3.5" aria-hidden="true" />
             Presidente Municipal
           </span>

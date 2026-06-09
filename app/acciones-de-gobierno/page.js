@@ -1,4 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
+import { municipalConfig } from "@/lib/municipalConfig";
 import { getNoticiasAll, comunicados } from "@/lib/noticiasService";
 import { NoticiasTabs } from "@/components/noticias/NoticiasTabs";
 
@@ -6,8 +7,7 @@ export const revalidate = 60;
 
 export const metadata = buildMetadata({
   title: "Acciones de Gobierno",
-  description:
-    "Últimas noticias y comunicados oficiales del Gobierno Municipal de Baviácora. Mantente al día con las acciones, obras y avisos de la Administración 2024-2027.",
+  description: `Últimas noticias y comunicados oficiales del ${municipalConfig.identidad.nombreCompleto}. Mantente al día con las acciones, obras y avisos de la Administración ${municipalConfig.identidad.administracion}.`,
   path: "/acciones-de-gobierno",
 });
 
@@ -25,8 +25,9 @@ export default async function AccionesDeGobiernoPage() {
             Acciones de Gobierno
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
-            Noticias y comunicados oficiales de la Administración 2024-2027 del
-            Gobierno Municipal de Baviácora.
+            Noticias y comunicados oficiales de la Administración{" "}
+            {municipalConfig.identidad.administracion} del{" "}
+            {municipalConfig.identidad.nombreCompleto}.
           </p>
         </div>
       </header>
