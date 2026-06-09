@@ -148,7 +148,9 @@ export function HeroCarousel({ slides }) {
             ALIGN_CLASSES[activeSlide?.align ?? "center"],
           )}
         >
-          <AnimatePresence mode="wait">
+          {/* initial={false}: el 1er slide se pinta de inmediato (mejora LCP);
+              las transiciones entre slides siguen animadas. */}
+          <AnimatePresence mode="wait" initial={false}>
             {activeSlide && (
               <motion.div
                 key={activeSlide.id}

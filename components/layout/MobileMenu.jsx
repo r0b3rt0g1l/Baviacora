@@ -77,9 +77,9 @@ export function MobileMenu() {
                     <Image
                       src="/escudo-baviacora-hd.png"
                       alt=""
-                      width={48}
-                      height={48}
-                      className="h-10 w-10"
+                      width={621}
+                      height={717}
+                      className="h-10 w-auto"
                     />
                     <div className="leading-tight">
                       <p className="font-display text-sm font-bold">
