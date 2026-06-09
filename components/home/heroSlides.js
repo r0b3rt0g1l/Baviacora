@@ -10,7 +10,7 @@ const META = [
     eyebrow: `${municipalConfig.identidad.nombreCorto}, ${municipalConfig.identidad.estado}`,
     title: `Bienvenidos a ${municipalConfig.identidad.nombreCorto}`,
     subtitle:
-      "Descripción breve del municipio (en preparación).",
+      "Pueblo de origen ópata y misión jesuita de 1639, en la región del Río Sonora.",
     cta: { label: "Conoce el Municipio", href: "/turismo" },
     align: "center",
   },

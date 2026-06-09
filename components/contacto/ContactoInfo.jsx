@@ -1,33 +1,27 @@
 import Link from "next/link";
-import { MapPin, Phone, Mail, Clock, Facebook } from "lucide-react";
+import { MapPin, Clock, Facebook } from "lucide-react";
 import { municipalConfig } from "@/lib/municipalConfig";
 
 export function ContactoInfo() {
-  const { contacto, datos, redes } = municipalConfig;
+  const { contacto, redes } = municipalConfig;
 
+  // Política Northa: cero contacto directo. NO se exponen teléfono ni correo;
+  // el contacto con el Ayuntamiento es a través del formulario de esta página.
   const items = [
     {
       icon: MapPin,
       label: "Dirección",
       value: contacto.direccionCompleta,
     },
-    {
-      icon: Phone,
-      label: "Teléfono",
-      phones: contacto.telefonos,
-      legendSecondary: datos.lada ? `Lada ${datos.lada}` : null,
-    },
-    {
-      icon: Mail,
-      label: "Correo electrónico",
-      value: contacto.email,
-      href: `mailto:${contacto.email}`,
-    },
-    {
-      icon: Clock,
-      label: "Horarios de atención",
-      value: contacto.horarios,
-    },
+    ...(contacto.horarios
+      ? [
+          {
+            icon: Clock,
+            label: "Horarios de atención",
+            value: contacto.horarios,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -49,62 +43,17 @@ export function ContactoInfo() {
                 <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-muted)]">
                   {item.label}
                 </p>
-                {item.phones ? (
-                  <div className="mt-1 space-y-0.5">
-                    {item.phones.map((tel) => {
-                      const isPending =
-                        typeof tel === "string" &&
-                        tel.startsWith("[PENDIENTE");
-                      return isPending ? (
-                        <p
-                          key={tel}
-                          className="block text-sm font-medium italic text-[var(--color-text-muted)]"
-                        >
-                          {tel}
-                        </p>
-                      ) : (
-                        <a
-                          key={tel}
-                          href={`tel:${tel.replace(/\s+/g, "")}`}
-                          className="block text-sm font-medium text-[var(--color-text)] hover:text-[var(--color-guinda)] hover:underline"
-                        >
-                          {tel}
-                        </a>
-                      );
-                    })}
-                    {item.legendSecondary && (
-                      <p className="text-xs text-[var(--color-text-muted)]">
-                        {item.legendSecondary}
-                      </p>
-                    )}
-                  </div>
-                ) : item.href &&
-                  !(
-                    typeof item.value === "string" &&
-                    item.value.startsWith("[PENDIENTE")
-                  ) ? (
-                  <a
-                    href={item.href}
-                    className="mt-1 block text-sm font-medium text-[var(--color-text)] hover:text-[var(--color-guinda)] hover:underline"
-                  >
-                    {item.value}
-                  </a>
-                ) : (
-                  <p
-                    className={`mt-1 text-sm font-medium ${
-                      typeof item.value === "string" &&
-                      item.value.startsWith("[PENDIENTE")
-                        ? "italic text-[var(--color-text-muted)]"
-                        : "text-[var(--color-text)]"
-                    }`}
-                  >
-                    {item.value}
-                  </p>
-                )}
+                <p className="mt-1 text-sm font-medium text-[var(--color-text)]">
+                  {item.value}
+                </p>
               </div>
             </li>
           ))}
         </ul>
+        <p className="mt-6 rounded-lg border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-xs text-[var(--color-text-secondary)]">
+          Para comunicarte con el Ayuntamiento, utiliza el formulario de esta
+          página. Te responderemos en el menor tiempo posible.
+        </p>
       </div>
 
       <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-guinda-deep)] p-6 text-white shadow-[var(--shadow-card)] md:p-8">

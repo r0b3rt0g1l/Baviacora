@@ -24,8 +24,6 @@ const ALIGN_CLASSES = {
 };
 
 export function HeroCarousel({ slides }) {
-  if (!slides || slides.length === 0) return null;
-
   const heroRef = useRef(null);
   const reduce = useReducedMotion();
 
@@ -69,6 +67,9 @@ export function HeroCarousel({ slides }) {
       emblaApi.off("reInit", onSelect);
     };
   }, [emblaApi]);
+
+  // Guard DESPUÉS de los hooks (rules-of-hooks): si no hay slides, no renderiza.
+  if (!slides || slides.length === 0) return null;
 
   const activeSlide = slides[selectedIndex];
 

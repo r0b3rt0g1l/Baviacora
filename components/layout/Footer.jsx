@@ -1,12 +1,5 @@
 import Link from "next/link";
-import {
-  Facebook,
-  MapPin,
-  Phone,
-  Mail,
-  Clock,
-  ExternalLink,
-} from "lucide-react";
+import { Facebook, MapPin, Mail, Clock, ExternalLink } from "lucide-react";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { PrivacyDialog } from "@/components/layout/PrivacyDialog";
 
@@ -79,66 +72,29 @@ export function Footer() {
                 {contacto.direccionCompleta}
               </span>
             </li>
-            <li className="flex items-start gap-2.5">
-              <Phone
-                aria-hidden="true"
-                className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-dorado)]"
-              />
-              <span className="leading-tight text-[var(--color-cream)]/85">
-                {contacto.telefonos.map((tel, i) => {
-                  const isPending =
-                    typeof tel === "string" && tel.startsWith("[PENDIENTE");
-                  return (
-                    <span key={tel} className="block">
-                      {isPending ? (
-                        <span className="italic text-[var(--color-cream)]/60">
-                          {tel}
-                        </span>
-                      ) : (
-                        <a
-                          href={`tel:${tel.replace(/\s+/g, "")}`}
-                          className="hover:text-white hover:underline underline-offset-4"
-                        >
-                          {tel}
-                        </a>
-                      )}
-                      {i === 0 && !isPending && municipalConfig.datos.lada && (
-                        <span className="ml-2 text-[var(--color-cream)]/55">
-                          Lada {municipalConfig.datos.lada}
-                        </span>
-                      )}
-                    </span>
-                  );
-                })}
-              </span>
-            </li>
+            {contacto.horarios && (
+              <li className="flex items-start gap-2.5">
+                <Clock
+                  aria-hidden="true"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-dorado)]"
+                />
+                <span className="text-[var(--color-cream)]/85">
+                  {contacto.horarios}
+                </span>
+              </li>
+            )}
+            {/* Política Northa: cero contacto directo. El contacto es por formulario. */}
             <li className="flex items-start gap-2.5">
               <Mail
                 aria-hidden="true"
                 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-dorado)]"
               />
-              {typeof contacto.email === "string" &&
-              contacto.email.startsWith("[PENDIENTE") ? (
-                <span className="italic text-[var(--color-cream)]/60">
-                  {contacto.email}
-                </span>
-              ) : (
-                <a
-                  href={`mailto:${contacto.email}`}
-                  className="text-[var(--color-cream)]/85 hover:text-white hover:underline underline-offset-4"
-                >
-                  {contacto.email}
-                </a>
-              )}
-            </li>
-            <li className="flex items-start gap-2.5">
-              <Clock
-                aria-hidden="true"
-                className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-dorado)]"
-              />
-              <span className="text-[var(--color-cream)]/85">
-                {contacto.horarios}
-              </span>
+              <Link
+                href="/contacto"
+                className="text-[var(--color-cream)]/85 hover:text-white hover:underline underline-offset-4"
+              >
+                Escríbenos por el formulario
+              </Link>
             </li>
           </ul>
         </FooterColumn>
