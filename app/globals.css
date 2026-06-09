@@ -36,9 +36,9 @@
   --font-mono: var(--font-mono);
   --font-serif: var(--font-lora);
 
-  --shadow-nav: 0 4px 12px rgba(74, 14, 28, 0.08);
+  --shadow-nav: 0 4px 12px rgba(31,56,19,0.08);
   --shadow-card: 0 2px 8px rgba(26, 26, 26, 0.06);
-  --shadow-card-hover: 0 8px 24px rgba(107, 22, 41, 0.12);
+  --shadow-card-hover: 0 8px 24px rgba(45,79,27,0.12);
 }
 
 @layer base {

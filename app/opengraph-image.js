@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { municipalConfig } from "@/lib/municipalConfig";
 
 const { nombreCompleto, administracion } = municipalConfig.identidad;
+const { guinda, guindaProfundo, dorado } = municipalConfig.paleta;
 
 export const runtime = "nodejs";
 export const alt = `${nombreCompleto} · Administración ${administracion}`;
@@ -25,8 +26,7 @@ export default async function OpenGraphImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background:
-            "linear-gradient(135deg, #6B1629 0%, #4A0E1C 100%)",
+          background: `linear-gradient(135deg, ${guinda} 0%, ${guindaProfundo} 100%)`,
           color: "#F5F5DC",
           padding: "80px",
           fontFamily: "Georgia, serif",
@@ -83,8 +83,8 @@ export default async function OpenGraphImage() {
                 "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
               fontSize: 24,
               fontWeight: 600,
-              // Sincronizado con --color-dorado en app/globals.css.
-              color: "#BF9B30",
+              // Dorado institucional (municipalConfig.paleta.dorado).
+              color: dorado,
               letterSpacing: "0.16em",
               textTransform: "uppercase",
               display: "flex",

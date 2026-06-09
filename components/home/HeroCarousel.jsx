@@ -77,14 +77,17 @@ export function HeroCarousel({ slides }) {
       ref={heroRef}
       aria-roledescription="carrusel"
       aria-label={`Vistas destacadas de ${municipalConfig.identidad.nombreCorto}`}
-      className="relative isolate h-[100svh] w-full overflow-hidden bg-[var(--color-guinda-deep)] text-white"
+      className="relative isolate h-[100svh] w-full overflow-hidden bg-black text-white"
     >
-      {/* Background layer: Embla images, parallax translateY 0 → -200 */}
+      {/* Background layer: Embla images, parallax translateY 0 → -200.
+          La capa se extiende 224px por debajo del hero (bottom-[-14rem]) para que
+          al subir con el parallax (máx 200px) la imagen SIEMPRE cubra el borde
+          inferior y nunca descubra el fondo. */}
       <motion.div
         style={
           reduce ? undefined : { y: bgY, willChange: "transform" }
         }
-        className="absolute inset-0"
+        className="absolute inset-x-0 top-0 bottom-[-14rem]"
       >
         <div ref={emblaRef} className="h-full overflow-hidden">
           <div className="flex h-full">
@@ -111,20 +114,19 @@ export function HeroCarousel({ slides }) {
         </div>
       </motion.div>
 
-      {/* Degradado guinda: fuerte abajo donde vive el texto (~35% inferior),
-          transparente en el ~65% superior para apreciar la imagen del slide.
-          Texto blanco mantiene contraste WCAG AA en h1, subtítulo y eyebrow
-          incluso sobre imágenes con cielo muy claro. */}
+      {/* Scrim del hero: NEUTRO (negro), solo detrás del texto, y TRANSPARENTE en
+          el borde inferior para que la imagen llegue limpia al borde y se pegue
+          directo con la imagen de la sección Historia (sin verde ni franja).
+          Transparente también arriba para apreciar la imagen. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-[rgba(74,14,28,0.92)] via-[rgba(74,14,28,0.55)] via-40% to-transparent to-65%"
+        className="absolute inset-0 bg-gradient-to-t from-transparent from-0% via-black/50 via-35% to-transparent to-70%"
       />
 
-      {/* Sin fade-a-negro al final: la transición a la sección Historia se
-          resuelve por continuidad de color. El bottom de este Hero queda en
-          guinda profundo (Capa 2 termina en rgba(74,14,28,0.92)) y el top
-          de Historia arranca con el mismo guinda profundo desvaneciéndose,
-          eliminando el salto duro a negro. Ver ConoceMunicipio.jsx. */}
+      {/* Sin degradado de cierre: el hero termina en IMAGEN limpia hasta el
+          borde inferior (la capa de fondo se extiende para que el parallax no
+          descubra el fondo), y la sección Historia arranca con su imagen limpia.
+          Las dos imágenes quedan pegadas, sin verde ni franja. Ver ConoceMunicipio.jsx. */}
 
       {/* Content layer: title + subtitle + CTA, translateY 0→-40 + opacity 1→0.4 */}
       <motion.div
@@ -197,7 +199,7 @@ export function HeroCarousel({ slides }) {
         type="button"
         aria-label="Diapositiva anterior"
         onClick={scrollPrev}
-        className="absolute left-3 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[rgba(107,22,41,0.4)] p-3 text-white backdrop-blur-sm transition hover:border-[var(--color-dorado)] hover:bg-[rgba(107,22,41,0.7)] hover:text-[var(--color-dorado)] md:inline-flex"
+        className="absolute left-3 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[rgba(45,79,27,0.4)] p-3 text-white backdrop-blur-sm transition hover:border-[var(--color-dorado)] hover:bg-[rgba(45,79,27,0.7)] hover:text-[var(--color-dorado)] md:inline-flex"
       >
         <ChevronLeft className="h-5 w-5" aria-hidden="true" />
       </button>
@@ -205,7 +207,7 @@ export function HeroCarousel({ slides }) {
         type="button"
         aria-label="Diapositiva siguiente"
         onClick={scrollNext}
-        className="absolute right-3 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[rgba(107,22,41,0.4)] p-3 text-white backdrop-blur-sm transition hover:border-[var(--color-dorado)] hover:bg-[rgba(107,22,41,0.7)] hover:text-[var(--color-dorado)] md:inline-flex"
+        className="absolute right-3 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[rgba(45,79,27,0.4)] p-3 text-white backdrop-blur-sm transition hover:border-[var(--color-dorado)] hover:bg-[rgba(45,79,27,0.7)] hover:text-[var(--color-dorado)] md:inline-flex"
       >
         <ChevronRight className="h-5 w-5" aria-hidden="true" />
       </button>

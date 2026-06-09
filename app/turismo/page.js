@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 export const metadata = buildMetadata({
   title: "Turismo",
-  description: `Descubre los atractivos turísticos del ${municipalConfig.identidad.nombreOficial}.`,
+  description: `Atractivos turísticos del ${municipalConfig.identidad.nombreOficial}: patrimonio colonial, naturaleza y la Ruta del Río Sonora.`,
   path: "/turismo",
 });
 
@@ -27,14 +27,15 @@ export default function TurismoPage() {
           <div className="max-w-3xl">
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.22em] text-[var(--color-cream)] backdrop-blur-sm">
               <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[var(--color-dorado)]" />
-              Sierra Madre Occidental
+              Ruta del Río Sonora
             </span>
             <h1 className="mt-4 font-display text-4xl font-bold leading-tight tracking-tight text-[var(--color-cream)] md:text-5xl lg:text-6xl">
               Descubre {municipalConfig.identidad.nombreCorto}
             </h1>
             <p className="mt-4 max-w-2xl text-base text-[var(--color-cream)]/90 md:text-lg">
-              Atractivos, patrimonio y entorno natural del municipio (en
-              preparación).
+              Patrimonio colonial de la época de la misión, naturaleza del Río
+              Sonora y monumentos del municipio. Baviácora forma parte de la Ruta
+              del Río Sonora (COFETUR) y, desde 2011, de la Ruta Gastronómica.
             </p>
           </div>
         </div>
@@ -75,38 +76,47 @@ export default function TurismoPage() {
                 </h2>
               </div>
             </div>
-            <div className="mt-6 grid gap-4">
-              <div>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)]">
-                  Platillos típicos
-                </h3>
-                <ul className="mt-2 flex flex-wrap gap-2">
-                  {gastronomia.platillos.map((p) => (
-                    <li
-                      key={p}
-                      className="rounded-full bg-[var(--color-bg)] px-3 py-1 text-sm text-[var(--color-text)]"
-                    >
-                      {p}
-                    </li>
-                  ))}
-                </ul>
+            {gastronomia.platillos.length === 0 &&
+            gastronomia.dulces.length === 0 ? (
+              <p className="mt-6 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                Baviácora forma parte de la Ruta Gastronómica del Río Sonora
+                (desde 2011). El catálogo de platillos y dulces típicos del
+                municipio está en preparación.
+              </p>
+            ) : (
+              <div className="mt-6 grid gap-4">
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)]">
+                    Platillos típicos
+                  </h3>
+                  <ul className="mt-2 flex flex-wrap gap-2">
+                    {gastronomia.platillos.map((p) => (
+                      <li
+                        key={p}
+                        className="rounded-full bg-[var(--color-bg)] px-3 py-1 text-sm text-[var(--color-text)]"
+                      >
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)]">
+                    Conservas y dulces
+                  </h3>
+                  <ul className="mt-2 flex flex-wrap gap-2">
+                    {gastronomia.dulces.map((d) => (
+                      <li
+                        key={d}
+                        className="rounded-full bg-[var(--color-dorado)]/10 px-3 py-1 text-sm text-[var(--color-dorado-700)]"
+                      >
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)]">
-                  Conservas y dulces
-                </h3>
-                <ul className="mt-2 flex flex-wrap gap-2">
-                  {gastronomia.dulces.map((d) => (
-                    <li
-                      key={d}
-                      className="rounded-full bg-[var(--color-dorado)]/10 px-3 py-1 text-sm text-[var(--color-dorado-700)]"
-                    >
-                      {d}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            )}
           </div>
 
           <div className="rounded-2xl border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)] md:p-8">
@@ -123,21 +133,24 @@ export default function TurismoPage() {
                 </h2>
               </div>
             </div>
-            <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
-              Las y los artesanos de {municipalConfig.identidad.nombreCorto}{" "}
-              mantienen vivas las técnicas tradicionales locales:
-            </p>
-            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-              {artesanias.map((a) => (
-                <li
-                  key={a}
-                  className="flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm font-medium text-[var(--color-text)]"
-                >
-                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[var(--color-dorado)]" />
-                  {a}
-                </li>
-              ))}
-            </ul>
+            {artesanias.length === 0 ? (
+              <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                El catálogo de artesanías típicas de{" "}
+                {municipalConfig.identidad.nombreCorto} está en preparación.
+              </p>
+            ) : (
+              <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                {artesanias.map((a) => (
+                  <li
+                    key={a}
+                    className="flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm font-medium text-[var(--color-text)]"
+                  >
+                    <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[var(--color-dorado)]" />
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </section>

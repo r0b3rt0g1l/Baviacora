@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Calendar, Mountain, MapPin } from "lucide-react";
+import { ArrowRight, Calendar, Mountain, Users } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { hitos } from "@/lib/hitos";
 import { municipalConfig } from "@/lib/municipalConfig";
@@ -15,30 +15,32 @@ const TEXT_SHADOW = "0 2px 8px rgba(0,0,0,0.7)";
 
 // Datos derivados de municipalConfig. Al llenar la config, esta sección se
 // actualiza sola. Fallback "—" mientras el dato esté pendiente.
+const poblacion = municipalConfig.datos.poblacion2020;
+const altitud = municipalConfig.datos.altitudMedia;
 const features = [
   {
     icon: Calendar,
     label: "Fundación",
     value: municipalConfig.identidad.fundacion.anio ?? "—",
-    detail: "Año de fundación",
+    detail: "Pueblo de misión",
   },
   {
     icon: Calendar,
-    label: "Categoría municipal",
+    label: "Municipio libre",
     value: municipalConfig.identidad.municipioLibre ?? "—",
-    detail: "Municipio autónomo",
+    detail: "13 de mayo de 1931",
   },
   {
-    icon: MapPin,
-    label: "Ubicación",
-    value: municipalConfig.identidad.estado,
-    detail: municipalConfig.identidad.ubicacionGeografica || "Ubicación geográfica",
+    icon: Users,
+    label: "Población",
+    value: poblacion ? `${poblacion.toLocaleString("es-MX")} hab` : "—",
+    detail: "Censo INEGI 2020",
   },
   {
     icon: Mountain,
-    label: "Identidad",
-    value: municipalConfig.identidad.identidadEconomica || "—",
-    detail: "Identidad económica",
+    label: "Altitud",
+    value: altitud ? `${altitud} msnm` : "—",
+    detail: "Cabecera municipal",
   },
 ];
 
@@ -87,7 +89,8 @@ function HeroBlock({ reduce }) {
           {municipalConfig.identidad.nombreOficial}
         </h2>
         <p className="mt-5 max-w-xl text-base text-white/85 lg:text-lg">
-          Reseña histórica en preparación.
+          Pueblo de origen ópata y misión jesuita de 1639, en la región del
+          Río Sonora.
         </p>
       </motion.div>
     </div>
@@ -174,23 +177,14 @@ export function ConoceMunicipio({ portadaUrl } = {}) {
             quality={90}
             className="object-cover object-center"
           />
-          {/* Fade-in superior: guinda profundo que se desvanece en los
-              primeros ~150px para suavizar la unión con el bottom del Hero
-              (que termina en el mismo rgba(74,14,28,0.92) por su Capa 2).
-              Sin esto, el ojo percibe un salto duro entre Hero y la imagen
-              panorámica. Va ANTES del overlay negro existente para que el
-              negro se aplique encima del fade-in. */}
+          {/* Sin overlay verde ni oscurecido en el BORDE SUPERIOR: la imagen de
+              Historia llega limpia hasta arriba y se pega directo con la imagen
+              del hero (gris con gris, sin franja). El oscurecido para legibilidad
+              del título/narrativa arranca transparente arriba y baja hacia el
+              fondo. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-32 md:h-40 bg-gradient-to-b from-[rgba(74,14,28,0.92)] to-transparent"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[rgba(107,22,41,0.20)]"
+            className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/70"
           />
         </div>
 
@@ -217,17 +211,33 @@ export function ConoceMunicipio({ portadaUrl } = {}) {
                 </p>
                 <div className="mt-3 space-y-3 font-serif text-[15px] leading-snug text-white lg:text-base">
                   <p className="first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-6xl first-letter:font-bold first-letter:leading-[0.85] first-letter:text-[var(--color-dorado)]">
-                    La reseña histórica de {municipalConfig.identidad.nombreOficial} está
-                    en preparación.
+                    El territorio de Baviácora fue habitado por los indígenas
+                    ópatas. En 1637 el general Pedro de Perea explora la zona y,
+                    en 1639, el jesuita Fray Bartolomé Castaño funda la misión
+                    “Nuestra Señora de la (Purísima) Concepción”; el pueblo se
+                    llamó originalmente “La Purísima Concepción de Baviácora”.
                   </p>
                   <p>
-                    Completa la narrativa de esta sección y los hitos de la línea del
-                    tiempo en <code>lib/hitos.js</code>.
+                    El nombre “Baviácora” es de origen ópata y las fuentes
+                    ofrecen varias interpretaciones —entre ellas “agua
+                    acorralada”, “lugar donde hay pastizales” o “hierba que nace
+                    en el agua”—, sin que ninguna se considere definitiva.
+                    Baviácora figura ya como ayuntamiento en 1829; el 13 de mayo
+                    de 1931 se rehabilita como municipio libre e independiente,
+                    tras haber dependido de Arizpe, y en 1932 cede parte de su
+                    territorio con la creación del municipio de Aconchi.
+                  </p>
+                  <p>
+                    En la vida cultural del municipio destaca el béisbol: el
+                    pueblo cuenta con su equipo, los “Chiltepineros”, que compite
+                    en la Liga del Río Sonora. Conserva además la tradición de la
+                    música norteña y la vestimenta vaquera típica de Sonora, así
+                    como arquitectura colonial que data de la época de la misión.
                   </p>
                 </div>
               </motion.article>
 
-              {/* Columna DER: timeline 9 hitos */}
+              {/* Columna DER: timeline de hitos */}
               <TimelineColumn reduce={reduce} />
             </div>
           </div>
