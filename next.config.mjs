@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
-// Cache buster: cambio de hash de config para forzar a Vercel a NO reusar
-// el cache del deploy previo (que estaba corrupto y causaba
-// "TypeError: path argument must be of type string" en modifyConfig).
 const nextConfig = {
   images: {
+    // Calidades permitidas por next/image. Los componentes usan 85 (hero, cards)
+    // y 90 (portada de Historia); sin esto Next emite warning (default: [75]).
+    qualities: [75, 85, 90],
     remotePatterns: [
       {
         protocol: 'https',
