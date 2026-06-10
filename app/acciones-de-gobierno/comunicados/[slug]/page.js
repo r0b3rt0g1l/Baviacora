@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo";
-import { comunicados, getNoticiaPorSlug, getNoticiasRelacionadas } from "@/lib/noticiasService";
+import { comunicados, getNoticiaPorSlug, getNoticiasRelacionadas } from "@/lib/content";
 import { NoticiaHero } from "@/components/noticias/NoticiaHero";
 import { NoticiaContent } from "@/components/noticias/NoticiaContent";
 import { ShareButtons } from "@/components/noticias/ShareButtons";

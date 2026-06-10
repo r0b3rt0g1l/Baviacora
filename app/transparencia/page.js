@@ -1,3 +1,4 @@
+import { Breadcrumbs } from "@/components/seo/JsonLd";
 import {
   FileText,
   Network,
@@ -68,6 +69,7 @@ const cards = [
 export default function TransparenciaHubPage() {
   return (
     <main className="flex flex-1 flex-col">
+      <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Transparencia", path: "/transparencia" }]} />
       <section
         aria-label="Hub de Transparencia"
         className="relative isolate overflow-hidden bg-[var(--color-guinda)] text-white"

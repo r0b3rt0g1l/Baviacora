@@ -57,6 +57,19 @@ export function ContactoForm({ accessKey }) {
   const inputClasses =
     "w-full rounded-lg border border-[var(--color-border)] bg-white px-4 py-3 text-sm text-[var(--color-text)] outline-none transition placeholder:text-[var(--color-text-muted)] focus:border-[var(--color-guinda)] focus:ring-2 focus:ring-[var(--color-guinda)]/20 data-[invalid]:border-red-500";
 
+  // Sin access key configurada (NEXT_PUBLIC_WEB3FORMS_KEY) el formulario no puede
+  // enviar: mostramos un estado claro en lugar de dejar fallar el envío.
+  if (!accessKey) {
+    return (
+      <div className="rounded-2xl border border-dashed border-[var(--color-border)] bg-white p-6 text-center shadow-[var(--shadow-card)] md:p-8">
+        <p className="text-sm text-[var(--color-text-secondary)]">
+          El formulario de contacto estará disponible en breve. Gracias por tu
+          comprensión.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="rounded-2xl border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)] md:p-8">
       <AnimatePresence mode="wait">
@@ -153,8 +166,7 @@ export function ContactoForm({ accessKey }) {
                     aria-hidden="true"
                   />
                   <span>
-                    Hubo un problema. Intenta de nuevo o contacta directamente
-                    al municipio.
+                    Hubo un problema. Intenta de nuevo más tarde.
                     {errorMsg ? (
                       <span className="mt-1 block text-xs text-red-600/80">
                         Detalle técnico: {errorMsg}

@@ -1,8 +1,9 @@
+import { Breadcrumbs } from "@/components/seo/JsonLd";
 import { FileText, Eye } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { sevac } from "@/lib/sevac";
-import { getSevacFromCMS } from "@/lib/cms";
+import { getSevac } from "@/lib/content";
 import { PDFViewer } from "@/components/transparencia/PDFViewer";
 import { SevacFiltros } from "@/components/transparencia/SevacFiltros";
 
@@ -66,7 +67,7 @@ export default async function SevacPage({ searchParams }) {
   const categoria = categoriaRaw || undefined;
 
   // No pasamos `categoria` al backend (filtro tolerante client-side).
-  let documentos = (await getSevacFromCMS({ anio, trimestre })) ?? [];
+  let documentos = await getSevac({ anio, trimestre });
   if (categoria) {
     const target = normalizeCategoria(categoria);
     documentos = documentos.filter(
@@ -77,6 +78,7 @@ export default async function SevacPage({ searchParams }) {
 
   return (
     <main className="flex flex-1 flex-col">
+      <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Transparencia", path: "/transparencia" }, { name: "SEvAC", path: "/transparencia/sevac" }]} />
       <header className="border-b border-[var(--color-border)] bg-[var(--color-bg)]">
         <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 md:py-16">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">

@@ -1,7 +1,6 @@
 import { municipalConfig } from "@/lib/municipalConfig";
 import { buildMetadata } from "@/lib/seo";
-import { getNoticiasRecientes } from "@/lib/noticiasService";
-import { getPortadaHistoriaFromCMS } from "@/lib/cms";
+import { getNoticiasRecientes, getPortadaHistoria } from "@/lib/content";
 import { HeroSection } from "@/components/home/HeroSection";
 import { AccionesRecientes } from "@/components/home/AccionesRecientes";
 import { ConoceMunicipio } from "@/components/home/ConoceMunicipio";
@@ -18,7 +17,7 @@ export default async function HomePage() {
   // elegante a su fallback si el CMS no responde.
   const [noticiasRecientes, portadaUrl] = await Promise.all([
     getNoticiasRecientes(3),
-    getPortadaHistoriaFromCMS(),
+    getPortadaHistoria(),
   ]);
 
   return (

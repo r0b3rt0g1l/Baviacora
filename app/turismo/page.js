@@ -1,3 +1,4 @@
+import { Breadcrumbs } from "@/components/seo/JsonLd";
 import { UtensilsCrossed, Hammer } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
@@ -15,6 +16,7 @@ export const metadata = buildMetadata({
 export default function TurismoPage() {
   return (
     <main className="flex flex-1 flex-col">
+      <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Turismo", path: "/turismo" }]} />
       <section
         aria-label="Bienvenida turismo"
         className="relative isolate overflow-hidden bg-[var(--color-guinda-deep)] text-white"

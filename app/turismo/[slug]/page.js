@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Breadcrumbs } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
 import {
@@ -42,6 +43,13 @@ export default async function AtractivoPage({ params }) {
 
   return (
     <main className="flex flex-1 flex-col">
+      <Breadcrumbs
+        items={[
+          { name: "Inicio", path: "/" },
+          { name: "Turismo", path: "/turismo" },
+          { name: atractivo.nombre, path: `/turismo/${atractivo.slug}` },
+        ]}
+      />
       <AtractivoHero atractivo={atractivo} />
 
       <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 md:py-16">

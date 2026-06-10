@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo";
-import { getNoticiasAll, getNoticiaPorSlug, getNoticiasRelacionadas } from "@/lib/noticiasService";
+import { getNoticias, getNoticiaPorSlug, getNoticiasRelacionadas } from "@/lib/content";
 import { NoticiaHero } from "@/components/noticias/NoticiaHero";
 import { NoticiaContent } from "@/components/noticias/NoticiaContent";
 import { ShareButtons } from "@/components/noticias/ShareButtons";
@@ -10,7 +10,7 @@ export const revalidate = 60;
 
 export async function generateStaticParams() {
   try {
-    const noticias = await getNoticiasAll();
+    const noticias = await getNoticias();
     return noticias.map((n) => ({ slug: n.slug }));
   } catch {
     return [];

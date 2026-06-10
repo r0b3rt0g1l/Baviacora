@@ -1,3 +1,4 @@
+import { Breadcrumbs } from "@/components/seo/JsonLd";
 import { ShieldCheck, Building2 } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
@@ -18,6 +19,7 @@ export default function InformacionPublicaPage() {
 
   return (
     <main className="flex flex-1 flex-col">
+      <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Transparencia", path: "/transparencia" }, { name: "Información Pública", path: "/transparencia/informacion-publica" }]} />
       <header className="bg-[var(--color-bg)] border-b border-[var(--color-border)]">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">

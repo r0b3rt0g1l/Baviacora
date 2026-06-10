@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { X } from "lucide-react";
-import { CATEGORIAS_IMAGENES } from "@/lib/imagenesService";
+import { CATEGORIAS_IMAGENES } from "@/lib/content";
 import { cn } from "@/lib/cn";
 
 export function GaleriaGrid({ imagenes }) {

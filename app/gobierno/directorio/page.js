@@ -1,7 +1,7 @@
+import { Breadcrumbs } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
-import { cabildo as cabildoFallback } from "@/lib/cabildo";
-import { getCabildoFromCMS } from "@/lib/cms";
+import { getCabildo } from "@/lib/content";
 import { DirectorioGrid } from "@/components/gobierno/DirectorioGrid";
 
 // Bajamos el revalidate de 3600 → 60 ahora que el directorio se administra
@@ -15,15 +15,12 @@ export const metadata = buildMetadata({
 });
 
 export default async function DirectorioPage() {
-  const cms = await getCabildoFromCMS();
-  // cms === null  → error de red / endpoint caído → fallback estático.
-  // cms === []    → CMS OK pero sin miembros activos aún → fallback estático
-  //                 para no mostrar el directorio vacío en producción.
-  // cms.length>0  → datos del CMS.
-  const lista = cms && cms.length > 0 ? cms : cabildoFallback;
+  // getCabildo() ya resuelve CMS-o-fallback (ver lib/content).
+  const lista = await getCabildo();
 
   return (
     <main className="flex flex-1 flex-col">
+      <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Gobierno", path: "/gobierno" }, { name: "Directorio", path: "/gobierno/directorio" }]} />
       <header className="border-b border-[var(--color-border)] bg-white">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">

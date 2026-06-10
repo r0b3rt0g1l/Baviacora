@@ -1,7 +1,8 @@
+import { Breadcrumbs } from "@/components/seo/JsonLd";
 import { Scale } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
-import { getDocumentosFromCMS } from "@/lib/cms";
+import { getDocumentos } from "@/lib/content";
 import { LeyCard } from "@/components/transparencia/LeyCard";
 
 export const revalidate = 60;
@@ -17,7 +18,7 @@ function toLeyShape(doc) {
 }
 
 export default async function LeyesPage() {
-  const documentos = (await getDocumentosFromCMS()) ?? [];
+  const documentos = await getDocumentos();
 
   const reglamentosMunicipales = documentos
     .filter((d) => d.ambito === "MUNICIPAL")
@@ -31,6 +32,7 @@ export default async function LeyesPage() {
 
   return (
     <main className="flex flex-1 flex-col">
+      <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Transparencia", path: "/transparencia" }, { name: "Leyes y Reglamentos", path: "/transparencia/leyes" }]} />
       <header className="border-b border-[var(--color-border)] bg-[var(--color-bg)]">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-guinda)]/20 bg-[var(--color-guinda)]/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
