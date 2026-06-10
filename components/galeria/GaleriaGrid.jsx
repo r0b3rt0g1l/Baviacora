@@ -72,7 +72,7 @@ export function GaleriaGrid({ imagenes }) {
               key={img.id}
               type="button"
               onClick={() => setSelected(img)}
-              className="group relative aspect-video w-full overflow-hidden rounded-lg bg-gray-100 text-left focus:outline-none focus:ring-2 focus:ring-[var(--color-guinda)] focus:ring-offset-2"
+              className="group relative aspect-video w-full overflow-hidden rounded-lg bg-gray-100 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-guinda)] focus-visible:ring-offset-2"
             >
               <Image
                 src={img.url}
@@ -108,7 +108,7 @@ export function GaleriaGrid({ imagenes }) {
             type="button"
             aria-label="Cerrar"
             onClick={closeModal}
-            className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20"
+            className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
           >
             <X className="h-6 w-6" aria-hidden="true" />
           </button>

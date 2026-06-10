@@ -55,7 +55,7 @@ export function ContactoForm({ accessKey }) {
   };
 
   const inputClasses =
-    "w-full rounded-lg border border-[var(--color-border)] bg-white px-4 py-3 text-sm text-[var(--color-text)] outline-none transition placeholder:text-[var(--color-text-muted)] focus:border-[var(--color-guinda)] focus:ring-2 focus:ring-[var(--color-guinda)]/20 data-[invalid]:border-red-500";
+    "w-full rounded-lg border border-[var(--color-border)] bg-white px-4 py-3 text-sm text-[var(--color-text)] outline-none transition placeholder:text-[var(--color-text-muted)] focus:border-[var(--color-guinda)] focus:ring-2 focus:ring-[var(--color-guinda)] data-[invalid]:border-red-500";
 
   // Sin access key configurada (NEXT_PUBLIC_WEB3FORMS_KEY) el formulario no puede
   // enviar: mostramos un estado claro en lugar de dejar fallar el envío.

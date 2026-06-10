@@ -46,7 +46,6 @@ export function HeroCarousel({ slides }) {
     ],
   );
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [snaps, setSnaps] = useState([]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -57,9 +56,9 @@ export function HeroCarousel({ slides }) {
 
   useEffect(() => {
     if (!emblaApi) return;
+    // El estado se actualiza por eventos del carrusel (no síncrono en el effect).
+    // selectedIndex parte de 0 (loop arranca en el primer slide); snaps = slides.
     const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
-    setSnaps(emblaApi.scrollSnapList());
-    onSelect();
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
     return () => {
@@ -182,6 +181,7 @@ export function HeroCarousel({ slides }) {
                 <div>
                   <Link
                     href={activeSlide.cta.href}
+                    aria-label={`${activeSlide.cta.label} — ${activeSlide.title}`}
                     className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-cta-bg)] px-6 py-3 text-sm font-semibold text-[var(--color-cta-text)] shadow-lg transition-all duration-200 hover:scale-105 hover:bg-[var(--color-cta-bg-hover)] hover:shadow-xl"
                   >
                     {activeSlide.cta.label}
@@ -221,7 +221,7 @@ export function HeroCarousel({ slides }) {
         aria-label="Selector de diapositivas"
         className="absolute bottom-28 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2"
       >
-        {snaps.map((_, index) => {
+        {slides.map((_, index) => {
           const isActive = index === selectedIndex;
           return (
             <button
@@ -231,7 +231,7 @@ export function HeroCarousel({ slides }) {
               aria-selected={isActive}
               aria-label={`Ir a diapositiva ${index + 1}`}
               onClick={() => scrollTo(index)}
-              className="group flex h-8 items-center justify-center px-1"
+              className="group flex h-11 min-w-[44px] items-center justify-center px-1"
             >
               <motion.span
                 aria-hidden="true"

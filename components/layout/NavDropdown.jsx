@@ -35,7 +35,7 @@ export function NavDropdown({
             rel="noopener noreferrer"
             aria-label={externalAriaLabel ?? label}
             className={cn(
-              "relative inline-flex h-full items-center gap-1.5 px-1 py-2 text-sm font-medium uppercase tracking-wider transition-colors duration-200 outline-none",
+              "relative inline-flex h-full items-center gap-1.5 px-1 py-2 text-sm font-medium uppercase tracking-wider transition-colors duration-200 outline-none focus-visible:rounded-md focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2",
               triggerColor,
             )}
           >
@@ -66,7 +66,7 @@ export function NavDropdown({
                 : undefined
             }
             className={cn(
-              "relative inline-flex h-full items-center gap-1 px-1 py-2 text-sm font-medium uppercase tracking-wider transition-colors duration-200 outline-none",
+              "relative inline-flex h-full items-center gap-1 px-1 py-2 text-sm font-medium uppercase tracking-wider transition-colors duration-200 outline-none focus-visible:rounded-md focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2",
               triggerColor,
               externalHref && "px-1",
             )}
@@ -123,7 +123,7 @@ export function NavDropdown({
                           "flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium outline-none transition-colors",
                           isActive
                             ? "bg-[var(--color-guinda)] text-white"
-                            : "text-[var(--color-text)] hover:bg-[var(--color-guinda)]/5 hover:text-[var(--color-guinda)] focus:bg-[var(--color-guinda)]/5 focus:text-[var(--color-guinda)] data-[highlighted]:bg-[var(--color-guinda)]/5 data-[highlighted]:text-[var(--color-guinda)]",
+                            : "text-[var(--color-text)] hover:bg-[var(--color-guinda)]/10 hover:text-[var(--color-guinda)] focus:bg-[var(--color-guinda)]/10 focus:text-[var(--color-guinda)] data-[highlighted]:bg-[var(--color-guinda)]/10 data-[highlighted]:text-[var(--color-guinda)] data-[highlighted]:ring-2 data-[highlighted]:ring-inset data-[highlighted]:ring-[var(--color-guinda)]",
                         )}
                       >
                         <span

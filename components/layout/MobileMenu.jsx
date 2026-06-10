@@ -94,7 +94,7 @@ export function MobileMenu() {
                     <button
                       type="button"
                       aria-label="Cerrar menú"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-md text-[var(--color-text)] transition-colors hover:bg-[var(--color-guinda)]/5 hover:text-[var(--color-guinda)]"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-md text-[var(--color-text)] transition-colors hover:bg-[var(--color-guinda)]/5 hover:text-[var(--color-guinda)]"
                     >
                       <X className="h-5 w-5" aria-hidden="true" />
                     </button>

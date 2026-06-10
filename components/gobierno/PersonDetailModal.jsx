@@ -87,7 +87,7 @@ export function PersonDetailModal({ person, open, onOpenChange }) {
                   <button
                     type="button"
                     aria-label="Cerrar"
-                    className="absolute right-4 top-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-[var(--color-text)] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
+                    className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-[var(--color-text)] shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
                   >
                     <X className="h-5 w-5" aria-hidden="true" />
                   </button>

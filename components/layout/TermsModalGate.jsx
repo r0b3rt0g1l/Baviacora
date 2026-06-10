@@ -10,12 +10,17 @@ export function TermsModalGate() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    let accepted = false;
     try {
-      const accepted = window.localStorage.getItem(STORAGE_KEY);
-      if (!accepted) setOpen(true);
+      accepted = Boolean(window.localStorage.getItem(STORAGE_KEY));
     } catch {
-      setOpen(true);
+      accepted = false;
     }
+    // Lectura única de localStorage en el montaje: patrón seguro para hidratación
+    // (SSR renderiza cerrado; en cliente se abre si no se ha aceptado). El setState
+    // dentro del effect es intencional y correcto aquí.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!accepted) setOpen(true);
   }, []);
 
   const handleAccept = () => {

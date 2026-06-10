@@ -60,7 +60,7 @@ export function InformacionPublicaForm({ accessKey }) {
   };
 
   const inputClasses =
-    "w-full rounded-lg border border-[var(--color-border)] bg-white px-4 py-3 text-sm text-[var(--color-text)] outline-none transition placeholder:text-[var(--color-text-muted)] focus:border-[var(--color-guinda)] focus:ring-2 focus:ring-[var(--color-guinda)]/20 data-[invalid]:border-red-500";
+    "w-full rounded-lg border border-[var(--color-border)] bg-white px-4 py-3 text-sm text-[var(--color-text)] outline-none transition placeholder:text-[var(--color-text-muted)] focus:border-[var(--color-guinda)] focus:ring-2 focus:ring-[var(--color-guinda)] data-[invalid]:border-red-500";
 
   // Sin access key configurada (NEXT_PUBLIC_WEB3FORMS_KEY) no se puede enviar:
   // mostramos un estado claro en lugar de dejar fallar la solicitud.
@@ -188,12 +188,14 @@ export function InformacionPublicaForm({ accessKey }) {
                   <Radio
                     key={opt}
                     value={opt}
-                    className={({ isSelected }) =>
+                    className={({ isSelected, isFocusVisible }) =>
                       cn(
                         "cursor-pointer rounded-lg border px-4 py-3 text-sm font-medium transition outline-none",
                         isSelected
                           ? "border-[var(--color-guinda)] bg-[var(--color-guinda)]/5 text-[var(--color-guinda)]"
                           : "border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] hover:border-[var(--color-guinda)]/40",
+                        isFocusVisible &&
+                          "ring-2 ring-[var(--color-dorado)] ring-offset-2",
                       )
                     }
                   >

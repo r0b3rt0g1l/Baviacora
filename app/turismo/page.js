@@ -44,6 +44,9 @@ export default function TurismoPage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-16">
+        <h2 className="mb-8 font-display text-2xl font-bold tracking-tight text-[var(--color-text)] md:text-3xl">
+          Atractivos turísticos
+        </h2>
         {atractivos.length === 0 ? (
           <p className="rounded-xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] px-5 py-8 text-center text-sm text-[var(--color-text-muted)]">
             El inventario turístico está en preparación.
