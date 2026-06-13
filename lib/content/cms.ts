@@ -149,7 +149,8 @@ function sortDocs(a: Documento, b: Documento): number {
 export async function cmsHeroSlides(): Promise<HeroSlide[] | null> {
   const data = asArray(await cmsFetch("/hero"));
   if (!data) return null;
-  const activos = data.filter((i) => i && i.activo === true);
+  // Guard M3: descartar slides activos sin imagen utilizable (evita <Image src={undefined}>).
+  const activos = data.filter((i) => i && i.activo === true && i.imagenUrl);
   if (activos.length === 0) return [];
   activos.sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0));
   return activos.map((item) => ({
@@ -187,8 +188,11 @@ export async function cmsNoticiaPorSlug(slug: string): Promise<Noticia | null> {
 export async function cmsImagenes(): Promise<ImagenGaleria[] | null> {
   const data = asArray(await cmsFetch("/imagenes"));
   if (!data || data.length === 0) return null;
-  data.sort((a, b) => timeMs(b.creadoEn) - timeMs(a.creadoEn));
-  return data.map((item) => ({
+  // Guard M3: descartar imágenes sin url utilizable (evita <Image src={undefined}> en la galería).
+  const conUrl = data.filter((i) => i && i.url);
+  if (conUrl.length === 0) return null;
+  conUrl.sort((a, b) => timeMs(b.creadoEn) - timeMs(a.creadoEn));
+  return conUrl.map((item) => ({
     id: item.id,
     url: item.url,
     titulo: item.titulo || "",
