@@ -14,6 +14,7 @@ const TIPO_LABEL = {
   secretario: "Secretaría Municipal",
   tesorero: "Tesorería Municipal",
   contralor: "Órgano Interno de Control",
+  cabildo: "Otras áreas",
 };
 
 function isPendingName(nombre) {

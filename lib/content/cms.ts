@@ -101,6 +101,10 @@ const TIPO_API_TO_PUBLIC: Record<string, TipoMiembro> = {
   SINDICA: "sindica",
   REGIDOR: "regidor",
   DIF: "dif",
+  SECRETARIO: "secretario",
+  TESORERO: "tesorero",
+  CONTRALOR: "contralor",
+  OTRO: "cabildo",
 };
 
 function mapFuncionario(item: RawCmsItem): Funcionario {
