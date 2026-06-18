@@ -1,6 +1,6 @@
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { playfair, inter, mono, lora } from "@/lib/fonts";
+import { inter } from "@/lib/fonts";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { buildMetadata, defaultViewport } from "@/lib/seo";
 import { MainNav } from "@/components/layout/MainNav";
@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="es"
-      className={`${playfair.variable} ${inter.variable} ${mono.variable} ${lora.variable}`}
+      className={inter.variable}
     >
       <body className="min-h-dvh flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] antialiased">
         <JsonLd data={governmentOrganizationLd()} />
