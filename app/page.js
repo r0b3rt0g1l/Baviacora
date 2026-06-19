@@ -1,9 +1,10 @@
 import { municipalConfig } from "@/lib/municipalConfig";
 import { buildMetadata } from "@/lib/seo";
-import { getNoticiasRecientes, getPortadaHistoria } from "@/lib/content";
+import { getCabildo, getNoticiasRecientes, getPortadaHistoria } from "@/lib/content";
 import { HeroSection } from "@/components/home/HeroSection";
+import { Estadisticas } from "@/components/home/Estadisticas";
 import { AccionesRecientes } from "@/components/home/AccionesRecientes";
-import { ConoceMunicipio } from "@/components/home/ConoceMunicipio";
+import { Historia } from "@/components/home/Historia";
 
 export const revalidate = 60;
 
@@ -15,16 +16,20 @@ export const metadata = buildMetadata({
 export default async function HomePage() {
   // Lecturas en paralelo: noticias + portada de Historia. Ambas degradan
   // elegante a su fallback si el CMS no responde.
-  const [noticiasRecientes, portadaUrl] = await Promise.all([
+  const [noticiasRecientes, portadaUrl, cabildo] = await Promise.all([
     getNoticiasRecientes(3),
     getPortadaHistoria(),
+    getCabildo(),
   ]);
+  const presidente =
+    cabildo.find((m) => m.tipo === "presidente") ?? cabildo[0] ?? null;
 
   return (
     <main className="flex flex-1 flex-col">
       <HeroSection />
-      <ConoceMunicipio portadaUrl={portadaUrl} />
-      <AccionesRecientes noticias={noticiasRecientes} />
+      <Estadisticas />
+      <AccionesRecientes noticias={noticiasRecientes} presidente={presidente} />
+      <Historia portadaUrl={portadaUrl} />
     </main>
   );
 }
