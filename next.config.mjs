@@ -25,6 +25,10 @@ const nextConfig = {
   },
   poweredByHeader: false,
   reactStrictMode: true,
+  // Permite acceder al servidor de DESARROLLO desde la IP de la red local
+  // (revisión en celular por LAN). Sin esto, Next 16 bloquea (403) los recursos
+  // /_next/* cross-origin y la página no hidrata en el teléfono. Solo afecta dev.
+  allowedDevOrigins: ['192.168.0.119', '192.168.0.146'],
 };
 
 export default nextConfig;
