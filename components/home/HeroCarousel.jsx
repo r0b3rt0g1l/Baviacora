@@ -79,7 +79,7 @@ export function HeroCarousel({ slides }) {
       onBlurCapture={handleBlur}
       className="bg-[var(--color-surface)]"
     >
-      <div className="mx-auto max-w-7xl px-6 py-10">
+      <div className="mx-auto max-w-7xl px-6 py-6">
         <div className="relative">
           {/* Viewport embla (flujo normal) */}
           <div
@@ -95,7 +95,7 @@ export function HeroCarousel({ slides }) {
                   aria-label={`${index + 1} de ${slides.length}: ${slide.title}`}
                   className="relative shrink-0 grow-0 basis-full"
                 >
-                  <div className="relative min-h-[480px] w-full lg:min-h-[600px]">
+                  <div className="relative min-h-[300px] w-full lg:min-h-[360px]">
                     <Image
                       src={slide.image}
                       alt={slide.alt}
@@ -115,24 +115,20 @@ export function HeroCarousel({ slides }) {
                     <div className="absolute inset-0 flex items-center">
                       <div className="w-full max-w-xl px-6 text-left sm:px-10 lg:px-14">
                         {slide.eyebrow && (
-                          <span className="mb-4 inline-flex w-fit items-center gap-2 text-xs font-bold uppercase tracking-[0.32em] text-[var(--color-dorado)]">
-                            <span
-                              aria-hidden="true"
-                              className="block h-px w-8 bg-[var(--color-dorado)]"
-                            />
+                          <span className="mb-5 inline-flex w-fit items-center text-xs font-bold uppercase tracking-[0.32em] text-[var(--color-dorado)]">
                             {slide.eyebrow}
                           </span>
                         )}
-                        <h1 className="text-4xl font-bold leading-tight tracking-tight text-balance text-white md:text-5xl lg:text-6xl">
+                        <h1 className="text-3xl font-bold leading-tight tracking-tight text-balance text-white md:text-4xl lg:text-5xl">
                           {slide.title}
                         </h1>
                         {slide.subtitle && (
-                          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/90 md:text-lg">
+                          <p className="mt-3 max-w-lg text-sm leading-relaxed text-white/90 md:text-base">
                             {slide.subtitle}
                           </p>
                         )}
                         {slide.cta?.href && (
-                          <div className="mt-6">
+                          <div className="mt-5">
                             <Link
                               href={slide.cta.href}
                               aria-label={`${slide.cta.label} — ${slide.title}`}
