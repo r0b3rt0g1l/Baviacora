@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
-import { getNoticias, comunicados } from "@/lib/content";
+import { getNoticias } from "@/lib/content";
 import { NoticiasTabs } from "@/components/noticias/NoticiasTabs";
 
 export const revalidate = 60;
@@ -35,7 +35,7 @@ export default async function AccionesDeGobiernoPage() {
       </header>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-14">
-        <NoticiasTabs noticias={noticias} comunicados={comunicados} />
+        <NoticiasTabs noticias={noticias} />
       </section>
     </main>
   );
