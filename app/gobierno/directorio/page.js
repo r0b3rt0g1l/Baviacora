@@ -11,11 +11,12 @@ export const revalidate = 60;
 
 export const metadata = buildMetadata({
   title: "Directorio del Gobierno Municipal",
-  description: `Directorio oficial del ${municipalConfig.identidad.nombreCompleto}: Cabildo (Presidencia, Sindicatura y Regidurías), gabinete y comisarías. Administración ${municipalConfig.identidad.administracion}.`,
+  description: `Directorio oficial del ${municipalConfig.identidad.nombreCompleto}: Presidencia, Sindicatura, gabinete (Secretaría, Tesorería y Contraloría) y comisarías. Las Regidurías se consultan en la sección Cabildo. Administración ${municipalConfig.identidad.administracion}.`,
   path: "/gobierno/directorio",
 });
 
-// Orden de jerarquía para el directorio completo (por campo `tipo`).
+// Orden de jerarquía para el directorio (por campo `tipo`). Los regidores NO se
+// listan aquí (se ven en /gobierno/cabildo); además se filtran explícitamente abajo.
 const ORDEN_DIRECTORIO = [
   "presidente",
   "sindica",
@@ -23,12 +24,15 @@ const ORDEN_DIRECTORIO = [
   "tesorero",
   "contralor",
   "cabildo", // OTRO (p. ej. comisarías)
-  "regidor",
 ];
 
 export default async function DirectorioPage() {
   // getCabildo() ya resuelve CMS-o-fallback (ver lib/content).
-  const lista = ordenarPorJerarquia(await getCabildo(), ORDEN_DIRECTORIO);
+  // El Directorio excluye a las Regidurías (siguen en /gobierno/cabildo y en el
+  // CMS; aquí solo se ocultan). Es un filtro de visualización, no borra datos.
+  const lista = ordenarPorJerarquia(await getCabildo(), ORDEN_DIRECTORIO).filter(
+    (p) => p.tipo !== "regidor",
+  );
 
   return (
     <main className="flex flex-1 flex-col">
@@ -42,11 +46,12 @@ export default async function DirectorioPage() {
             Directorio del Gobierno Municipal
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
-            Conoce a todas las personas que integran el Gobierno Municipal de{" "}
-            {municipalConfig.identidad.nombreCorto}: el Cabildo (Presidencia,
-            Sindicatura y Regidurías), el gabinete y las comisarías de la
-            Administración {municipalConfig.identidad.administracion}. Selecciona
-            una persona para ver sus datos.
+            Conoce a las personas que integran el Gobierno Municipal de{" "}
+            {municipalConfig.identidad.nombreCorto}: Presidencia, Sindicatura, el
+            gabinete (Secretaría, Tesorería y Contraloría) y las comisarías de la
+            Administración {municipalConfig.identidad.administracion}. Las
+            Regidurías se consultan en la sección Cabildo. Selecciona una persona
+            para ver sus datos.
           </p>
         </div>
       </header>
