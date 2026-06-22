@@ -11,7 +11,7 @@ export default function sitemap() {
     { path: "/gobierno", priority: 0.9, changeFrequency: "monthly" },
     { path: "/gobierno/directorio", priority: 0.8, changeFrequency: "monthly" },
     {
-      path: "/gobierno/estructura-organica",
+      path: "/gobierno/cabildo",
       priority: 0.8,
       changeFrequency: "monthly",
     },

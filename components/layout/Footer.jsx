@@ -22,7 +22,7 @@ const transparenciaLinks = [
   { label: "Información Pública", href: "/transparencia/informacion-publica" },
   { label: "Leyes y Reglamentos", href: "/transparencia/leyes" },
   { label: "SEvAC", href: "/transparencia/sevac" },
-  { label: "Estructura Orgánica", href: "/gobierno/estructura-organica" },
+  { label: "Cabildo", href: "/gobierno/cabildo" },
 ];
 
 export function Footer() {

@@ -30,10 +30,10 @@ const cards = [
   },
   {
     icon: <Network className={ICON_CLASS} aria-hidden="true" />,
-    label: "Estructura Orgánica",
+    label: "Cabildo",
     description:
-      "Organigrama institucional en cinco niveles: Cabildo, Secretaría, Direcciones Generales, Direcciones de Área y Organismos Descentralizados.",
-    href: "/gobierno/estructura-organica",
+      "Integrantes del Cabildo Municipal: Presidencia, Sindicatura y Regidurías.",
+    href: "/gobierno/cabildo",
   },
   {
     icon: <Scale className={ICON_CLASS} aria-hidden="true" />,

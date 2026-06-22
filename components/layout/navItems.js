@@ -6,7 +6,7 @@ export const navItems = [
     label: "Gobierno",
     children: [
       { label: "Directorio", href: "/gobierno/directorio" },
-      { label: "Estructura Orgánica", href: "/gobierno/estructura-organica" },
+      { label: "Cabildo", href: "/gobierno/cabildo" },
       { label: "Plan Municipal", href: "/gobierno/plan-municipal" },
     ],
   },

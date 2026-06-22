@@ -24,8 +24,8 @@ const accesos = [
     icon: Users,
   },
   {
-    href: "/gobierno/estructura-organica",
-    titulo: "Estructura Orgánica",
+    href: "/gobierno/cabildo",
+    titulo: "Cabildo",
     descripcion:
       "Personas que integran el Cabildo y la Presidencia del DIF Municipal. Las direcciones se publicarán conforme a las designaciones oficiales.",
     icon: Network,
