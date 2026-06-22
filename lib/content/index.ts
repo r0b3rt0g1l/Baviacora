@@ -118,6 +118,13 @@ export async function getSevac(
   return (await cmsSevac(filtros)) ?? [];
 }
 
+// "Información Importante" del home: reusa el modelo Documento filtrando por
+// categoría (sin tocar backend ni DB). Devuelve [] si no hay → la sección se
+// oculta sola.
+export async function getInformacionImportante(): Promise<Documento[]> {
+  return getDocumentos({ categoria: "informacion-importante" });
+}
+
 // --------------------------------------------------------------- imágenes ----
 
 export const CATEGORIAS_IMAGENES: CategoriaImagen[] = [
