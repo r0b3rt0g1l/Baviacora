@@ -29,6 +29,18 @@ const nextConfig = {
   // (revisión en celular por LAN). Sin esto, Next 16 bloquea (403) los recursos
   // /_next/* cross-origin y la página no hidrata en el teléfono. Solo afecta dev.
   allowedDevOrigins: ['192.168.0.119', '192.168.0.146'],
+  // "Estructura Orgánica" se renombró a "Cabildo" y la ruta cambió a
+  // /gobierno/cabildo. Redirect permanente para no romper enlaces externos/
+  // indexados/bookmarks que apunten a la URL vieja.
+  async redirects() {
+    return [
+      {
+        source: '/gobierno/estructura-organica',
+        destination: '/gobierno/cabildo',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

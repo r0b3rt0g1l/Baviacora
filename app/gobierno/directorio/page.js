@@ -2,6 +2,7 @@ import { Breadcrumbs } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { getCabildo } from "@/lib/content";
+import { ordenarPorJerarquia } from "@/lib/cabildo";
 import { DirectorioGrid } from "@/components/gobierno/DirectorioGrid";
 
 // Bajamos el revalidate de 3600 → 60 ahora que el directorio se administra
@@ -9,14 +10,25 @@ import { DirectorioGrid } from "@/components/gobierno/DirectorioGrid";
 export const revalidate = 60;
 
 export const metadata = buildMetadata({
-  title: "Directorio del Cabildo",
-  description: `Directorio oficial del ${municipalConfig.identidad.nombreCompleto}: Cabildo (Presidencia, Sindicatura, Regidurías) y gabinete municipal. Administración ${municipalConfig.identidad.administracion}.`,
+  title: "Directorio del Gobierno Municipal",
+  description: `Directorio oficial del ${municipalConfig.identidad.nombreCompleto}: Cabildo (Presidencia, Sindicatura y Regidurías), gabinete y comisarías. Administración ${municipalConfig.identidad.administracion}.`,
   path: "/gobierno/directorio",
 });
 
+// Orden de jerarquía para el directorio completo (por campo `tipo`).
+const ORDEN_DIRECTORIO = [
+  "presidente",
+  "sindica",
+  "secretario",
+  "tesorero",
+  "contralor",
+  "cabildo", // OTRO (p. ej. comisarías)
+  "regidor",
+];
+
 export default async function DirectorioPage() {
   // getCabildo() ya resuelve CMS-o-fallback (ver lib/content).
-  const lista = await getCabildo();
+  const lista = ordenarPorJerarquia(await getCabildo(), ORDEN_DIRECTORIO);
 
   return (
     <main className="flex flex-1 flex-col">
@@ -27,14 +39,14 @@ export default async function DirectorioPage() {
             Directorio
           </p>
           <h1 className="mt-2 font-display text-4xl font-bold tracking-tight md:text-5xl">
-            Cabildo Municipal
+            Directorio del Gobierno Municipal
           </h1>
           <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
-            Conoce al Cabildo (Presidencia, Sindicatura y Regidurías) y al
-            gabinete municipal que integran la Administración{" "}
-            {municipalConfig.identidad.administracion} del{" "}
-            {municipalConfig.identidad.nombreCompleto}. Selecciona una persona
-            para ver sus datos.
+            Conoce a todas las personas que integran el Gobierno Municipal de{" "}
+            {municipalConfig.identidad.nombreCorto}: el Cabildo (Presidencia,
+            Sindicatura y Regidurías), el gabinete y las comisarías de la
+            Administración {municipalConfig.identidad.administracion}. Selecciona
+            una persona para ver sus datos.
           </p>
         </div>
       </header>
