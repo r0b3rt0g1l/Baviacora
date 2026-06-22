@@ -24,21 +24,18 @@ function pdfThumb(url) {
   );
 }
 
+const TWEEN_FACTOR_BASE = 0.52; // suave; mayor = más diferencia centro/lados
+
 export function InformacionImportante({ documentos = [] }) {
   const reduce = useReducedMotion();
   const sectionRef = useRef(null);
 
-  // Mismo patrón/timing que el carrusel del hero: loop + duration 36 +
-  // Autoplay 6s (stopOnInteraction:false → tras arrastrar se reanuda solo;
-  // stopOnMouseEnter:true → pausa al pasar el cursor). Reduce-aware.
+  // Centrado (para el foco) + auto-avance lento estilo hero.
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    // duration alto = deslizamiento lento y suave (el hero usa 36; aquí 70 para
-    // un movimiento muy pausado y elegante).
-    { loop: documentos.length > 1, align: "start", duration: 70 },
+    { loop: documentos.length > 1, align: "center", duration: 70 },
     reduce || documentos.length <= 1
       ? []
       : [
-          // Intervalo amplio (12 s) → rota muy despacio, sin prisa.
           Autoplay({
             delay: 12000,
             stopOnInteraction: false,
@@ -49,10 +46,62 @@ export function InformacionImportante({ documentos = [] }) {
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [snaps, setSnaps] = useState([]);
+  const tweenNodes = useRef([]);
+  const tweenFactor = useRef(0);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
   const scrollTo = useCallback((i) => emblaApi?.scrollTo(i), [emblaApi]);
+
+  // --- Efecto de profundidad (escala + opacidad según distancia al centro) ---
+  const setTweenNodes = useCallback((api) => {
+    tweenNodes.current = api
+      .slideNodes()
+      .map((n) => n.querySelector("[data-ii-card]"));
+  }, []);
+
+  const setTweenFactor = useCallback((api) => {
+    tweenFactor.current = TWEEN_FACTOR_BASE * api.scrollSnapList().length;
+  }, []);
+
+  const tweenScale = useCallback((api, eventName) => {
+    const engine = api.internalEngine();
+    const scrollProgress = api.scrollProgress();
+    const slidesInView = api.slidesInView();
+    const isScroll = eventName === "scroll";
+
+    api.scrollSnapList().forEach((scrollSnap, snapIndex) => {
+      let diffToTarget = scrollSnap - scrollProgress;
+      const slidesInSnap = engine.slideRegistry[snapIndex];
+
+      slidesInSnap.forEach((slideIndex) => {
+        if (isScroll && !slidesInView.includes(slideIndex)) return;
+        if (engine.options.loop) {
+          engine.slideLooper.loopPoints.forEach((loopItem) => {
+            const target = loopItem.target();
+            if (slideIndex === loopItem.index && target !== 0) {
+              const sign = Math.sign(target);
+              if (sign === -1) diffToTarget = scrollSnap - (1 + scrollProgress);
+              if (sign === 1) diffToTarget = scrollSnap + (1 - scrollProgress);
+            }
+          });
+        }
+        // Coverflow 3D: centro al frente, laterales girados (rotateY) + atrás.
+        const d = diffToTarget * tweenFactor.current;
+        const ad = Math.abs(d);
+        const scale = Math.min(Math.max(1 - ad * 0.42, 0.6), 1);
+        const opacity = Math.min(Math.max(1 - ad * 0.5, 0.4), 1);
+        const rotateY = Math.max(Math.min(-d * 48, 55), -55);
+        const translateZ = -Math.min(ad * 90, 200);
+        const node = tweenNodes.current[slideIndex];
+        if (node) {
+          node.style.transform = `perspective(1000px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
+          node.style.opacity = `${opacity}`;
+          node.style.zIndex = String(Math.round((1 - ad) * 10));
+        }
+      });
+    });
+  }, []);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -70,7 +119,32 @@ export function InformacionImportante({ documentos = [] }) {
     };
   }, [emblaApi]);
 
-  // a11y: pausar autoplay al enfocar con teclado los controles.
+  useEffect(() => {
+    if (!emblaApi) return;
+    // Con prefers-reduced-motion: sin efecto (tarjetas uniformes).
+    if (reduce) return;
+    setTweenNodes(emblaApi);
+    setTweenFactor(emblaApi);
+    tweenScale(emblaApi);
+    const reinit = (api) => {
+      setTweenNodes(api);
+      setTweenFactor(api);
+      tweenScale(api);
+    };
+    emblaApi.on("reInit", reinit).on("scroll", tweenScale).on("slideFocus", tweenScale);
+    return () => {
+      emblaApi.off("reInit", reinit).off("scroll", tweenScale).off("slideFocus", tweenScale);
+      tweenNodes.current.forEach((n) => {
+        if (n) {
+          n.style.transform = "";
+          n.style.opacity = "";
+          n.style.zIndex = "";
+        }
+      });
+    };
+  }, [emblaApi, reduce, setTweenNodes, setTweenFactor, tweenScale]);
+
+  // a11y: pausar autoplay al enfocar con teclado.
   const getAutoplay = useCallback(
     () => emblaApi?.plugins?.()?.autoplay,
     [emblaApi],
@@ -85,9 +159,7 @@ export function InformacionImportante({ documentos = [] }) {
     [getAutoplay],
   );
 
-  // Tri-state: si no hay documentos, la sección no se renderiza.
   if (!documentos || documentos.length === 0) return null;
-
   const showControls = documentos.length > 1;
 
   return (
@@ -114,22 +186,22 @@ export function InformacionImportante({ documentos = [] }) {
         </header>
 
         <div className="relative">
-          {/* Viewport embla: auto-avance + arrastre manual */}
-          <div ref={emblaRef} className="overflow-hidden">
-            <ul className="flex gap-2.5 sm:gap-3">
+          <div ref={emblaRef} className="overflow-hidden py-6">
+            <ul className="flex gap-1 sm:gap-1.5">
               {documentos.map((doc) => {
                 const thumb = pdfThumb(doc.url);
                 return (
                   <li
                     key={doc.id}
-                    className="min-w-0 flex-[0_0_58%] sm:flex-[0_0_31%] lg:flex-[0_0_22%]"
+                    className="min-w-0 flex-[0_0_55%] sm:flex-[0_0_31%] lg:flex-[0_0_19%]"
                   >
                     <a
+                      data-ii-card
                       href={doc.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Abrir ${doc.titulo} (PDF, nueva pestaña)`}
-                      className="group flex h-full flex-col overflow-hidden rounded-xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-dorado)]/40 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
+                      className="group flex h-full flex-col overflow-hidden rounded-xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] transition-[box-shadow,border-color] duration-300 will-change-transform hover:border-[var(--color-dorado)]/40 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
                     >
                       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--color-cream)]">
                         {thumb ? (
@@ -137,18 +209,17 @@ export function InformacionImportante({ documentos = [] }) {
                             src={thumb}
                             alt={`Primera página de ${doc.titulo}`}
                             fill
-                            sizes="(min-width: 1024px) 270px, (min-width: 640px) 31vw, 58vw"
-                            className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                            sizes="(min-width: 1024px) 210px, (min-width: 640px) 31vw, 55vw"
+                            className="object-cover object-top"
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-[var(--color-dorado-700)]">
                             <FileText className="h-10 w-10" aria-hidden="true" />
                           </div>
                         )}
-                        {/* velo inferior sutil para profundidad */}
                         <div
                           aria-hidden="true"
-                          className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/10 to-transparent"
+                          className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-black/10 to-transparent"
                         />
                         <span
                           aria-hidden="true"
@@ -158,8 +229,8 @@ export function InformacionImportante({ documentos = [] }) {
                         </span>
                       </div>
 
-                      <div className="flex flex-1 flex-col gap-1 p-2">
-                        <h3 className="line-clamp-2 text-[11px] font-semibold leading-snug tracking-tight text-[var(--color-text)] transition-colors group-hover:text-[var(--color-guinda)]">
+                      <div className="flex flex-1 flex-col gap-1 p-2.5">
+                        <h3 className="line-clamp-2 text-[12px] font-semibold leading-snug tracking-tight text-[var(--color-text)] transition-colors group-hover:text-[var(--color-guinda)]">
                           {doc.titulo}
                         </h3>
                         <span className="mt-auto inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--color-dorado-700)]">
@@ -176,7 +247,6 @@ export function InformacionImportante({ documentos = [] }) {
 
           {showControls && (
             <>
-              {/* Flechas (escritorio), estilo pulido como el hero */}
               <button
                 type="button"
                 aria-label="Documento anterior"
@@ -194,7 +264,6 @@ export function InformacionImportante({ documentos = [] }) {
                 <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </button>
 
-              {/* Dots (mismo estilo animado del hero) */}
               <div
                 role="tablist"
                 aria-label="Selector de documento"
