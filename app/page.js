@@ -32,8 +32,8 @@ export default async function HomePage() {
       <HeroSection />
       <Estadisticas />
       <AccionesRecientes noticias={noticiasRecientes} presidente={presidente} />
-      <Historia portadaUrl={portadaUrl} />
       <InformacionImportante documentos={infoImportante} />
+      <Historia portadaUrl={portadaUrl} />
     </main>
   );
 }
