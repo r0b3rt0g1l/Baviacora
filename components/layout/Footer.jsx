@@ -25,11 +25,17 @@ const transparenciaLinks = [
   { label: "Cabildo", href: "/gobierno/cabildo" },
 ];
 
-export function Footer() {
+export function Footer({ overlay = false }) {
   const { identidad, contacto, redes, developer } = municipalConfig;
 
   return (
-    <footer className="bg-[var(--color-guinda-deep)] text-[var(--color-cream)]">
+    <footer
+      className={
+        overlay
+          ? "text-[var(--color-cream)]"
+          : "bg-[var(--color-guinda-deep)] text-[var(--color-cream)]"
+      }
+    >
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
         <FooterColumn title="Acceso rápido">
           <ul className="space-y-2 text-sm">

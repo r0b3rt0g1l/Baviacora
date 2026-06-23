@@ -4,7 +4,7 @@ import { inter } from "@/lib/fonts";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { buildMetadata, defaultViewport } from "@/lib/seo";
 import { MainNav } from "@/components/layout/MainNav";
-import { Footer } from "@/components/layout/Footer";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { ToastProvider } from "@/components/ui/Toast";
 import { TermsModalGate } from "@/components/layout/TermsModalGate";
@@ -55,7 +55,7 @@ export default function RootLayout({ children }) {
           <div id="contenido-principal" className="flex flex-1 flex-col">
             {children}
           </div>
-          <Footer />
+          <SiteFooter />
           <ScrollToTop />
         </ToastProvider>
         <Analytics />

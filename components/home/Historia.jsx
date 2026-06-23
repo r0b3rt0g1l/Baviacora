@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { hitos } from "@/lib/hitos";
 import { municipalConfig } from "@/lib/municipalConfig";
+import { Footer } from "@/components/layout/Footer";
 
 // Fallback estático del repo. Se usa cuando el CMS no responde o cuando
 // el municipio no ha subido una portada propia desde el admin.
@@ -191,11 +192,10 @@ export function Historia({ portadaUrl } = {}) {
           </div>
         </div>
 
-        {/* Costura inferior: el borde funde a blanco (queda antes del footer). */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none h-12 w-full bg-gradient-to-b from-transparent to-[var(--color-surface)]"
-        />
+        {/* Footer fusionado: cierra el contenido superpuesto SOBRE la imagen
+            sticky de Historia (sin franja). En el home el footer global se oculta
+            (ver SiteFooter); aquí va en modo overlay, transparente sobre la imagen. */}
+        <Footer overlay />
       </div>
     </section>
   );
