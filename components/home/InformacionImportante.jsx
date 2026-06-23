@@ -3,23 +3,29 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight, FileText, ArrowUpRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  FileText,
+  ArrowUpRight,
+  Image as ImageIcon,
+} from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-// Miniatura de la 1ª página vía transformación de URL de Cloudinary (sin
-// procesar nada en el backend). Solo aplica a PDFs servidos como `image`.
-function pdfThumb(url) {
-  if (
-    typeof url !== "string" ||
-    !url.includes("/image/upload/") ||
-    !/\.pdf(\?|$)/i.test(url)
-  ) {
-    return null;
-  }
-  return url.replace(
-    "/image/upload/",
-    "/image/upload/pg_1,w_640,ar_4:3,c_fill,g_north,f_jpg,q_auto/",
-  );
+// ¿El documento es PDF? (por tipo del CMS o por extensión de la URL).
+function esPdfDoc(doc) {
+  return doc?.tipo === "PDF" || /\.pdf(\?|$)/i.test(doc?.url || "");
+}
+
+// Miniatura vía transformación de URL de Cloudinary (sin procesar nada en el
+// backend). PDF → 1ª página; imagen → recorte 4:3. Misma forma de tarjeta.
+function thumbSrc(doc) {
+  const url = doc?.url;
+  if (typeof url !== "string" || !url.includes("/image/upload/")) return null;
+  const tx = esPdfDoc(doc)
+    ? "pg_1,w_640,ar_4:3,c_fill,g_north,f_jpg,q_auto"
+    : "w_640,ar_4:3,c_fill,g_auto,f_auto,q_auto";
+  return url.replace("/image/upload/", `/image/upload/${tx}/`);
 }
 
 // Coverflow geométrico: la inclinación de cada tarjeta se calcula desde su
@@ -148,7 +154,8 @@ export function InformacionImportante({ documentos = [] }) {
           <div ref={emblaRef} className="overflow-hidden py-3">
             <ul className="flex gap-2 sm:gap-3">
               {slides.map((doc, i) => {
-                const thumb = pdfThumb(doc.url);
+                const esPdf = esPdfDoc(doc);
+                const thumb = thumbSrc(doc);
                 return (
                   <li
                     key={`${doc.id}-${i}`}
@@ -159,21 +166,25 @@ export function InformacionImportante({ documentos = [] }) {
                       href={doc.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`Abrir ${doc.titulo} (PDF, nueva pestaña)`}
+                      aria-label={`Abrir ${doc.titulo} (${esPdf ? "PDF" : "imagen"}, nueva pestaña)`}
                       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] transition-[box-shadow,border-color] duration-300 will-change-transform hover:border-[var(--color-dorado)]/50 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
                     >
                       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--color-cream)]">
                         {thumb ? (
                           <Image
                             src={thumb}
-                            alt={`Primera página de ${doc.titulo}`}
+                            alt={esPdf ? `Primera página de ${doc.titulo}` : doc.titulo}
                             fill
                             sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                             className="object-cover object-top"
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-[var(--color-dorado-700)]">
-                            <FileText className="h-10 w-10" aria-hidden="true" />
+                            {esPdf ? (
+                              <FileText className="h-10 w-10" aria-hidden="true" />
+                            ) : (
+                              <ImageIcon className="h-10 w-10" aria-hidden="true" />
+                            )}
                           </div>
                         )}
                         <div
@@ -193,8 +204,12 @@ export function InformacionImportante({ documentos = [] }) {
                           {doc.titulo}
                         </h3>
                         <span className="mt-auto inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--color-dorado-700)]">
-                          <FileText className="h-2.5 w-2.5" aria-hidden="true" />
-                          PDF
+                          {esPdf ? (
+                            <FileText className="h-2.5 w-2.5" aria-hidden="true" />
+                          ) : (
+                            <ImageIcon className="h-2.5 w-2.5" aria-hidden="true" />
+                          )}
+                          {esPdf ? "PDF" : "Imagen"}
                         </span>
                       </div>
                     </a>
