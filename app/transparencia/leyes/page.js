@@ -4,6 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { getDocumentos } from "@/lib/content";
 import { LeyCard } from "@/components/transparencia/LeyCard";
+import { PageHeader } from "@/components/common/PageHeader";
 
 export const revalidate = 60;
 
@@ -33,24 +34,18 @@ export default async function LeyesPage() {
   return (
     <main className="flex flex-1 flex-col">
       <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Transparencia", path: "/transparencia" }, { name: "Leyes y Reglamentos", path: "/transparencia/leyes" }]} />
-      <header className="border-b border-[var(--color-border)] bg-[var(--color-bg)]">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
+      <PageHeader
+        clave="header-leyes"
+        badge={
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-guinda)]/20 bg-[var(--color-guinda)]/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
             <Scale className="h-3.5 w-3.5" aria-hidden="true" />
             Marco normativo
           </span>
-          <h1 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
-            Leyes y Reglamentos Municipales
-          </h1>
-          <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
-            Marco normativo del {municipalConfig.identidad.nombreOficial}:
-            reglamentos municipales, ordenamientos del Cabildo y leyes aplicables
-            al ejercicio del gobierno municipal y al derecho de acceso a la
-            información pública. Todos los documentos se visualizan directamente
-            en este portal.
-          </p>
-        </div>
-      </header>
+        }
+        fallbackTitulo="Leyes y Reglamentos Municipales"
+        fallbackDescripcion={`Marco normativo del ${municipalConfig.identidad.nombreOficial}: reglamentos municipales, ordenamientos del Cabildo y leyes aplicables al ejercicio del gobierno municipal y al derecho de acceso a la información pública. Todos los documentos se visualizan directamente en este portal.`}
+        bg="bg"
+      />
 
       <section className="mx-auto w-full max-w-5xl px-4 py-12 sm:px-6 md:py-16">
         <header className="mb-6">

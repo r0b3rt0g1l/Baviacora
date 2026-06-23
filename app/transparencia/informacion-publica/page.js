@@ -4,6 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { InformacionPublicaForm } from "@/components/transparencia/InformacionPublicaForm";
 import { ComoFunciona } from "@/components/transparencia/ComoFunciona";
+import { PageHeader } from "@/components/common/PageHeader";
 
 export const dynamic = "force-dynamic";
 
@@ -20,37 +21,27 @@ export default function InformacionPublicaPage() {
   return (
     <main className="flex flex-1 flex-col">
       <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Transparencia", path: "/transparencia" }, { name: "Información Pública", path: "/transparencia/informacion-publica" }]} />
-      <header className="bg-[var(--color-bg)] border-b border-[var(--color-border)]">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
-            Acceso a la información
-          </p>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight md:text-5xl">
-            Información Pública
-          </h1>
-          <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
-            El acceso a la información pública es un derecho humano garantizado
-            por la Constitución y las leyes federales y estatales. Cualquier
-            persona puede solicitar información en posesión del{" "}
-            {municipalConfig.identidad.nombreCompleto} a través de este
-            formulario.
-          </p>
-
-          <div className="mt-8 inline-flex items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-white px-5 py-4 shadow-[var(--shadow-card)]">
-            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-guinda)]/10 text-[var(--color-guinda)]">
-              <ShieldCheck className="h-5 w-5" aria-hidden="true" />
-            </span>
-            <div className="text-sm leading-tight">
-              <p className="font-semibold text-[var(--color-text)]">
-                Tu solicitud es enviada de forma segura
-              </p>
-              <p className="text-[var(--color-text-secondary)]">
-                Procesada por la Unidad de Transparencia Municipal.
-              </p>
-            </div>
+      <PageHeader
+        clave="header-informacion-publica"
+        eyebrow="Acceso a la información"
+        fallbackTitulo="Información Pública"
+        fallbackDescripcion={`El acceso a la información pública es un derecho humano garantizado por la Constitución y las leyes federales y estatales. Cualquier persona puede solicitar información en posesión del ${municipalConfig.identidad.nombreCompleto} a través de este formulario.`}
+        bg="bg"
+      >
+        <div className="mt-8 inline-flex items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-white px-5 py-4 shadow-[var(--shadow-card)]">
+          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-guinda)]/10 text-[var(--color-guinda)]">
+            <ShieldCheck className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <div className="text-sm leading-tight">
+            <p className="font-semibold text-[var(--color-text)]">
+              Tu solicitud es enviada de forma segura
+            </p>
+            <p className="text-[var(--color-text-secondary)]">
+              Procesada por la Unidad de Transparencia Municipal.
+            </p>
           </div>
         </div>
-      </header>
+      </PageHeader>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-16">
         <div className="grid gap-10 lg:grid-cols-[1fr_320px] lg:items-start">

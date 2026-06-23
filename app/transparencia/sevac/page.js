@@ -6,6 +6,7 @@ import { sevac } from "@/lib/sevac";
 import { getSevac } from "@/lib/content";
 import { PDFViewer } from "@/components/transparencia/PDFViewer";
 import { SevacFiltros } from "@/components/transparencia/SevacFiltros";
+import { PageHeader } from "@/components/common/PageHeader";
 
 export const revalidate = 60;
 
@@ -79,22 +80,18 @@ export default async function SevacPage({ searchParams }) {
   return (
     <main className="flex flex-1 flex-col">
       <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Transparencia", path: "/transparencia" }, { name: "SEvAC", path: "/transparencia/sevac" }]} />
-      <header className="border-b border-[var(--color-border)] bg-[var(--color-bg)]">
-        <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 md:py-16">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
-            Armonización contable
-          </p>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight md:text-5xl">
-            SEvAC
-          </h1>
-          <p className="mt-4 text-base text-[var(--color-text-secondary)] md:text-lg">
-            {sevac.titulo}
-          </p>
-          <p className="mt-3 max-w-3xl text-sm text-[var(--color-text-secondary)] md:text-base">
-            {sevac.descripcionCorta}
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        clave="header-sevac"
+        eyebrow="Armonización contable"
+        fallbackTitulo="SEvAC"
+        fallbackDescripcion={sevac.titulo}
+        bg="bg"
+        narrow
+      >
+        <p className="mt-3 max-w-3xl text-sm text-[var(--color-text-secondary)] md:text-base">
+          {sevac.descripcionCorta}
+        </p>
+      </PageHeader>
 
       <section className="mx-auto w-full max-w-5xl px-4 py-12 sm:px-6 md:py-16">
         <div className="space-y-5 text-base leading-relaxed text-[var(--color-text-secondary)]">
