@@ -4,6 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { atractivos, gastronomia, artesanias } from "@/lib/atractivos";
 import { AtractivoCard } from "@/components/turismo/AtractivoCard";
+import { BannerHero } from "@/components/common/BannerHero";
 
 export const revalidate = 86400;
 
@@ -17,31 +18,18 @@ export default function TurismoPage() {
   return (
     <main className="flex flex-1 flex-col">
       <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Turismo", path: "/turismo" }]} />
-      <section
-        aria-label="Bienvenida turismo"
-        className="relative isolate overflow-hidden bg-[var(--color-guinda-deep)] text-white"
-      >
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-[0.07] [background-image:radial-gradient(circle_at_25%_30%,rgba(212,160,23,0.55)_0,transparent_50%),radial-gradient(circle_at_75%_70%,white_0,transparent_50%)]"
-        />
-        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24">
-          <div className="max-w-3xl">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.22em] text-[var(--color-cream)] backdrop-blur-sm">
-              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[var(--color-dorado)]" />
-              Ruta del Río Sonora
-            </span>
-            <h1 className="mt-4 font-display text-4xl font-bold leading-tight tracking-tight text-[var(--color-cream)] md:text-5xl lg:text-6xl">
-              Descubre {municipalConfig.identidad.nombreCorto}
-            </h1>
-            <p className="mt-4 max-w-2xl text-base text-[var(--color-cream)]/90 md:text-lg">
-              Patrimonio colonial de la época de la misión, naturaleza del Río
-              Sonora y monumentos del municipio. Baviácora forma parte de la Ruta
-              del Río Sonora (COFETUR) y, desde 2011, de la Ruta Gastronómica.
-            </p>
-          </div>
-        </div>
-      </section>
+      <BannerHero
+        clave="banner-turismo"
+        heading="h1"
+        fallback={{
+          clave: "banner-turismo",
+          titulo: `Descubre ${municipalConfig.identidad.nombreCorto}`,
+          descripcion:
+            "Patrimonio colonial de la época de la misión, naturaleza del Río Sonora y monumentos del municipio. Baviácora forma parte de la Ruta del Río Sonora (COFETUR) y, desde 2011, de la Ruta Gastronómica.",
+          imagenUrl: null,
+          activo: true,
+        }}
+      />
 
       <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-16">
         <h2 className="mb-8 font-display text-2xl font-bold tracking-tight text-[var(--color-text)] md:text-3xl">

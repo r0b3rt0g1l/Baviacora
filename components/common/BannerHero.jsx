@@ -4,9 +4,15 @@ import { getContenido } from "@/lib/content";
 // Banner hero reutilizable y editable desde el CMS por `clave`: imagen de fondo
 // + título + texto encima. Si no hay contenido utilizable (ni del CMS ni del
 // fallback) → no se renderiza (return null).
-export async function BannerHero({ clave, fallback = null, className = "" }) {
+export async function BannerHero({
+  clave,
+  fallback = null,
+  className = "",
+  heading = "h2",
+}) {
   const c = (clave ? await getContenido(clave) : null) ?? fallback;
   if (!c || (!c.titulo && !c.imagenUrl)) return null;
+  const Heading = heading;
 
   return (
     <section
@@ -28,9 +34,9 @@ export async function BannerHero({ clave, fallback = null, className = "" }) {
       />
       <div className="mx-auto max-w-7xl px-4 py-16 text-white sm:px-6 md:py-24">
         {c.titulo ? (
-          <h2 className="font-display text-3xl font-bold tracking-tight md:text-5xl">
+          <Heading className="font-display text-3xl font-bold tracking-tight md:text-5xl">
             {c.titulo}
-          </h2>
+          </Heading>
         ) : null}
         {c.descripcion ? (
           <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/90 md:text-lg">
