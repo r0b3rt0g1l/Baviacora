@@ -1,10 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
-import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, FileText, ArrowUpRight } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -20,120 +18,99 @@ function pdfThumb(url) {
   }
   return url.replace(
     "/image/upload/",
-    "/image/upload/pg_1,w_400,ar_4:3,c_fill,g_north,f_jpg,q_auto/",
+    "/image/upload/pg_1,w_640,ar_4:3,c_fill,g_north,f_jpg,q_auto/",
   );
 }
 
-const TWEEN_FACTOR_BASE = 0.52; // suave; mayor = más diferencia centro/lados
+// Coverflow geométrico: la inclinación de cada tarjeta se calcula desde su
+// posición REAL (px) respecto al centro del viewport, no desde los scroll snaps
+// de embla. Así el efecto siempre se ve, incluso con 4 documentos.
+const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+
+// Mínimo de slides para un loop infinito sin huecos: embla necesita más ancho
+// que el viewport para clonar. Con pocos documentos repetimos los MISMOS PDFs
+// reales (no son documentos falsos) solo como búfer del loop.
+const MIN_SLIDES = 12;
 
 export function InformacionImportante({ documentos = [] }) {
   const reduce = useReducedMotion();
-  const sectionRef = useRef(null);
 
-  // Centrado (para el foco) + auto-avance lento estilo hero.
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: documentos.length > 1, align: "center", duration: 70 },
-    reduce || documentos.length <= 1
-      ? []
-      : [
-          Autoplay({
-            delay: 12000,
-            stopOnInteraction: false,
-            stopOnMouseEnter: true,
-          }),
-        ],
-  );
+  const baseDocs = Array.isArray(documentos) ? documentos : [];
+  const canLoop = baseDocs.length > 1;
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [snaps, setSnaps] = useState([]);
+  // Loop infinito real: duplicamos los documentos reales hasta ≥ MIN_SLIDES para
+  // que siempre haya tarjetas en los lados. Como solo se ven 3 a la vez, nunca se
+  // ve el mismo documento dos veces en pantalla.
+  const slides = canLoop
+    ? Array.from({
+        length: Math.ceil(MIN_SLIDES / baseDocs.length),
+      }).flatMap(() => baseDocs)
+    : baseDocs;
+
+  // Sin auto-avance: el usuario controla con flechas y swipe (drag activo por
+  // defecto en embla). Loop infinito + centrado para el coverflow.
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: canLoop,
+    align: "center",
+    duration: 30,
+    dragFree: false,
+  });
+
   const tweenNodes = useRef([]);
-  const tweenFactor = useRef(0);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-  const scrollTo = useCallback((i) => emblaApi?.scrollTo(i), [emblaApi]);
 
-  // --- Efecto de profundidad (escala + opacidad según distancia al centro) ---
+  // --- Coverflow 3D geométrico (posición real de cada tarjeta vs. centro) ---
   const setTweenNodes = useCallback((api) => {
     tweenNodes.current = api
       .slideNodes()
       .map((n) => n.querySelector("[data-ii-card]"));
   }, []);
 
-  const setTweenFactor = useCallback((api) => {
-    tweenFactor.current = TWEEN_FACTOR_BASE * api.scrollSnapList().length;
-  }, []);
-
-  const tweenScale = useCallback((api, eventName) => {
-    const engine = api.internalEngine();
-    const scrollProgress = api.scrollProgress();
-    const slidesInView = api.slidesInView();
-    const isScroll = eventName === "scroll";
-
-    api.scrollSnapList().forEach((scrollSnap, snapIndex) => {
-      let diffToTarget = scrollSnap - scrollProgress;
-      const slidesInSnap = engine.slideRegistry[snapIndex];
-
-      slidesInSnap.forEach((slideIndex) => {
-        if (isScroll && !slidesInView.includes(slideIndex)) return;
-        if (engine.options.loop) {
-          engine.slideLooper.loopPoints.forEach((loopItem) => {
-            const target = loopItem.target();
-            if (slideIndex === loopItem.index && target !== 0) {
-              const sign = Math.sign(target);
-              if (sign === -1) diffToTarget = scrollSnap - (1 + scrollProgress);
-              if (sign === 1) diffToTarget = scrollSnap + (1 - scrollProgress);
-            }
-          });
-        }
-        // Coverflow 3D: centro al frente, laterales girados (rotateY) + atrás.
-        const d = diffToTarget * tweenFactor.current;
-        const ad = Math.abs(d);
-        const scale = Math.min(Math.max(1 - ad * 0.42, 0.6), 1);
-        const opacity = Math.min(Math.max(1 - ad * 0.5, 0.4), 1);
-        const rotateY = Math.max(Math.min(-d * 48, 55), -55);
-        const translateZ = -Math.min(ad * 90, 200);
-        const node = tweenNodes.current[slideIndex];
-        if (node) {
-          node.style.transform = `perspective(1000px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
-          node.style.opacity = `${opacity}`;
-          node.style.zIndex = String(Math.round((1 - ad) * 10));
-        }
-      });
+  const applyCoverflow = useCallback((api) => {
+    const vp = api.rootNode().getBoundingClientRect();
+    const vpCenter = vp.left + vp.width / 2;
+    // Medimos el <li> (que NO lleva nuestro transform) para obtener la posición
+    // real sin realimentación; el transform 3D va en el <a> interno. Con loop,
+    // embla traslada los <li>, así que el rect ya refleja dónde está cada uno.
+    api.slideNodes().forEach((li, i) => {
+      const card = tweenNodes.current[i];
+      if (!card) return;
+      const r = li.getBoundingClientRect();
+      if (!r.width) return;
+      const dist = (r.left + r.width / 2 - vpCenter) / r.width; // firmada, en anchos de tarjeta
+      const ad = Math.abs(dist);
+      const scale = clamp(1 - ad * 0.12, 0.88, 1); // central ~1.0 · laterales ~0.88
+      const opacity = clamp(1 - ad * 0.25, 0.75, 1); // central 1 · laterales ~0.75
+      card.style.transform = `scale(${scale})`; // profundidad sutil: SIN rotateY/translateZ/perspective
+      card.style.opacity = `${opacity}`;
+      card.style.zIndex = String(Math.round(clamp(2 - ad, 0, 2))); // central ligeramente encima
     });
   }, []);
 
   useEffect(() => {
     if (!emblaApi) return;
-    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
-    const onReInit = () => {
-      setSnaps(emblaApi.scrollSnapList());
-      onSelect();
-    };
-    onReInit();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onReInit);
-    return () => {
-      emblaApi.off("select", onSelect);
-      emblaApi.off("reInit", onReInit);
-    };
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    // Con prefers-reduced-motion: sin efecto (tarjetas uniformes).
+    // Con prefers-reduced-motion: sin efecto (tarjetas uniformes), pero navegable.
     if (reduce) return;
     setTweenNodes(emblaApi);
-    setTweenFactor(emblaApi);
-    tweenScale(emblaApi);
-    const reinit = (api) => {
+    // Init en rAF: el layout (anchos flex) ya está asentado al medir.
+    const raf = requestAnimationFrame(() => applyCoverflow(emblaApi));
+    const onReInit = (api) => {
       setTweenNodes(api);
-      setTweenFactor(api);
-      tweenScale(api);
+      applyCoverflow(api);
     };
-    emblaApi.on("reInit", reinit).on("scroll", tweenScale).on("slideFocus", tweenScale);
+    const onScroll = (api) => applyCoverflow(api);
+    emblaApi
+      .on("reInit", onReInit)
+      .on("scroll", onScroll)
+      .on("slideFocus", onScroll);
     return () => {
-      emblaApi.off("reInit", reinit).off("scroll", tweenScale).off("slideFocus", tweenScale);
+      cancelAnimationFrame(raf);
+      emblaApi
+        .off("reInit", onReInit)
+        .off("scroll", onScroll)
+        .off("slideFocus", onScroll);
       tweenNodes.current.forEach((n) => {
         if (n) {
           n.style.transform = "";
@@ -142,37 +119,19 @@ export function InformacionImportante({ documentos = [] }) {
         }
       });
     };
-  }, [emblaApi, reduce, setTweenNodes, setTweenFactor, tweenScale]);
+  }, [emblaApi, reduce, setTweenNodes, applyCoverflow]);
 
-  // a11y: pausar autoplay al enfocar con teclado.
-  const getAutoplay = useCallback(
-    () => emblaApi?.plugins?.()?.autoplay,
-    [emblaApi],
-  );
-  const handleFocus = useCallback(() => getAutoplay()?.stop(), [getAutoplay]);
-  const handleBlur = useCallback(
-    (event) => {
-      if (!sectionRef.current?.contains(event.relatedTarget)) {
-        getAutoplay()?.play();
-      }
-    },
-    [getAutoplay],
-  );
-
-  if (!documentos || documentos.length === 0) return null;
-  const showControls = documentos.length > 1;
+  if (baseDocs.length === 0) return null;
+  const showControls = canLoop;
 
   return (
     <section
-      ref={sectionRef}
       aria-roledescription="carrusel"
       aria-label="Información importante"
-      onFocusCapture={handleFocus}
-      onBlurCapture={handleBlur}
       className="bg-[var(--color-surface)]"
     >
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:py-10">
-        <header className="mb-5">
+      <div className="mx-auto max-w-7xl px-4 pt-3 pb-6 sm:px-6 md:pt-4 md:pb-8">
+        <header className="mb-2">
           <span
             aria-hidden="true"
             className="mb-2 block h-1 w-9 rounded-full bg-[var(--color-dorado)]"
@@ -186,14 +145,14 @@ export function InformacionImportante({ documentos = [] }) {
         </header>
 
         <div className="relative">
-          <div ref={emblaRef} className="overflow-hidden py-6">
-            <ul className="flex gap-1 sm:gap-1.5">
-              {documentos.map((doc) => {
+          <div ref={emblaRef} className="overflow-hidden py-3">
+            <ul className="flex gap-2 sm:gap-3">
+              {slides.map((doc, i) => {
                 const thumb = pdfThumb(doc.url);
                 return (
                   <li
-                    key={doc.id}
-                    className="min-w-0 flex-[0_0_55%] sm:flex-[0_0_31%] lg:flex-[0_0_19%]"
+                    key={`${doc.id}-${i}`}
+                    className="min-w-0 flex-[0_0_50%] sm:flex-[0_0_33%] lg:flex-[0_0_25%]"
                   >
                     <a
                       data-ii-card
@@ -201,7 +160,7 @@ export function InformacionImportante({ documentos = [] }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Abrir ${doc.titulo} (PDF, nueva pestaña)`}
-                      className="group flex h-full flex-col overflow-hidden rounded-xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] transition-[box-shadow,border-color] duration-300 will-change-transform hover:border-[var(--color-dorado)]/40 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
+                      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] transition-[box-shadow,border-color] duration-300 will-change-transform hover:border-[var(--color-dorado)]/50 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
                     >
                       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--color-cream)]">
                         {thumb ? (
@@ -209,7 +168,7 @@ export function InformacionImportante({ documentos = [] }) {
                             src={thumb}
                             alt={`Primera página de ${doc.titulo}`}
                             fill
-                            sizes="(min-width: 1024px) 210px, (min-width: 640px) 31vw, 55vw"
+                            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                             className="object-cover object-top"
                           />
                         ) : (
@@ -219,7 +178,7 @@ export function InformacionImportante({ documentos = [] }) {
                         )}
                         <div
                           aria-hidden="true"
-                          className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-black/10 to-transparent"
+                          className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/15 to-transparent"
                         />
                         <span
                           aria-hidden="true"
@@ -229,8 +188,8 @@ export function InformacionImportante({ documentos = [] }) {
                         </span>
                       </div>
 
-                      <div className="flex flex-1 flex-col gap-1 p-2.5">
-                        <h3 className="line-clamp-2 text-[12px] font-semibold leading-snug tracking-tight text-[var(--color-text)] transition-colors group-hover:text-[var(--color-guinda)]">
+                      <div className="flex flex-1 flex-col gap-0.5 px-3 py-2.5">
+                        <h3 className="line-clamp-2 text-[13px] font-semibold leading-snug tracking-tight text-[var(--color-text)] transition-colors group-hover:text-[var(--color-guinda)]">
                           {doc.titulo}
                         </h3>
                         <span className="mt-auto inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-[var(--color-dorado-700)]">
@@ -251,7 +210,7 @@ export function InformacionImportante({ documentos = [] }) {
                 type="button"
                 aria-label="Documento anterior"
                 onClick={scrollPrev}
-                className="absolute -left-3 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] shadow-md transition hover:border-[var(--color-dorado)] hover:text-[var(--color-dorado-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2 md:inline-flex"
+                className="absolute -left-2 top-1/2 z-30 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] shadow-md transition hover:border-[var(--color-dorado)] hover:text-[var(--color-dorado-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2 sm:-left-3 sm:h-10 sm:w-10"
               >
                 <ChevronLeft className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -259,46 +218,10 @@ export function InformacionImportante({ documentos = [] }) {
                 type="button"
                 aria-label="Documento siguiente"
                 onClick={scrollNext}
-                className="absolute -right-3 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] shadow-md transition hover:border-[var(--color-dorado)] hover:text-[var(--color-dorado-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2 md:inline-flex"
+                className="absolute -right-2 top-1/2 z-30 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--color-border)] bg-white text-[var(--color-text-secondary)] shadow-md transition hover:border-[var(--color-dorado)] hover:text-[var(--color-dorado-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2 sm:-right-3 sm:h-10 sm:w-10"
               >
                 <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </button>
-
-              <div
-                role="tablist"
-                aria-label="Selector de documento"
-                className="mt-6 flex items-center justify-center gap-2"
-              >
-                {snaps.map((_, index) => {
-                  const isActive = index === selectedIndex;
-                  return (
-                    <button
-                      key={index}
-                      type="button"
-                      role="tab"
-                      aria-selected={isActive}
-                      aria-label={`Ir al grupo ${index + 1}`}
-                      onClick={() => scrollTo(index)}
-                      className="group flex h-8 min-w-[28px] items-center justify-center px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
-                    >
-                      <motion.span
-                        aria-hidden="true"
-                        animate={{
-                          width: isActive ? 26 : 7,
-                          backgroundColor: isActive
-                            ? "#B5732E"
-                            : "rgba(35,41,46,0.22)",
-                        }}
-                        transition={{
-                          duration: reduce ? 0 : 0.3,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                        className="h-1.5 rounded-full"
-                      />
-                    </button>
-                  );
-                })}
-              </div>
             </>
           )}
         </div>
