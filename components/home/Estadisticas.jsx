@@ -5,39 +5,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { municipalConfig } from "@/lib/municipalConfig";
 
-// Fila de 6 estadísticas. Reales (de municipalConfig): Población, Superficie,
-// Comunidades. Las otras 3 quedan "Por designar" hasta confirmarse (regla del
-// proyecto: no inventar datos).
-const poblacion = municipalConfig.datos.poblacion2020;
-const superficie = municipalConfig.datos.superficieKm2;
-const comunidades = municipalConfig.datos.comunidades;
-// Íconos PNG (Flaticon) servidos desde /public, a su color original.
-const ICONS = "/icons/estadisticas";
-const stats = [
-  {
-    icon: `${ICONS}/student.png`,
-    label: "Población",
-    value: poblacion ? poblacion.toLocaleString("es-MX") : "—",
-    detail: "habitantes (INEGI 2020)",
-  },
-  {
-    icon: `${ICONS}/drought.png`,
-    label: "Superficie",
-    value: superficie ? `${superficie} km²` : "—",
-    detail: "extensión territorial",
-  },
-  {
-    icon: `${ICONS}/multiple.png`,
-    label: "Comunidades",
-    value: comunidades ?? "—",
-    detail: "localidades",
-  },
-  { icon: `${ICONS}/to-do-list.png`, label: "Programas", value: "Por designar", pending: true },
-  { icon: `${ICONS}/pencil.png`, label: "Obras realizadas", value: "Por designar", pending: true },
-  { icon: `${ICONS}/deal.png`, label: "Inversión pública", value: "Por designar", pending: true },
-];
+// Los cuadros de datos del inicio se editan en el CMS (sección "Estadísticas")
+// y llegan por props desde app/page.js (getEstadisticas). Sin fallback a datos
+// hardcodeados: si el municipio no tiene estadísticas, la sección se oculta.
 
 const cardsContainer = {
   hidden: { opacity: 0 },
@@ -55,15 +26,23 @@ const cardItem = {
   },
 };
 
-export function Estadisticas() {
+// "Por designar"/vacío → estilo atenuado (dato aún no confirmado).
+function esPendiente(valor) {
+  return !valor || /por\s+designar/i.test(valor);
+}
+
+export function Estadisticas({ estadisticas = [] }) {
   const reduce = useReducedMotion();
+
+  // Sin estadísticas en el CMS → no se muestra la sección (multi-tenant: cada
+  // municipio configura las suyas; ninguno hereda datos de otro).
+  if (!estadisticas || estadisticas.length === 0) return null;
 
   return (
     <section aria-label="Datos del municipio" className="relative z-10">
       <div className="mx-auto max-w-7xl px-6 pb-2">
-        {/* Barra única: contenedor blanco redondeado con 6 celdas divididas por
-            líneas sutiles (gap-px sobre el color de línea). Más angosta (max-w-5xl)
-            y centrada. Sigue flotando sobre el hero con el overlap actual. */}
+        {/* Barra única blanca que flota sobre el hero (overlap con -mt). Las
+            celdas se dividen por líneas sutiles; el número de columnas se adapta. */}
         <motion.dl
           variants={reduce ? undefined : cardsContainer}
           initial={reduce ? undefined : "hidden"}
@@ -71,39 +50,41 @@ export function Estadisticas() {
           viewport={{ once: true, margin: "-80px" }}
           className="relative z-10 mx-auto -mt-8 grid max-w-5xl grid-cols-2 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] sm:grid-cols-3 lg:-mt-12 lg:grid-cols-6"
         >
-          {stats.map(({ icon, label, value, detail, pending }) => (
-            <motion.div
-              key={label}
-              variants={reduce ? undefined : cardItem}
-              className="flex flex-col items-center gap-1 bg-white p-4 text-center"
-            >
-              <Image
-                src={icon}
-                alt=""
-                aria-hidden="true"
-                width={20}
-                height={20}
-                className="h-5 w-5"
-              />
-              <dt className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-muted)]">
-                {label}
-              </dt>
-              <dd
-                className={`text-lg font-bold md:text-xl ${
-                  pending
-                    ? "italic text-[var(--color-text-muted)]"
-                    : "text-[var(--color-text)]"
-                }`}
+          {estadisticas.map((e) => {
+            const pending = esPendiente(e.valor);
+            return (
+              <motion.div
+                key={e.id}
+                variants={reduce ? undefined : cardItem}
+                className="flex flex-col items-center gap-1 bg-white p-4 text-center"
               >
-                {value}
-              </dd>
-              {detail && (
-                <dd className="text-[11px] leading-tight text-[var(--color-text-secondary)]">
-                  {detail}
+                {e.iconoUrl ? (
+                  <Image
+                    src={e.iconoUrl}
+                    alt=""
+                    aria-hidden="true"
+                    width={24}
+                    height={24}
+                    className="h-6 w-6 object-contain"
+                  />
+                ) : (
+                  <span aria-hidden="true" className="h-6 w-6" />
+                )}
+                <dt className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-muted)]">
+                  {e.titulo}
+                </dt>
+                <dd
+                  className={`text-lg font-bold md:text-xl ${
+                    pending
+                      ? "italic text-[var(--color-text-muted)]"
+                      : "text-[var(--color-text)]"
+                  }`}
+                >
+                  {e.valor || "Por designar"}
                 </dd>
-              )}
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </motion.dl>
 
         <div className="mx-auto mt-4 flex max-w-5xl justify-end">

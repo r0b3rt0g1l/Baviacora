@@ -59,6 +59,14 @@ export interface DocumentoFiltros {
   ambito?: string;
 }
 
+export interface Estadistica {
+  id: string;
+  titulo: string;
+  valor: string;
+  iconoUrl: string | null;
+  orden: number;
+}
+
 export interface ImagenGaleria {
   id: string;
   url: string;

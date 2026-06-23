@@ -1,6 +1,6 @@
 import { municipalConfig } from "@/lib/municipalConfig";
 import { buildMetadata } from "@/lib/seo";
-import { getCabildo, getNoticiasRecientes, getPortadaHistoria, getInformacionImportante } from "@/lib/content";
+import { getCabildo, getNoticiasRecientes, getPortadaHistoria, getInformacionImportante, getEstadisticas } from "@/lib/content";
 import { HeroSection } from "@/components/home/HeroSection";
 import { Estadisticas } from "@/components/home/Estadisticas";
 import { AccionesRecientes } from "@/components/home/AccionesRecientes";
@@ -17,12 +17,13 @@ export const metadata = buildMetadata({
 export default async function HomePage() {
   // Lecturas en paralelo: noticias + portada de Historia. Ambas degradan
   // elegante a su fallback si el CMS no responde.
-  const [noticiasRecientes, portadaUrl, cabildo, infoImportante] =
+  const [noticiasRecientes, portadaUrl, cabildo, infoImportante, estadisticas] =
     await Promise.all([
       getNoticiasRecientes(3),
       getPortadaHistoria(),
       getCabildo(),
       getInformacionImportante(),
+      getEstadisticas(),
     ]);
   const presidente =
     cabildo.find((m) => m.tipo === "presidente") ?? cabildo[0] ?? null;
@@ -30,7 +31,7 @@ export default async function HomePage() {
   return (
     <main className="flex flex-1 flex-col">
       <HeroSection />
-      <Estadisticas />
+      <Estadisticas estadisticas={estadisticas} />
       <AccionesRecientes noticias={noticiasRecientes} presidente={presidente} />
       <InformacionImportante documentos={infoImportante} />
       <Historia portadaUrl={portadaUrl} />

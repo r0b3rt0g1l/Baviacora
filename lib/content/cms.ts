@@ -14,6 +14,7 @@
 import type {
   Documento,
   DocumentoFiltros,
+  Estadistica,
   Funcionario,
   HeroSlide,
   ImagenGaleria,
@@ -149,6 +150,21 @@ function sortDocs(a: Documento, b: Documento): number {
 }
 
 // ------------------------------------------------------ fetchers por tipo ----
+
+export async function cmsEstadisticas(): Promise<Estadistica[] | null> {
+  const data = asArray(await cmsFetch("/estadisticas"));
+  if (!data) return null;
+  const activos = data.filter((i) => i && i.activo !== false);
+  if (activos.length === 0) return [];
+  activos.sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0));
+  return activos.map((item) => ({
+    id: item.id,
+    titulo: item.titulo || "",
+    valor: item.valor ?? "",
+    iconoUrl: item.iconoUrl || null,
+    orden: item.orden ?? 0,
+  }));
+}
 
 export async function cmsHeroSlides(): Promise<HeroSlide[] | null> {
   const data = asArray(await cmsFetch("/hero"));

@@ -7,6 +7,7 @@
 import {
   cmsCabildo,
   cmsDocumentos,
+  cmsEstadisticas,
   cmsHeroSlides,
   cmsImagenes,
   cmsNoticiaPorSlug,
@@ -18,6 +19,7 @@ import type {
   CategoriaImagen,
   Documento,
   DocumentoFiltros,
+  Estadistica,
   Funcionario,
   HeroSlide,
   ImagenGaleria,
@@ -32,14 +34,18 @@ import {
   getNoticiaPorSlug as hardcodedNoticiaPorSlug,
 } from "@/lib/noticias";
 
+import { estadisticas as rawEstadisticas } from "@/lib/estadisticas";
+
 const cabildoFallback = rawCabildo as Funcionario[];
 const noticiasFallback = rawNoticias as Noticia[];
+const estadisticasFallback = rawEstadisticas as Estadistica[];
 
 /** Comunicados oficiales (estáticos; el CMS aún no expone endpoint propio). */
 export const comunicados = rawComunicados as Noticia[];
 
 export type {
   Documento,
+  Estadistica,
   Funcionario,
   HeroSlide,
   ImagenGaleria,
@@ -116,6 +122,15 @@ export async function getSevac(
   filtros: DocumentoFiltros = {},
 ): Promise<Documento[]> {
   return (await cmsSevac(filtros)) ?? [];
+}
+
+// Estadísticas del home: el CMS tiene prioridad si el municipio ya cargó las
+// suyas; mientras no (null=API caída o []=sin datos), se muestra el fallback
+// estático VERIFICADO del repo (lib/estadisticas.js). Per-repo: cada municipio
+// define su propio fallback (no hereda datos de otro).
+export async function getEstadisticas(): Promise<Estadistica[]> {
+  const cms = await cmsEstadisticas();
+  return cms && cms.length > 0 ? cms : estadisticasFallback;
 }
 
 // "Información Importante" del home: reusa el modelo Documento filtrando por
