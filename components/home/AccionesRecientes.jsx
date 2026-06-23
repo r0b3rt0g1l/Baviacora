@@ -11,7 +11,7 @@ export function AccionesRecientes({ noticias = [], presidente = null }) {
       aria-label="Acciones recientes del gobierno"
       className="bg-[var(--color-surface)]"
     >
-      <div className="mx-auto max-w-7xl px-4 pt-1 pb-8 sm:px-6 md:pt-2 md:pb-10">
+      <div className="mx-auto max-w-7xl px-4 pt-1 pb-3 sm:px-6 md:pt-2 md:pb-4">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
           <div>
             {/* Acento decorativo cobre (rayita corta) encima del título */}
