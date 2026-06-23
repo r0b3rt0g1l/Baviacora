@@ -1,18 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-// Íconos Phosphor SOLO en esta sección (estadísticas del home). El resto del
-// sitio sigue con lucide.
-import {
-  UsersThree,
-  MapTrifold,
-  MapPin,
-  ClipboardText,
-  HardHat,
-  Money,
-} from "@phosphor-icons/react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { municipalConfig } from "@/lib/municipalConfig";
 
@@ -22,28 +13,30 @@ import { municipalConfig } from "@/lib/municipalConfig";
 const poblacion = municipalConfig.datos.poblacion2020;
 const superficie = municipalConfig.datos.superficieKm2;
 const comunidades = municipalConfig.datos.comunidades;
+// Íconos PNG (Flaticon) servidos desde /public, a su color original.
+const ICONS = "/icons/estadisticas";
 const stats = [
   {
-    icon: UsersThree,
+    icon: `${ICONS}/student.png`,
     label: "Población",
     value: poblacion ? poblacion.toLocaleString("es-MX") : "—",
     detail: "habitantes (INEGI 2020)",
   },
   {
-    icon: MapTrifold,
+    icon: `${ICONS}/drought.png`,
     label: "Superficie",
     value: superficie ? `${superficie} km²` : "—",
     detail: "extensión territorial",
   },
   {
-    icon: MapPin,
+    icon: `${ICONS}/multiple.png`,
     label: "Comunidades",
     value: comunidades ?? "—",
     detail: "localidades",
   },
-  { icon: ClipboardText, label: "Programas", value: "Por designar", pending: true },
-  { icon: HardHat, label: "Obras realizadas", value: "Por designar", pending: true },
-  { icon: Money, label: "Inversión pública", value: "Por designar", pending: true },
+  { icon: `${ICONS}/to-do-list.png`, label: "Programas", value: "Por designar", pending: true },
+  { icon: `${ICONS}/pencil.png`, label: "Obras realizadas", value: "Por designar", pending: true },
+  { icon: `${ICONS}/deal.png`, label: "Inversión pública", value: "Por designar", pending: true },
 ];
 
 const cardsContainer = {
@@ -78,16 +71,19 @@ export function Estadisticas() {
           viewport={{ once: true, margin: "-80px" }}
           className="relative z-10 mx-auto -mt-8 grid max-w-5xl grid-cols-2 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] sm:grid-cols-3 lg:-mt-12 lg:grid-cols-6"
         >
-          {stats.map(({ icon: Icon, label, value, detail, pending }) => (
+          {stats.map(({ icon, label, value, detail, pending }) => (
             <motion.div
               key={label}
               variants={reduce ? undefined : cardItem}
               className="flex flex-col items-center gap-1 bg-white p-4 text-center"
             >
-              <Icon
+              <Image
+                src={icon}
+                alt=""
                 aria-hidden="true"
-                weight="duotone"
-                className="h-5 w-5 text-[var(--color-dorado)]"
+                width={20}
+                height={20}
+                className="h-5 w-5"
               />
               <dt className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-muted)]">
                 {label}
