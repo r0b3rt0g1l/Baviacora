@@ -6,6 +6,7 @@
 // ============================================================================
 import {
   cmsCabildo,
+  cmsContenido,
   cmsDocumentos,
   cmsEstadisticas,
   cmsHeroSlides,
@@ -17,6 +18,7 @@ import {
 } from "./cms";
 import type {
   CategoriaImagen,
+  Contenido,
   Documento,
   DocumentoFiltros,
   Estadistica,
@@ -44,6 +46,7 @@ const estadisticasFallback = rawEstadisticas as Estadistica[];
 export const comunicados = rawComunicados as Noticia[];
 
 export type {
+  Contenido,
   Documento,
   Estadistica,
   Funcionario,
@@ -131,6 +134,13 @@ export async function getSevac(
 export async function getEstadisticas(): Promise<Estadistica[]> {
   const cms = await cmsEstadisticas();
   return cms && cms.length > 0 ? cms : estadisticasFallback;
+}
+
+// Bloque de contenido editable por clave (encabezados de página / banners).
+// Devuelve null si el municipio no tiene esa clave (o está inactiva) → el
+// componente usa su fallback (PageHeader) o se oculta (BannerHero).
+export async function getContenido(clave: string): Promise<Contenido | null> {
+  return cmsContenido(clave);
 }
 
 // "Información Importante" del home: reusa el modelo Documento filtrando por

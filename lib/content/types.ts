@@ -67,6 +67,14 @@ export interface Estadistica {
   orden: number;
 }
 
+export interface Contenido {
+  clave: string;
+  titulo: string | null;
+  descripcion: string | null;
+  imagenUrl: string | null;
+  activo: boolean;
+}
+
 export interface ImagenGaleria {
   id: string;
   url: string;

@@ -12,6 +12,7 @@
 //           decide (mostrar vacío o caer al fallback).
 // ============================================================================
 import type {
+  Contenido,
   Documento,
   DocumentoFiltros,
   Estadistica,
@@ -164,6 +165,19 @@ export async function cmsEstadisticas(): Promise<Estadistica[] | null> {
     iconoUrl: item.iconoUrl || null,
     orden: item.orden ?? 0,
   }));
+}
+
+export async function cmsContenido(clave: string): Promise<Contenido | null> {
+  const item = (await cmsFetch(`/contenidos/${clave}`)) as RawCmsItem | null;
+  if (!item || typeof item !== "object" || Array.isArray(item)) return null;
+  if (item.activo === false) return null; // inactivo → como si no existiera (usa fallback)
+  return {
+    clave: item.clave ?? clave,
+    titulo: item.titulo || null,
+    descripcion: item.descripcion || null,
+    imagenUrl: item.imagenUrl || null,
+    activo: item.activo !== false,
+  };
 }
 
 export async function cmsHeroSlides(): Promise<HeroSlide[] | null> {
