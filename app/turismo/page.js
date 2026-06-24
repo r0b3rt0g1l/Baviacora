@@ -6,7 +6,7 @@ import { atractivos, gastronomia, artesanias } from "@/lib/atractivos";
 import { AtractivoCard } from "@/components/turismo/AtractivoCard";
 import { BannerHero } from "@/components/common/BannerHero";
 
-export const revalidate = 86400;
+export const revalidate = 60;
 
 export const metadata = buildMetadata({
   title: "Turismo",
