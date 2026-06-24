@@ -15,7 +15,6 @@ export const navItems = [
     externalHref: municipalConfig.enlacesExternos.transparenciaSonora,
     externalAriaLabel: `Portal de Transparencia — ${municipalConfig.identidad.nombreOficial} (abre en nueva pestaña)`,
     children: [
-      { label: "Información Pública", href: "/transparencia/informacion-publica" },
       { label: "Leyes y Reglamentos", href: "/transparencia/leyes" },
     ],
   },

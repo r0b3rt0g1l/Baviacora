@@ -1,6 +1,5 @@
 import { Breadcrumbs } from "@/components/seo/JsonLd";
 import {
-  FileText,
   Network,
   Scale,
   BarChart3,
@@ -21,13 +20,6 @@ export const metadata = buildMetadata({
 const ICON_CLASS = "h-6 w-6";
 
 const cards = [
-  {
-    icon: <FileText className={ICON_CLASS} aria-hidden="true" />,
-    label: "Información Pública",
-    description:
-      "Solicita información pública del Ayuntamiento a través del formulario de la Unidad de Transparencia Municipal.",
-    href: "/transparencia/informacion-publica",
-  },
   {
     icon: <Network className={ICON_CLASS} aria-hidden="true" />,
     label: "Cabildo",

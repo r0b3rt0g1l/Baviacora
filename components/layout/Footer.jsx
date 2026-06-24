@@ -19,7 +19,6 @@ const accesoRapido = [
 
 const transparenciaLinks = [
   { label: "Hub de Transparencia", href: "/transparencia" },
-  { label: "Información Pública", href: "/transparencia/informacion-publica" },
   { label: "Leyes y Reglamentos", href: "/transparencia/leyes" },
   { label: "SEvAC", href: "/transparencia/sevac" },
   { label: "Cabildo", href: "/gobierno/cabildo" },
