@@ -3,7 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { getCabildo } from "@/lib/content";
 import { derivePresidente, deriveSindica, deriveRegidores } from "@/lib/cabildo";
-import { DirectorioGrid } from "@/components/gobierno/DirectorioGrid";
+import { Organigrama } from "@/components/gobierno/Organigrama";
 import { PageHeader } from "@/components/common/PageHeader";
 
 export const revalidate = 60;
@@ -16,12 +16,10 @@ export const metadata = buildMetadata({
 
 export default async function CabildoPage() {
   const lista = await getCabildo();
-  // Solo electos, en orden: Presidente → Síndica → Regidores.
-  const cabildo = [
-    derivePresidente(lista),
-    deriveSindica(lista),
-    ...deriveRegidores(lista),
-  ].filter(Boolean);
+  // Cabildo electo, jerarquía: Presidencia → Sindicatura → Regidurías.
+  const presidente = derivePresidente(lista);
+  const sindica = deriveSindica(lista);
+  const regidores = deriveRegidores(lista);
 
   return (
     <main className="flex flex-1 flex-col">
@@ -30,12 +28,19 @@ export default async function CabildoPage() {
         clave="header-cabildo"
         eyebrow="Gobierno"
         fallbackTitulo="Cabildo"
-        fallbackDescripcion={`Integrantes del Cabildo del ${municipalConfig.identidad.nombreCompleto}: Presidencia, Sindicatura y Regidurías de la Administración ${municipalConfig.identidad.administracion}. Selecciona una persona para ver sus datos.`}
+        fallbackDescripcion={`Integrantes del Cabildo del ${municipalConfig.identidad.nombreCompleto}: Presidencia, Sindicatura y Regidurías de la Administración ${municipalConfig.identidad.administracion}.`}
         bg="white"
       />
 
-      <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-16">
-        <DirectorioGrid people={cabildo} />
+      <section
+        aria-label="Organigrama del Cabildo"
+        className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-16"
+      >
+        <Organigrama
+          presidente={presidente}
+          sindica={sindica}
+          regidores={regidores}
+        />
       </section>
     </main>
   );
