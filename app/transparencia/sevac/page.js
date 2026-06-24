@@ -44,38 +44,15 @@ function asString(v) {
   return Array.isArray(v) ? v[0] : v;
 }
 
-// Filtro tolerante: matchea aunque la categoría guardada en BD tenga
-// espacios, acentos o mayúsculas distintas (p. ej. label libre
-// "Boletín Oficial" / "Cuenta Pública").
-// Keep in sync con el admin del CMS.
-function normalizeCategoria(s) {
-  if (!s) return "";
-  return String(s)
-    .toUpperCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/\s+/g, "_")
-    .replace(/_+/g, "_");
-}
-
 export default async function SevacPage({ searchParams }) {
   const params = (await searchParams) ?? {};
   const anioRaw = asString(params.anio);
   const trimestreRaw = asString(params.trimestre);
-  const categoriaRaw = asString(params.categoria);
   const anio = anioRaw ? Number(anioRaw) : undefined;
   const trimestre = trimestreRaw || undefined;
-  const categoria = categoriaRaw || undefined;
 
-  // No pasamos `categoria` al backend (filtro tolerante client-side).
-  let documentos = await getSevac({ anio, trimestre });
-  if (categoria) {
-    const target = normalizeCategoria(categoria);
-    documentos = documentos.filter(
-      (d) => normalizeCategoria(d.categoria) === target,
-    );
-  }
-  const hayFiltros = Boolean(anio || trimestre || categoria);
+  const documentos = await getSevac({ anio, trimestre });
+  const hayFiltros = Boolean(anio || trimestre);
 
   return (
     <main className="flex flex-1 flex-col">
@@ -124,7 +101,6 @@ export default async function SevacPage({ searchParams }) {
             <SevacFiltros
               anioActivo={anio}
               trimestreActivo={trimestre}
-              categoriaActiva={categoria}
             />
           </div>
 
