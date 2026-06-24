@@ -25,7 +25,7 @@ export default function ContactoPage() {
       <PageHeader
         clave="header-contacto"
         badge={
-          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-guinda)]/20 bg-[var(--color-guinda)]/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
+          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-dorado)]">
             <MessageSquare className="h-3.5 w-3.5" aria-hidden="true" />
             Estamos para servirte
           </span>

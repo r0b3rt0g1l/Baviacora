@@ -28,15 +28,15 @@ export default function InformacionPublicaPage() {
         fallbackDescripcion={`El acceso a la información pública es un derecho humano garantizado por la Constitución y las leyes federales y estatales. Cualquier persona puede solicitar información en posesión del ${municipalConfig.identidad.nombreCompleto} a través de este formulario.`}
         bg="bg"
       >
-        <div className="mt-8 inline-flex items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-white px-5 py-4 shadow-[var(--shadow-card)]">
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-guinda)]/10 text-[var(--color-guinda)]">
+        <div className="mt-8 inline-flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-5 py-4">
+          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-[var(--color-dorado)]">
             <ShieldCheck className="h-5 w-5" aria-hidden="true" />
           </span>
           <div className="text-sm leading-tight">
-            <p className="font-semibold text-[var(--color-text)]">
+            <p className="font-semibold text-white">
               Tu solicitud es enviada de forma segura
             </p>
-            <p className="text-[var(--color-text-secondary)]">
+            <p className="text-white/80">
               Procesada por la Unidad de Transparencia Municipal.
             </p>
           </div>

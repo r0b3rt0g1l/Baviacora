@@ -1,17 +1,16 @@
 import { getContenido } from "@/lib/content";
 
 // Encabezado de página reutilizable y editable desde el CMS por `clave`.
-// Solo título y descripción vienen del CMS; si la clave no existe (o está
-// inactiva) usa el fallback del repo → la página nunca queda sin encabezado.
-// El eyebrow/badge/ícono/bg/ancho y el contenido extra (children) se pasan por
-// props (no editables).
+// Estilo minimalista oscuro (como el hero del home): fondo guinda-deep, texto
+// blanco, eyebrow dorado, alineado a la izquierda. Solo título+descripción vienen
+// del CMS; si la clave no existe (o está inactiva) usa el fallback del repo.
+// El eyebrow/badge/ancho y el contenido extra (children) se pasan por props.
 export async function PageHeader({
   clave,
   fallbackTitulo,
   fallbackDescripcion = null,
   eyebrow = null,
   badge = null,
-  bg = "white",
   narrow = false,
   children = null,
 }) {
@@ -23,30 +22,26 @@ export async function PageHeader({
       : fallbackDescripcion;
 
   return (
-    <header
-      className={`border-b border-[var(--color-border)] ${
-        bg === "bg" ? "bg-[var(--color-bg)]" : "bg-white"
-      }`}
-    >
+    <header className="bg-[var(--color-guinda-deep)] text-white">
       <div
         className={`mx-auto ${
           narrow ? "max-w-5xl" : "max-w-7xl"
-        } px-4 py-12 sm:px-6 md:py-16`}
+        } px-4 py-12 text-left sm:px-6 md:py-16`}
       >
         {badge
           ? badge
           : eyebrow
             ? (
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
+              <p className="text-xs font-bold uppercase tracking-[0.32em] text-[var(--color-dorado)]">
                 {eyebrow}
               </p>
             )
             : null}
-        <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-[var(--color-text)] md:text-5xl">
+        <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-balance text-white md:text-4xl lg:text-5xl">
           {titulo}
         </h1>
         {descripcion ? (
-          <p className="mt-4 max-w-3xl text-base text-[var(--color-text-secondary)] md:text-lg">
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/90 md:text-lg">
             {descripcion}
           </p>
         ) : null}
