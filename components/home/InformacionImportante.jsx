@@ -133,7 +133,7 @@ export function InformacionImportante({ documentos = [] }) {
   return (
     <section
       aria-roledescription="carrusel"
-      aria-label="Información importante"
+      aria-label="Información relevante"
       className="bg-[var(--color-surface)]"
     >
       <div className="mx-auto max-w-7xl px-4 pt-3 pb-6 sm:px-6 md:pt-4 md:pb-8">
@@ -143,7 +143,7 @@ export function InformacionImportante({ documentos = [] }) {
             className="mb-2 block h-1 w-9 rounded-full bg-[var(--color-dorado)]"
           />
           <h2 className="font-display text-xl font-bold tracking-tight text-[var(--color-text)] md:text-2xl">
-            Información Importante
+            Información Relevante
           </h2>
           <p className="mt-1.5 max-w-2xl text-xs leading-relaxed text-[var(--color-text-secondary)] md:text-sm">
             Documentos oficiales para consulta y descarga.

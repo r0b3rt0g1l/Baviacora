@@ -143,11 +143,11 @@ export async function getContenido(clave: string): Promise<Contenido | null> {
   return cmsContenido(clave);
 }
 
-// "Información Importante" del home: reusa el modelo Documento filtrando por
+// "Información Relevante" del home: reusa el modelo Documento filtrando por
 // categoría (sin tocar backend ni DB). Devuelve [] si no hay → la sección se
 // oculta sola.
 export async function getInformacionImportante(): Promise<Documento[]> {
-  return getDocumentos({ categoria: "informacion-importante" });
+  return getDocumentos({ categoria: "informacion-relevante" });
 }
 
 // --------------------------------------------------------------- imágenes ----
