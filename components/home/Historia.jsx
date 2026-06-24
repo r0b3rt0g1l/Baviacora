@@ -193,8 +193,9 @@ export function Historia({ portadaUrl } = {}) {
         </div>
 
         {/* Footer fusionado: cierra el contenido superpuesto SOBRE la imagen
-            sticky de Historia (sin franja). En el home el footer global se oculta
-            (ver SiteFooter); aquí va en modo overlay, transparente sobre la imagen. */}
+            sticky de Historia (sin franja). El home (app/page.js) NO usa el route
+            group (con-footer), así que este es su ÚNICO footer (modo overlay,
+            transparente sobre la imagen). */}
         <Footer overlay />
       </div>
     </section>
