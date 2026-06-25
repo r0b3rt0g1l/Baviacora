@@ -5,6 +5,8 @@
 // estático en cualquier otro caso. La conexión real al CMS vive en ./cms.ts.
 // ============================================================================
 import {
+  cmsAtractivoPorSlug,
+  cmsAtractivos,
   cmsCabildo,
   cmsContenido,
   cmsDocumentos,
@@ -17,6 +19,7 @@ import {
   cmsSevac,
 } from "./cms";
 import type {
+  Atractivo,
   CategoriaImagen,
   Contenido,
   Documento,
@@ -37,15 +40,18 @@ import {
 } from "@/lib/noticias";
 
 import { estadisticas as rawEstadisticas } from "@/lib/estadisticas";
+import { atractivos as rawAtractivos } from "@/lib/atractivos";
 
 const cabildoFallback = rawCabildo as Funcionario[];
 const noticiasFallback = rawNoticias as Noticia[];
 const estadisticasFallback = rawEstadisticas as Estadistica[];
+const atractivosFallback = rawAtractivos as Atractivo[];
 
 /** Comunicados oficiales (estáticos; el CMS aún no expone endpoint propio). */
 export const comunicados = rawComunicados as Noticia[];
 
 export type {
+  Atractivo,
   Contenido,
   Documento,
   Estadistica,
@@ -148,6 +154,36 @@ export async function getContenido(clave: string): Promise<Contenido | null> {
 // oculta sola.
 export async function getInformacionImportante(): Promise<Documento[]> {
   return getDocumentos({ categoria: "informacion-relevante" });
+}
+
+// Plan Municipal: bloques editables (imagen + título + texto) servidos por el
+// modelo Documento con categoría 'plan-municipal' (sin tocar backend ni DB).
+// Devuelve [] si no hay → la página usa su fallback estático (ejes locales).
+export async function getPlanMunicipal(): Promise<Documento[]> {
+  return getDocumentos({ categoria: "plan-municipal" });
+}
+
+// --------------------------------------------------------------- turismo ----
+
+// Atractivos turísticos: CMS si hay items; si no (null o []), fallback estático
+// (lib/atractivos.js). Conserva el diseño de la sección de Turismo.
+export async function getAtractivos(): Promise<Atractivo[]> {
+  const cms = await cmsAtractivos();
+  return cms && cms.length > 0 ? cms : atractivosFallback;
+}
+
+export async function getAtractivoPorSlug(slug: string): Promise<Atractivo | null> {
+  const cms = await cmsAtractivoPorSlug(slug);
+  if (cms) return cms;
+  return atractivosFallback.find((a) => a.slug === slug) ?? null;
+}
+
+export async function getAtractivosCercanos(
+  slugActual: string,
+  limit = 3,
+): Promise<Atractivo[]> {
+  const todos = await getAtractivos();
+  return todos.filter((a) => a.slug !== slugActual).slice(0, limit);
 }
 
 // --------------------------------------------------------------- imágenes ----

@@ -107,5 +107,31 @@ export interface HeroSlide {
   credit?: string;
 }
 
+export interface AtractivoGaleriaItem {
+  src: string;
+  alt: string;
+}
+
+export interface Coordenadas {
+  lat: number;
+  lon: number;
+}
+
+// Atractivo turístico (modelo Atractivo del CMS). Conserva el shape que esperan
+// AtractivoCard / AtractivoHero / GaleriaLightbox / MapaEmbed del portal.
+export interface Atractivo {
+  slug: string;
+  nombre: string;
+  tipo: string;
+  ubicacion: string;
+  descripcionCorta: string;
+  descripcionLarga: string;
+  portada: string;
+  galeria: AtractivoGaleriaItem[];
+  coordenadas: Coordenadas | null;
+  horario: string | null;
+  destacado: boolean;
+}
+
 // Forma cruda de un item devuelto por la API del CMS: desconocida/no tipada.
 export type RawCmsItem = Record<string, any>;

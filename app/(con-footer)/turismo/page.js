@@ -2,7 +2,8 @@ import { Breadcrumbs } from "@/components/seo/JsonLd";
 import { UtensilsCrossed, Hammer } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
-import { atractivos, gastronomia, artesanias } from "@/lib/atractivos";
+import { gastronomia, artesanias } from "@/lib/atractivos";
+import { getAtractivos } from "@/lib/content";
 import { AtractivoCard } from "@/components/turismo/AtractivoCard";
 import { BannerHero } from "@/components/common/BannerHero";
 
@@ -14,7 +15,8 @@ export const metadata = buildMetadata({
   path: "/turismo",
 });
 
-export default function TurismoPage() {
+export default async function TurismoPage() {
+  const atractivos = await getAtractivos();
   return (
     <main className="flex flex-1 flex-col">
       <Breadcrumbs items={[{ name: "Inicio", path: "/" }, { name: "Turismo", path: "/turismo" }]} />

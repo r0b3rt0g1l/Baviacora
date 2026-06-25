@@ -5,10 +5,10 @@ import { Breadcrumbs } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
 import {
-  atractivos,
+  getAtractivos,
   getAtractivoPorSlug,
   getAtractivosCercanos,
-} from "@/lib/atractivos";
+} from "@/lib/content";
 import { AtractivoHero } from "@/components/turismo/AtractivoHero";
 import { GaleriaLightbox } from "@/components/turismo/GaleriaLightbox";
 import { MapaEmbed } from "@/components/turismo/MapaEmbed";
@@ -17,12 +17,13 @@ import { AtractivoCard } from "@/components/turismo/AtractivoCard";
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
+  const atractivos = await getAtractivos();
   return atractivos.map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const atractivo = getAtractivoPorSlug(slug);
+  const atractivo = await getAtractivoPorSlug(slug);
   if (!atractivo) return buildMetadata({ title: "Atractivo no encontrado", noIndex: true });
 
   return buildMetadata({
@@ -35,11 +36,11 @@ export async function generateMetadata({ params }) {
 
 export default async function AtractivoPage({ params }) {
   const { slug } = await params;
-  const atractivo = getAtractivoPorSlug(slug);
+  const atractivo = await getAtractivoPorSlug(slug);
 
   if (!atractivo) notFound();
 
-  const cercanos = getAtractivosCercanos(slug, 3);
+  const cercanos = await getAtractivosCercanos(slug, 3);
 
   return (
     <main className="flex flex-1 flex-col">

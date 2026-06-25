@@ -12,6 +12,7 @@
 //           decide (mostrar vacío o caer al fallback).
 // ============================================================================
 import type {
+  Atractivo,
   Contenido,
   Documento,
   DocumentoFiltros,
@@ -218,6 +219,49 @@ export async function cmsNoticiaPorSlug(slug: string): Promise<Noticia | null> {
   const data = await cmsFetch(`/noticias/${encodeURIComponent(slug)}`);
   if (!data || typeof data !== "object") return null;
   return mapNoticia(data as RawCmsItem);
+}
+
+// Mapea un Atractivo del backend al shape que esperan los componentes del portal
+// (AtractivoCard/Hero/GaleriaLightbox/MapaEmbed). `portada` nunca es null (next/image).
+const ATRACTIVO_PLACEHOLDER = "/images/placeholder.jpg";
+
+function mapAtractivo(item: RawCmsItem): Atractivo {
+  const galeria = Array.isArray(item.galeria)
+    ? item.galeria
+        .filter((g: RawCmsItem) => g && g.url)
+        .map((g: RawCmsItem, i: number) => ({
+          src: g.url as string,
+          alt: `${item.nombre || "Atractivo"} — foto ${i + 1}`,
+        }))
+    : [];
+  const lat = typeof item.lat === "number" ? item.lat : null;
+  const lon = typeof item.lon === "number" ? item.lon : null;
+  return {
+    slug: item.slug ?? item.id,
+    nombre: item.nombre || "",
+    tipo: item.tipo || "Atractivo",
+    ubicacion: item.ubicacion || "",
+    descripcionCorta: item.descripcionCorta || "",
+    descripcionLarga: item.descripcionLarga || "",
+    portada: item.imagenUrl || ATRACTIVO_PLACEHOLDER,
+    galeria,
+    coordenadas: lat != null && lon != null ? { lat, lon } : null,
+    horario: item.horario || null,
+    destacado: Boolean(item.destacado),
+  };
+}
+
+export async function cmsAtractivos(): Promise<Atractivo[] | null> {
+  const data = asArray(await cmsFetch("/atractivos"));
+  if (!data || data.length === 0) return null;
+  return data.map(mapAtractivo);
+}
+
+export async function cmsAtractivoPorSlug(slug: string): Promise<Atractivo | null> {
+  if (!slug || typeof slug !== "string") return null;
+  const data = await cmsFetch(`/atractivos/${encodeURIComponent(slug)}`);
+  if (!data || typeof data !== "object") return null;
+  return mapAtractivo(data as RawCmsItem);
 }
 
 export async function cmsImagenes(): Promise<ImagenGaleria[] | null> {
