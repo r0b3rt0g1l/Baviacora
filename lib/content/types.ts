@@ -41,6 +41,7 @@ export interface Documento {
   titulo: string;
   descripcion: string;
   url: string;
+  portadaUrl: string | null;
   tamanoBytes: number | null;
   nombreArchivo: string | null;
   categoria: string;

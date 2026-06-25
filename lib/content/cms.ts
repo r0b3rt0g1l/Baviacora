@@ -131,6 +131,7 @@ function mapDocumento(item: RawCmsItem, withAmbito: boolean): Documento {
     titulo: item.titulo,
     descripcion: item.descripcion || "",
     url: item.archivoUrl,
+    portadaUrl: item.portadaUrl ?? null,
     tamanoBytes: item.fileSize ?? null,
     nombreArchivo: item.fileName ?? null,
     categoria: item.categoria || "otros",

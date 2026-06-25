@@ -18,8 +18,19 @@ function esPdfDoc(doc) {
 }
 
 // Miniatura vía transformación de URL de Cloudinary (sin procesar nada en el
-// backend). PDF → 1ª página; imagen → recorte 4:3. Misma forma de tarjeta.
+// backend). Si el documento tiene PORTADA (carátula) personalizada, se usa esa
+// como miniatura para cualquier tipo; si no, imagen → recorte 4:3, PDF → 1ª página.
 function thumbSrc(doc) {
+  // Portada personalizada (si existe) tiene prioridad, sea PDF o imagen.
+  if (doc?.portadaUrl) {
+    return doc.portadaUrl.includes("/image/upload/")
+      ? doc.portadaUrl.replace(
+          "/image/upload/",
+          "/image/upload/w_640,ar_4:3,c_fill,g_auto,f_auto,q_auto/",
+        )
+      : doc.portadaUrl;
+  }
+  // Imagen → su propia imagen 4:3 (como hoy). PDF legado sin portada → 1ª página.
   const url = doc?.url;
   if (typeof url !== "string" || !url.includes("/image/upload/")) return null;
   const tx = esPdfDoc(doc)
