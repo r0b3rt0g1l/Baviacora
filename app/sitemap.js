@@ -23,11 +23,6 @@ export default function sitemap() {
     { path: "/acciones-de-gobierno", priority: 0.9, changeFrequency: "daily" },
     { path: "/transparencia", priority: 0.8, changeFrequency: "monthly" },
     {
-      path: "/transparencia/leyes",
-      priority: 0.6,
-      changeFrequency: "yearly",
-    },
-    {
       path: "/transparencia/sevac",
       priority: 0.6,
       changeFrequency: "monthly",

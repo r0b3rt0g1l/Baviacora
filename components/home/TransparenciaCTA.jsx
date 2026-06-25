@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { Scale, Users, Network, BarChart3, ArrowRight } from "lucide-react";
+import { Users, Network, BarChart3, ArrowRight } from "lucide-react";
 import { municipalConfig } from "@/lib/municipalConfig";
 
 const pillars = [
   { icon: Users, label: "Cabildo" },
   { icon: Network, label: "Estructura Orgánica" },
-  { icon: Scale, label: "Leyes y Reglamentos" },
   { icon: BarChart3, label: "SEvAC" },
 ];
 

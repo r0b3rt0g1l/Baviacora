@@ -1,7 +1,6 @@
 import { Breadcrumbs } from "@/components/seo/JsonLd";
 import {
   Network,
-  Scale,
   BarChart3,
   ExternalLink,
 } from "lucide-react";
@@ -26,13 +25,6 @@ const cards = [
     description:
       "Integrantes del Cabildo Municipal: Presidencia, Sindicatura y Regidurías.",
     href: "/gobierno/cabildo",
-  },
-  {
-    icon: <Scale className={ICON_CLASS} aria-hidden="true" />,
-    label: "Leyes y Reglamentos",
-    description:
-      "Marco normativo aplicable al ejercicio del derecho de acceso a la información pública en sus ámbitos federal y estatal.",
-    href: "/transparencia/leyes",
   },
   {
     icon: <BarChart3 className={ICON_CLASS} aria-hidden="true" />,
