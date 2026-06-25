@@ -149,6 +149,7 @@ export function MobileMenu() {
                           label={item.label}
                           pathname={pathname}
                           onClick={handleClose}
+                          external={item.external}
                         />
                       ),
                     )}
@@ -196,22 +197,46 @@ export function MobileMenu() {
   );
 }
 
-function MobileLink({ href, label, pathname, onClick, indent = false }) {
-  const isActive =
-    href === "/" ? pathname === "/" : pathname?.startsWith(href);
+function MobileLink({ href, label, pathname, onClick, indent = false, external = false }) {
+  const isActive = external
+    ? false
+    : href === "/" ? pathname === "/" : pathname?.startsWith(href);
+
+  const classes = cn(
+    "flex items-center justify-between rounded-md py-3 text-base font-medium transition-colors",
+    indent ? "pl-7 pr-4" : "px-4",
+    isActive
+      ? "bg-[var(--color-guinda)] text-white"
+      : "text-[var(--color-text)] hover:bg-[var(--color-guinda)]/5 hover:text-[var(--color-guinda)]",
+  );
+
+  // Enlace externo (portal estatal de Sonora): pestaña nueva, con ícono.
+  if (external) {
+    return (
+      <li>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={onClick}
+          className={classes}
+        >
+          <span>{label}</span>
+          <ExternalLink
+            aria-hidden="true"
+            className="h-4 w-4 shrink-0 text-[var(--color-text-muted)]"
+          />
+        </a>
+      </li>
+    );
+  }
 
   return (
     <li>
       <Link
         href={href}
         onClick={onClick}
-        className={cn(
-          "flex items-center justify-between rounded-md py-3 text-base font-medium transition-colors",
-          indent ? "pl-7 pr-4" : "px-4",
-          isActive
-            ? "bg-[var(--color-guinda)] text-white"
-            : "text-[var(--color-text)] hover:bg-[var(--color-guinda)]/5 hover:text-[var(--color-guinda)]",
-        )}
+        className={classes}
         aria-current={isActive ? "page" : undefined}
       >
         <span>{label}</span>

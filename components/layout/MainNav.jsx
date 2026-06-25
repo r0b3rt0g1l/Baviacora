@@ -84,6 +84,7 @@ export function MainNav() {
                 key={item.label}
                 href={item.href}
                 label={item.label}
+                external={item.external}
               />
             ),
           )}
