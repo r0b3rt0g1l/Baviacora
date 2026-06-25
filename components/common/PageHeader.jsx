@@ -12,6 +12,7 @@ export async function PageHeader({
   eyebrow = null,
   badge = null,
   narrow = false,
+  compact = false,
   children = null,
 }) {
   const c = clave ? await getContenido(clave) : null;
@@ -26,7 +27,7 @@ export async function PageHeader({
       <div
         className={`mx-auto ${
           narrow ? "max-w-5xl" : "max-w-7xl"
-        } px-4 py-12 text-left sm:px-6 md:py-16`}
+        } px-4 text-left sm:px-6 ${compact ? "py-8 md:py-10" : "py-12 md:py-16"}`}
       >
         {badge
           ? badge
@@ -37,11 +38,19 @@ export async function PageHeader({
               </p>
             )
             : null}
-        <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-balance text-white md:text-4xl lg:text-5xl">
+        <h1
+          className={`mt-3 font-bold leading-tight tracking-tight text-balance text-white ${
+            compact ? "text-2xl md:text-3xl" : "text-3xl md:text-4xl lg:text-5xl"
+          }`}
+        >
           {titulo}
         </h1>
         {descripcion ? (
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/90 md:text-lg">
+          <p
+            className={`max-w-3xl leading-relaxed text-white/90 ${
+              compact ? "mt-2 text-sm md:text-base" : "mt-4 text-base md:text-lg"
+            }`}
+          >
             {descripcion}
           </p>
         ) : null}

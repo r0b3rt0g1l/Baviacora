@@ -71,7 +71,7 @@ export function ContactoForm({ accessKey }) {
   }
 
   return (
-    <div className="rounded-2xl border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)] md:p-8">
+    <div className="rounded-2xl border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)] md:p-6">
       <AnimatePresence mode="wait">
         {status === "success" ? (
           <motion.div
@@ -104,9 +104,9 @@ export function ContactoForm({ accessKey }) {
             key="form"
             onSubmit={onSubmit}
             validationBehavior="native"
-            className="flex flex-col gap-5"
+            className="flex flex-col gap-4"
           >
-            <div className="grid gap-5 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-2">
               <TextField name="nombre" isRequired>
                 <Label className="text-sm font-semibold text-[var(--color-text)]">
                   Nombre completo *
@@ -143,7 +143,7 @@ export function ContactoForm({ accessKey }) {
                 Mensaje *
               </Label>
               <TextArea
-                rows={6}
+                rows={4}
                 className={cn("mt-2 resize-y", inputClasses)}
                 placeholder="Escribe aquí tu mensaje..."
               />
