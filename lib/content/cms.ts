@@ -92,7 +92,7 @@ function mapNoticia(item: RawCmsItem): Noticia {
     extracto,
     contenido,
     categoria: item.categoria || "Sin categoría",
-    fecha: toISODate(item.fechaPublicacion || item.fecha || item.creadoEn || item.createdAt),
+    fecha: toISODate(item.publicarEn || item.fechaPublicacion || item.fecha || item.creadoEn || item.createdAt),
     autor,
     imagen: item.imagenUrl || item.imagen || "/og/og-default.jpg",
   };
@@ -207,8 +207,8 @@ export async function cmsNoticias(): Promise<Noticia[] | null> {
   if (activas.length === 0) return null;
   activas.sort(
     (a, b) =>
-      timeMs(b.fechaPublicacion || b.fecha || b.creadoEn) -
-      timeMs(a.fechaPublicacion || a.fecha || a.creadoEn),
+      timeMs(b.publicarEn || b.fechaPublicacion || b.fecha || b.creadoEn) -
+      timeMs(a.publicarEn || a.fechaPublicacion || a.fecha || a.creadoEn),
   );
   return activas.map(mapNoticia);
 }
