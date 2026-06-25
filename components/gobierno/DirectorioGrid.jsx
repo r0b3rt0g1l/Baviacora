@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { PersonDetailModal } from "@/components/gobierno/PersonDetailModal";
+import { isPendingName } from "@/lib/cabildo";
 
 const TIPO_LABEL = {
   presidente: "Presidencia Municipal",
@@ -14,10 +15,6 @@ const TIPO_LABEL = {
   contralor: "Órgano Interno de Control",
   cabildo: "Otras áreas",
 };
-
-function isPendingName(nombre) {
-  return typeof nombre === "string" && nombre.startsWith("[PENDIENTE");
-}
 
 function getInitials(nombre) {
   const cleaned = String(nombre ?? "")

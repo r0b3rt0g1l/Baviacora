@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { UserRound } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { isPendingName } from "@/lib/cabildo";
 import styles from "./Organigrama.module.css";
 
 // Tamaños de avatar por jerarquía: cabezas (lead) > Regidurías (base).
@@ -42,9 +43,12 @@ function OrgAvatar({ src, nombre, size = "base", ring = "guinda" }) {
 }
 
 // Nodo del organigrama. `size` controla el tamaño; `ring` el color del anillo;
-// `eyebrow` la etiqueta del órgano (Presidencia/Sindicatura). Las Regidurías no
-// llevan eyebrow (el `cargo` ya lo indica). Display-only: sin enlaces ni contacto.
-function OrgNode({ person, eyebrow = null, size = "base", ring = "guinda" }) {
+// `eyebrow` la etiqueta del órgano (Presidencia/Sindicatura). Los nodos inferiores
+// no llevan eyebrow (el `cargo` ya lo indica). Política Northa: cero contacto directo.
+// `onClick` (opcional): si llega, el nodo es un BOTÓN accesible que abre el detalle
+// (directorio). Sin `onClick` → display-only (cabildo). Nombres "[PENDIENTE: …]" se
+// muestran como "Por designar".
+function OrgNode({ person, eyebrow = null, size = "base", ring = "guinda", onClick = null }) {
   const reduce = useReducedMotion();
   if (!person) return null;
   const width = CARD_WIDTH[size] ?? CARD_WIDTH.base;
@@ -52,12 +56,11 @@ function OrgNode({ person, eyebrow = null, size = "base", ring = "guinda" }) {
     ring === "dorado"
       ? "border-[var(--color-dorado)]/40"
       : "border-[var(--color-border)]";
-  return (
-    <motion.article
-      whileHover={reduce ? undefined : { scale: 1.03 }}
-      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      className={`flex h-full ${width} max-w-full flex-col items-center gap-3 rounded-xl border bg-white p-6 text-center shadow-[var(--shadow-card)] ${border}`}
-    >
+  const pending = isPendingName(person.nombre);
+  const baseClass = `flex h-full ${width} max-w-full flex-col items-center gap-3 rounded-xl border bg-white p-6 text-center shadow-[var(--shadow-card)] ${border}`;
+
+  const inner = (
+    <>
       {eyebrow && (
         <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-dorado-700)]">
           {eyebrow}
@@ -65,27 +68,72 @@ function OrgNode({ person, eyebrow = null, size = "base", ring = "guinda" }) {
       )}
       <OrgAvatar src={person.foto} nombre={person.nombre} size={size} ring={ring} />
       <div className="flex flex-col items-center gap-1">
-        <h3 className="line-clamp-2 font-display text-lg font-bold leading-snug text-[var(--color-guinda-deep)]">
-          {person.nombre}
-        </h3>
+        {pending ? (
+          <h3 className="line-clamp-2 font-display text-lg font-medium italic leading-snug text-[var(--color-text-muted)]">
+            Por designar
+          </h3>
+        ) : (
+          <h3 className="line-clamp-2 font-display text-lg font-bold leading-snug text-[var(--color-guinda-deep)]">
+            {person.nombre}
+          </h3>
+        )}
         <p className="text-[13px] text-[var(--color-text-secondary)]">
           {person.cargo}
         </p>
       </div>
-      {/* Política Northa: cero contacto directo (sin mailto:/tel:). */}
+    </>
+  );
+
+  if (onClick) {
+    return (
+      <motion.button
+        type="button"
+        onClick={() => onClick(person)}
+        aria-label={
+          pending
+            ? `${person.cargo} — por designar`
+            : `Ver detalles de ${person.nombre}`
+        }
+        whileHover={reduce ? undefined : { scale: 1.03 }}
+        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        className={`${baseClass} transition-colors hover:border-[var(--color-guinda)]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2`}
+      >
+        {inner}
+      </motion.button>
+    );
+  }
+
+  return (
+    <motion.article
+      whileHover={reduce ? undefined : { scale: 1.03 }}
+      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      className={baseClass}
+    >
+      {inner}
     </motion.article>
   );
 }
 
 // Organigrama jerárquico de 2 niveles: arriba la Presidencia y la Sindicatura
-// LADO A LADO (a la par); debajo la fila de Regidurías, unida por un conector
+// LADO A LADO (a la par); debajo la fila de subordinados, unida por un conector
 // que sale del centro del grupo superior. Los conectores se dibujan solo si hay
-// cabeza y regidurías (robusto multi-tenant). En móvil colapsa a espina vertical.
-export function Organigrama({ presidente = null, sindica = null, regidores = [] }) {
-  const regs = (regidores || []).filter(Boolean);
+// cabeza y subordinados (robusto multi-tenant). En móvil colapsa a espina vertical.
+//
+// El grupo inferior es genérico: `subordinados` (p. ej. el gabinete en el Directorio)
+// gana; si no llega, cae a `regidores` (uso del Cabildo, sin cambios). `onSelect`
+// (opcional): si llega, los nodos son clicables y abren el detalle (Directorio);
+// sin él, display-only (Cabildo).
+export function Organigrama({
+  presidente = null,
+  sindica = null,
+  regidores = [],
+  subordinados = null,
+  onSelect = null,
+}) {
+  const lower = ((subordinados ?? regidores) || []).filter(Boolean);
   const hayCabeza = Boolean(presidente || sindica);
 
-  if (!hayCabeza && regs.length === 0) {
+  if (!hayCabeza && lower.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] px-6 py-12 text-center text-sm text-[var(--color-text-muted)]">
         El organigrama se publicará conforme a las designaciones oficiales.
@@ -103,6 +151,7 @@ export function Organigrama({ presidente = null, sindica = null, regidores = [] 
               eyebrow="Presidencia Municipal"
               size="lead"
               ring="dorado"
+              onClick={onSelect}
             />
           )}
           {sindica && (
@@ -111,20 +160,21 @@ export function Organigrama({ presidente = null, sindica = null, regidores = [] 
               eyebrow="Sindicatura Municipal"
               size="lead"
               ring="guinda"
+              onClick={onSelect}
             />
           )}
         </div>
       )}
 
-      {hayCabeza && regs.length > 0 && (
+      {hayCabeza && lower.length > 0 && (
         <span className={styles.trunk} aria-hidden="true" />
       )}
 
-      {regs.length > 0 && (
+      {lower.length > 0 && (
         <ul className={hayCabeza ? styles.children : styles.childrenFlat}>
-          {regs.map((p) => (
+          {lower.map((p) => (
             <li key={p.id} className={styles.child}>
-              <OrgNode person={p} size="base" ring="guinda" />
+              <OrgNode person={p} size="base" ring="guinda" onClick={onSelect} />
             </li>
           ))}
         </ul>

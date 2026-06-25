@@ -3,7 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { getCabildo } from "@/lib/content";
 import { ordenarPorJerarquia } from "@/lib/cabildo";
-import { DirectorioGrid } from "@/components/gobierno/DirectorioGrid";
+import { DirectorioOrganigrama } from "@/components/gobierno/DirectorioOrganigrama";
 import { PageHeader } from "@/components/common/PageHeader";
 
 // Bajamos el revalidate de 3600 → 60 ahora que el directorio se administra
@@ -47,7 +47,7 @@ export default async function DirectorioPage() {
       />
 
       <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-16">
-        <DirectorioGrid people={lista} />
+        <DirectorioOrganigrama people={lista} />
       </section>
     </main>
   );
