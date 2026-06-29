@@ -130,7 +130,7 @@ export interface Atractivo {
   galeria: AtractivoGaleriaItem[];
   coordenadas: Coordenadas | null;
   horario: string | null;
-  mapsUrl: string | null;
+  mapsUrl?: string | null;
   destacado: boolean;
 }
 
