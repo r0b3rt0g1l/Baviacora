@@ -108,7 +108,7 @@ export function NavDropdown({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                className="z-50 min-w-[260px] rounded-lg border border-[var(--color-border)] bg-white p-2 shadow-[var(--shadow-card-hover)]"
+                className="glass-panel z-50 min-w-[260px] rounded-lg p-2"
               >
                 <div className="px-3 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">
                   {label}

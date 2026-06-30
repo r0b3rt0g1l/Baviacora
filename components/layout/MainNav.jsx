@@ -39,7 +39,7 @@ export function MainNav() {
         }}
         transition={{ duration: 0.2 }}
         className={cn(
-          "z-40 border-b border-[var(--color-dorado)]/20 bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/85",
+          "z-40 border-b border-[var(--glass-border)] bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/85",
         )}
       >
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 md:h-[88px]">
