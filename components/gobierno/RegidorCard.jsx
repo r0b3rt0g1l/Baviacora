@@ -13,7 +13,7 @@ export function RegidorCard({ regidor }) {
     <motion.article
       whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      className="flex h-full flex-col items-center gap-3 rounded-xl border border-[var(--color-border)] bg-white p-6 text-center shadow-[var(--shadow-card)]"
+      className="glass-light--flat flex h-full flex-col items-center gap-3 rounded-xl p-6 text-center"
     >
       <div className="relative h-[140px] w-[140px] overflow-hidden rounded-full ring-2 ring-[var(--color-guinda)] md:h-[160px] md:w-[160px]">
         {regidor.foto ? (

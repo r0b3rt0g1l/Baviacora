@@ -57,7 +57,7 @@ function OrgNode({ person, eyebrow = null, size = "base", ring = "guinda", onCli
       ? "border-[var(--color-dorado)]/40"
       : "border-[var(--color-border)]";
   const pending = isPendingName(person.nombre);
-  const baseClass = `flex h-full ${width} max-w-full flex-col items-center gap-3 rounded-xl border bg-white p-6 text-center shadow-[var(--shadow-card)] ${border}`;
+  const baseClass = `glass-light--flat flex h-full ${width} max-w-full flex-col items-center gap-3 rounded-xl p-6 text-center ${border}`;
 
   const inner = (
     <>

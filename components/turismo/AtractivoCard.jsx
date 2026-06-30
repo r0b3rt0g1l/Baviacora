@@ -8,7 +8,7 @@ export function AtractivoCard({ atractivo, featured = false }) {
     <Link
       href={`/turismo/${atractivo.slug}`}
       className={cn(
-        "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)] focus-visible:-translate-y-1",
+        "glass-light--flat group relative flex h-full flex-col overflow-hidden rounded-2xl transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)] focus-visible:-translate-y-1",
         featured && "lg:col-span-2",
       )}
     >

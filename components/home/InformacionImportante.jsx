@@ -178,7 +178,7 @@ export function InformacionImportante({ documentos = [] }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Abrir ${doc.titulo} (${esPdf ? "PDF" : "imagen"}, nueva pestaña)`}
-                      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] transition-[box-shadow,border-color] duration-300 will-change-transform hover:border-[var(--color-dorado)]/50 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
+                      className="glass-light--flat group flex h-full flex-col overflow-hidden rounded-2xl transition-[box-shadow,border-color] duration-300 will-change-transform hover:border-[var(--color-dorado)]/50 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
                     >
                       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--color-cream)]">
                         {thumb ? (

@@ -10,7 +10,7 @@ export function CardPreview({ item, basePath = "/acciones-de-gobierno/noticias" 
     <Link
       href={`${basePath}/${item.slug}`}
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)]",
+        "glass-light--flat group flex h-full flex-col overflow-hidden rounded-2xl",
         "transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)] focus-visible:-translate-y-1 focus-visible:shadow-[var(--shadow-card-hover)]",
       )}
     >

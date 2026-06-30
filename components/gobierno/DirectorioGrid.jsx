@@ -93,7 +93,7 @@ export function DirectorioGrid({ people = [] }) {
                     ? `${tipoLabel} — por designar`
                     : `Ver detalles de ${person.nombre}`
                 }
-                className="group flex h-full w-full flex-col items-center rounded-2xl border border-[var(--color-border)] bg-white p-6 text-center shadow-[var(--shadow-card)] transition duration-300 hover:-translate-y-1 hover:border-[var(--color-guinda)]/20 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
+                className="glass-light--flat group flex h-full w-full flex-col items-center rounded-2xl p-6 text-center transition duration-300 hover:-translate-y-1 hover:border-[var(--color-guinda)]/20 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
               >
                 <CardAvatar src={person.foto} nombre={person.nombre} />
                 <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
