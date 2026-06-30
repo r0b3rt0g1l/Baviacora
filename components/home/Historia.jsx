@@ -64,7 +64,22 @@ function HitoItem({ hito, reduce, isLast }) {
         aria-hidden="true"
         className="absolute left-0 top-3.5 z-10 h-2.5 w-2.5 rounded-full bg-[var(--color-dorado)] ring-[3px] ring-black/40"
       />
-      <div className="rounded-lg border border-white/5 bg-black/40 px-3 py-2 backdrop-blur-sm">
+      <div
+        className="rounded-lg px-3 py-2"
+        // Glass dark del SISTEMA (sutil): bg/borde/frost por tokens --glass-*-dark
+        // (frost ~4px → 22px). Sombra CONTENIDA (no la --glass-shadow plena del
+        // hero) para que las 6 tarjetas no compitan. Cobre (dots/línea) se conserva.
+        style={{
+          backgroundColor: "var(--glass-bg-dark)",
+          border: "1px solid var(--glass-border-dark)",
+          backdropFilter:
+            "blur(var(--glass-blur-dark)) saturate(var(--glass-saturate-dark))",
+          WebkitBackdropFilter:
+            "blur(var(--glass-blur-dark)) saturate(var(--glass-saturate-dark))",
+          boxShadow:
+            "0 4px 16px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.10)",
+        }}
+      >
         <p className="font-display text-lg font-bold leading-none text-[var(--color-dorado)] lg:text-xl">
           {hito.ano}
         </p>
@@ -154,7 +169,18 @@ export function Historia({ portadaUrl } = {}) {
               whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-15%" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="rounded-xl border border-white/5 bg-black/40 p-4 backdrop-blur-md lg:p-5"
+              className="rounded-xl p-4 lg:p-5"
+              // Mismo glass dark del sistema que las tarjetas del timeline (HitoItem).
+              style={{
+                backgroundColor: "var(--glass-bg-dark)",
+                border: "1px solid var(--glass-border-dark)",
+                backdropFilter:
+                  "blur(var(--glass-blur-dark)) saturate(var(--glass-saturate-dark))",
+                WebkitBackdropFilter:
+                  "blur(var(--glass-blur-dark)) saturate(var(--glass-saturate-dark))",
+                boxShadow:
+                  "0 4px 16px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.10)",
+              }}
             >
               <p className="text-xs font-bold uppercase tracking-[0.32em] text-[var(--color-dorado)]">
                 Historia
