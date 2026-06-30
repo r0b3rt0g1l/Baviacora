@@ -10,7 +10,7 @@ export function ContactoInfo() {
   const { contacto, redes } = municipalConfig;
 
   return (
-    <div className="rounded-2xl border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] md:p-5">
+    <div className="glass-light rounded-2xl p-4 md:p-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         {/* Dirección */}
         <div className="flex items-start gap-3">

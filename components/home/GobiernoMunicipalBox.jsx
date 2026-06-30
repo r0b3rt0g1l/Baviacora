@@ -28,7 +28,7 @@ export function GobiernoMunicipalBox({ presidente = null }) {
       </div>
 
       {/* Tarjeta: foto izquierda + texto derecha (lado a lado; apila en móvil) */}
-      <div className="flex flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] sm:flex-row">
+      <div className="glass-light flex flex-col overflow-hidden rounded-2xl sm:flex-row">
         {tieneFoto && (
           <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-[var(--color-bg)] sm:aspect-auto sm:w-32 sm:self-stretch">
             <Image

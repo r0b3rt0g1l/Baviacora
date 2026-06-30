@@ -73,7 +73,7 @@ export function ShareButtons({ slug, basePath, title }) {
   return (
     <aside
       aria-label="Compartir esta publicación"
-      className="rounded-xl border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)]"
+      className="glass-light rounded-xl p-5"
     >
       <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-text-muted)]">
         Compartir

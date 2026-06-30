@@ -10,7 +10,7 @@ export function MapaEmbed({ lat, lon, label, mapsUrl = null, zoom = 14, aspectCl
   const externalUrl = mapsUrl || `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
 
   return (
-    <figure className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)]">
+    <figure className="glass-light overflow-hidden rounded-2xl">
       <div className={`${aspectClassName} w-full overflow-hidden`}>
         <iframe
           title={`Mapa de ubicación: ${label}`}

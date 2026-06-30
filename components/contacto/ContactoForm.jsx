@@ -71,7 +71,7 @@ export function ContactoForm({ accessKey }) {
   }
 
   return (
-    <div className="rounded-2xl border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)] md:p-6">
+    <div className="glass-light rounded-2xl p-5 md:p-6">
       <AnimatePresence mode="wait">
         {status === "success" ? (
           <motion.div

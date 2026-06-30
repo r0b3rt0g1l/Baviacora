@@ -11,7 +11,7 @@ export function SindicaCard({ sindica }) {
     <motion.article
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      className="mx-auto flex max-w-[400px] flex-col items-center gap-5 rounded-xl border-2 border-[var(--color-dorado)] bg-white p-8 text-center shadow-[var(--shadow-card)]"
+      className="glass-light mx-auto flex max-w-[400px] flex-col items-center gap-5 rounded-xl border-2 border-[var(--color-dorado)] p-8 text-center"
     >
       <div className="relative h-[160px] w-[160px] overflow-hidden rounded-full ring-[3px] ring-[var(--color-guinda)] md:h-[200px] md:w-[200px]">
         {sindica.foto ? (

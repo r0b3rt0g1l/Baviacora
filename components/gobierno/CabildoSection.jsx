@@ -127,7 +127,7 @@ export function CabildoSection({ lista }) {
             <motion.article
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
-              className="mx-auto flex max-w-[440px] flex-col items-center gap-5 rounded-xl border-2 border-[var(--color-dorado)] bg-white p-8 text-center shadow-[var(--shadow-card)]"
+              className="glass-light mx-auto flex max-w-[440px] flex-col items-center gap-5 rounded-xl border-2 border-[var(--color-dorado)] p-8 text-center"
             >
               <div className="relative h-[160px] w-[160px] overflow-hidden rounded-full ring-[3px] ring-[var(--color-guinda)] md:h-[200px] md:w-[200px]">
                 {dif.foto ? (

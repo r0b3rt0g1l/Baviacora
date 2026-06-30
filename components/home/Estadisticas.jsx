@@ -48,7 +48,7 @@ export function Estadisticas({ estadisticas = [] }) {
           initial={reduce ? undefined : "hidden"}
           whileInView={reduce ? undefined : "visible"}
           viewport={{ once: true, margin: "-80px" }}
-          className="relative z-10 mx-auto -mt-8 grid max-w-5xl grid-cols-2 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)] sm:grid-cols-3 lg:-mt-12 lg:grid-cols-6"
+          className="glass-light relative z-10 mx-auto -mt-8 grid max-w-5xl grid-cols-2 overflow-hidden rounded-2xl sm:grid-cols-3 lg:-mt-12 lg:grid-cols-6"
         >
           {estadisticas.map((e) => {
             const pending = esPendiente(e.valor);
@@ -56,7 +56,7 @@ export function Estadisticas({ estadisticas = [] }) {
               <motion.div
                 key={e.id}
                 variants={reduce ? undefined : cardItem}
-                className="flex flex-col items-center gap-1 bg-white p-4 text-center"
+                className="flex flex-col items-center gap-1 p-4 text-center"
               >
                 {e.iconoUrl ? (
                   <Image
