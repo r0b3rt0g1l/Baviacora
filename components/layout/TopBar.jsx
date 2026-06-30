@@ -40,26 +40,26 @@ function weatherInfo(code) {
     case 1:
       return { Icon: CloudSun, color: "text-amber-500", desc: "Mayormente despejado" };
     case 2:
-      return { Icon: Cloudy, color: "text-slate-500", desc: "Parcialmente nublado" };
+      return { Icon: Cloudy, color: "text-slate-300", desc: "Parcialmente nublado" };
     case 3:
-      return { Icon: Cloud, color: "text-slate-500", desc: "Nublado" };
+      return { Icon: Cloud, color: "text-slate-300", desc: "Nublado" };
     case 45:
     case 48:
-      return { Icon: CloudFog, color: "text-slate-400", desc: "Niebla" };
+      return { Icon: CloudFog, color: "text-slate-300", desc: "Niebla" };
     case 51:
     case 53:
     case 55:
-      return { Icon: CloudDrizzle, color: "text-sky-600", desc: "Llovizna" };
+      return { Icon: CloudDrizzle, color: "text-sky-400", desc: "Llovizna" };
     case 56:
     case 57:
-      return { Icon: CloudDrizzle, color: "text-sky-600", desc: "Llovizna helada" };
+      return { Icon: CloudDrizzle, color: "text-sky-400", desc: "Llovizna helada" };
     case 61:
     case 63:
     case 65:
-      return { Icon: CloudRain, color: "text-sky-600", desc: "Lluvia" };
+      return { Icon: CloudRain, color: "text-sky-400", desc: "Lluvia" };
     case 66:
     case 67:
-      return { Icon: CloudRain, color: "text-sky-600", desc: "Lluvia helada" };
+      return { Icon: CloudRain, color: "text-sky-400", desc: "Lluvia helada" };
     case 71:
     case 73:
     case 75:
@@ -69,7 +69,7 @@ function weatherInfo(code) {
     case 80:
     case 81:
     case 82:
-      return { Icon: CloudRain, color: "text-sky-600", desc: "Chubascos" };
+      return { Icon: CloudRain, color: "text-sky-400", desc: "Chubascos" };
     case 85:
     case 86:
       return { Icon: CloudSnow, color: "text-sky-400", desc: "Chubascos de nieve" };
@@ -79,7 +79,7 @@ function weatherInfo(code) {
     case 99:
       return { Icon: CloudLightning, color: "text-violet-500", desc: "Tormenta con granizo" };
     default:
-      return { Icon: Thermometer, color: "text-slate-500", desc: "" };
+      return { Icon: Thermometer, color: "text-slate-300", desc: "" };
   }
 }
 
@@ -183,7 +183,7 @@ export function TopBar() {
   const divider = (
     <span
       aria-hidden="true"
-      className="hidden h-4 w-px bg-[var(--color-text)]/15 sm:block"
+      className="hidden h-4 w-px bg-white/20 sm:block"
     />
   );
 
@@ -192,13 +192,17 @@ export function TopBar() {
       initial={reduce ? false : { opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      // Liquid glass: cobre translúcido (color-mix garantiza la transparencia) +
-      // blur + saturación. El blur se luce al hacer scroll (contenido pasando por
-      // detrás); el sheen blanco da el look de vidrio aun sin scroll, sobre el
-      // fondo blanco. Texto carbón → contraste AA.
-      className="relative border-b border-white/15 text-[var(--color-text)] shadow-[0_8px_24px_-10px_rgba(0,0,0,0.40)] backdrop-blur-xl backdrop-saturate-150"
+      // Liquid glass NEUTRO (sistema --glass-*): vidrio gris/carbón translúcido,
+      // SIN tinte cobre. La barra es persistente (sobre hero oscuro y luego sobre
+      // contenido claro) → variante DARK (una light desaparecería sobre blanco).
+      // Texto e iconos en blanco; el borde-hairline inferior separa al scrollear.
+      className="relative border-b border-[var(--glass-border-dark)] text-white shadow-[0_4px_16px_-8px_rgba(0,0,0,0.30)]"
       style={{
-        backgroundColor: "color-mix(in srgb, var(--color-dorado) 82%, transparent)",
+        backgroundColor: "var(--glass-bg-dark)",
+        backdropFilter:
+          "blur(var(--glass-blur-dark)) saturate(var(--glass-saturate-dark))",
+        WebkitBackdropFilter:
+          "blur(var(--glass-blur-dark)) saturate(var(--glass-saturate-dark))",
       }}
     >
       {/* Sheen de vidrio: degradado blanco de arriba hacia abajo */}
@@ -216,7 +220,7 @@ export function TopBar() {
         <div className="hidden min-w-0 items-center gap-2 sm:flex">
           <CalendarDays
             aria-hidden="true"
-            className="h-3.5 w-3.5 shrink-0 text-[var(--color-text)]/70"
+            className="h-3.5 w-3.5 shrink-0 text-white/70"
           />
           <span className="truncate text-xs font-medium tracking-wide">{fecha}</span>
         </div>
@@ -227,7 +231,7 @@ export function TopBar() {
           <span className="inline-flex items-center gap-1.5">
             <Clock
               aria-hidden="true"
-              className="h-3.5 w-3.5 shrink-0 text-[var(--color-text)]/70"
+              className="h-3.5 w-3.5 shrink-0 text-white/70"
             />
             <span className="text-[13px] font-semibold tabular-nums tracking-tight sm:text-sm">
               {hora}
