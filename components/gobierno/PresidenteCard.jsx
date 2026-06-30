@@ -12,7 +12,21 @@ export function PresidenteCard({ presidente }) {
     <motion.article
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      className="relative isolate mx-auto max-w-[480px] overflow-hidden rounded-2xl bg-gradient-to-br from-[var(--color-guinda)] to-[var(--color-guinda-deep)] p-8 text-white shadow-[0_20px_60px_-15px_rgba(31,56,19,0.55)] md:p-12"
+      className="relative isolate mx-auto max-w-[480px] overflow-hidden rounded-2xl p-8 text-white md:p-12"
+      // Glass dark del sistema. OVERRIDE local del fondo: esta tarjeta vive en una
+      // sección CLARA (no sobre imagen oscura como Historia), así que el 42% del
+      // --glass-bg-dark daba gris medio (texto blanco < AA). Se sube a 0.78 para que
+      // quede oscura de verdad sobre claro. Frost/borde/sombra/highlight = sistema.
+      style={{
+        backgroundColor: "rgba(22, 24, 28, 0.78)",
+        border: "1px solid var(--glass-border-dark)",
+        backdropFilter:
+          "blur(var(--glass-blur-dark)) saturate(var(--glass-saturate-dark))",
+        WebkitBackdropFilter:
+          "blur(var(--glass-blur-dark)) saturate(var(--glass-saturate-dark))",
+        boxShadow:
+          "0 4px 16px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.10)",
+      }}
     >
       <div
         aria-hidden="true"
