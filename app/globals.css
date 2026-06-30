@@ -87,6 +87,17 @@
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow), inset 0 1px 0 0 var(--glass-gloss);
   }
+  /* Panel de modal (texto largo): más opaco que .glass-light para no perder
+     legibilidad sobre el scrim oscuro; con blur (los modales son únicos → sin
+     coste de scroll) y sombra fuerte tipo modal. */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(var(--glass-blur-light)) saturate(var(--glass-saturate-light));
+    -webkit-backdrop-filter: blur(var(--glass-blur-light)) saturate(var(--glass-saturate-light));
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.45), inset 0 1px 0 var(--glass-gloss);
+    border-radius: 16px;
+  }
 }
 
 @layer base {

@@ -19,7 +19,7 @@ export function TermsModal({ open, onAccept, onDecline }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-[70] bg-[var(--color-guinda-deep)]/60 backdrop-blur-sm"
+                className="fixed inset-0 z-[70] bg-black/50 backdrop-blur-sm"
               />
             </Dialog.Overlay>
 
@@ -34,17 +34,17 @@ export function TermsModal({ open, onAccept, onDecline }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 16, scale: 0.98 }}
                 transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                className="fixed left-1/2 top-1/2 z-[70] flex max-h-[90vh] w-[min(92vw,640px)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+                className="glass-panel fixed left-1/2 top-1/2 z-[70] flex max-h-[90vh] w-[min(92vw,640px)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl"
               >
-                <div className="flex items-start gap-4 border-b border-[var(--color-border)] bg-gradient-to-br from-[var(--color-guinda-deep)] to-[var(--color-guinda)] px-6 py-5 text-white">
-                  <div className="rounded-full bg-white/15 p-2">
+                <div className="flex items-start gap-4 border-b border-[var(--color-border)] px-6 py-5 text-[var(--color-text)]">
+                  <div className="rounded-full bg-[var(--color-dorado)]/10 p-2 text-[var(--color-dorado)]">
                     <ScrollText className="h-6 w-6" aria-hidden="true" />
                   </div>
                   <div className="flex-1">
                     <Dialog.Title className="font-display text-xl font-bold">
                       Términos y Condiciones de Uso
                     </Dialog.Title>
-                    <Dialog.Description className="mt-1 text-sm text-white/80">
+                    <Dialog.Description className="mt-1 text-sm text-[var(--color-text-secondary)]">
                       {identidad.nombreOficial}, Sonora
                     </Dialog.Description>
                   </div>
@@ -133,7 +133,7 @@ export function TermsModal({ open, onAccept, onDecline }) {
                     type="button"
                     onClick={onAccept}
                     autoFocus
-                    className="rounded-md bg-[var(--color-guinda)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-guinda-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
+                    className="rounded-md bg-[var(--color-dorado)] px-4 py-2 text-sm font-semibold text-[var(--color-text)] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-guinda)] focus-visible:ring-offset-2"
                   >
                     Acepto
                   </button>
