@@ -71,7 +71,7 @@ export function PersonDetailModal({ person, open, onOpenChange }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-[60] bg-[var(--color-guinda-deep)]/60 backdrop-blur-sm"
+                className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
               />
             </Dialog.Overlay>
 
@@ -81,7 +81,7 @@ export function PersonDetailModal({ person, open, onOpenChange }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                className="fixed left-1/2 top-1/2 z-[60] w-[min(94vw,768px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-2xl"
+                className="glass-panel fixed left-1/2 top-1/2 z-[60] w-[min(94vw,768px)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl"
               >
                 <Dialog.Title className="sr-only">
                   {displayNombre}
@@ -101,7 +101,7 @@ export function PersonDetailModal({ person, open, onOpenChange }) {
                 </Dialog.Close>
 
                 <div className="grid max-h-[90vh] grid-cols-1 overflow-hidden md:grid-cols-[2fr_3fr]">
-                  <div className="relative flex aspect-square w-full items-center justify-center bg-gradient-to-br from-[var(--color-guinda-deep)] to-[var(--color-guinda)] md:aspect-auto md:h-full md:min-h-[420px]">
+                  <div className="relative flex aspect-square w-full items-center justify-center bg-[rgba(22,24,28,0.78)] md:aspect-auto md:h-full md:min-h-[420px]">
                     {person.foto ? (
                       <Image
                         src={person.foto}

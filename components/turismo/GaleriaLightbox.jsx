@@ -54,7 +54,7 @@ export function GaleriaLightbox({ images = [] }) {
               />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-[var(--color-guinda-deep)]/0 transition group-hover:bg-[var(--color-guinda-deep)]/30"
+                className="absolute inset-0 bg-black/0 transition group-hover:bg-black/30"
               />
               <span
                 aria-hidden="true"
@@ -77,7 +77,7 @@ export function GaleriaLightbox({ images = [] }) {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="fixed inset-0 z-50 bg-[var(--color-guinda-deep)]/90 backdrop-blur-md"
+                  className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md"
                 />
               </Dialog.Overlay>
 

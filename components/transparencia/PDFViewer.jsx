@@ -36,7 +36,7 @@ export function PDFViewer({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-50 bg-[var(--color-guinda-deep)]/70 backdrop-blur-sm"
+                className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
               />
             </Dialog.Overlay>
 
@@ -46,17 +46,17 @@ export function PDFViewer({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 12, scale: 0.98 }}
                 transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                className="fixed left-1/2 top-1/2 z-50 flex h-[92vh] w-[min(96vw,1180px)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+                className="glass-panel fixed left-1/2 top-1/2 z-50 flex h-[92vh] w-[min(96vw,1180px)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl"
               >
-                <div className="flex items-center gap-3 border-b border-[var(--color-border)] bg-gradient-to-br from-[var(--color-guinda-deep)] to-[var(--color-guinda)] px-4 py-3 text-white sm:px-5 sm:py-4">
-                  <div className="hidden rounded-full bg-white/15 p-2 sm:block">
+                <div className="flex items-center gap-3 border-b border-[var(--color-border)] px-4 py-3 text-[var(--color-text)] sm:px-5 sm:py-4">
+                  <div className="hidden rounded-full bg-[var(--color-dorado)]/10 p-2 text-[var(--color-dorado)] sm:block">
                     <FileText className="h-5 w-5" aria-hidden="true" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <Dialog.Title className="truncate font-display text-sm font-bold leading-tight md:text-base">
                       {title}
                     </Dialog.Title>
-                    <Dialog.Description className="mt-0.5 truncate text-[11px] text-white/80 sm:text-xs">
+                    <Dialog.Description className="mt-0.5 truncate text-[11px] text-[var(--color-text-secondary)] sm:text-xs">
                       {subtitle ?? "Documento oficial del Ayuntamiento"}
                     </Dialog.Description>
                   </div>
@@ -64,7 +64,7 @@ export function PDFViewer({
                     <a
                       href={pdfUrl}
                       download
-                      className="inline-flex min-h-[44px] items-center gap-1.5 rounded-md border border-white/25 bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)]"
+                      className="inline-flex min-h-[44px] items-center gap-1.5 rounded-md border border-[var(--color-border)] px-2.5 py-1.5 text-xs font-semibold text-[var(--color-text)] transition hover:border-[var(--color-text-muted)] hover:bg-[var(--color-bg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)]"
                       aria-label={`Descargar ${title}`}
                     >
                       <Download className="h-3.5 w-3.5" aria-hidden="true" />
@@ -74,7 +74,7 @@ export function PDFViewer({
                       href={pdfUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex min-h-[44px] items-center gap-1.5 rounded-md border border-white/25 bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)]"
+                      className="inline-flex min-h-[44px] items-center gap-1.5 rounded-md border border-[var(--color-border)] px-2.5 py-1.5 text-xs font-semibold text-[var(--color-text)] transition hover:border-[var(--color-text-muted)] hover:bg-[var(--color-bg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)]"
                       aria-label="Abrir PDF en pestaña nueva"
                     >
                       <ExternalLink
@@ -87,7 +87,7 @@ export function PDFViewer({
                       <button
                         type="button"
                         aria-label="Cerrar visor de PDF"
-                        className="inline-flex h-11 w-11 items-center justify-center rounded-full text-white/80 transition hover:bg-white/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)]"
+                        className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[var(--color-text-muted)] transition hover:bg-[var(--color-bg)] hover:text-[var(--color-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)]"
                       >
                         <X className="h-5 w-5" aria-hidden="true" />
                       </button>

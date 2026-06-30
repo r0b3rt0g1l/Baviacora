@@ -47,7 +47,7 @@ export function MobileMenu() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-40 bg-[var(--color-guinda-deep)]/40 backdrop-blur-sm"
+                className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
               />
             </Dialog.Overlay>
 
@@ -57,7 +57,7 @@ export function MobileMenu() {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ type: "tween", ease: [0.22, 1, 0.36, 1], duration: 0.32 }}
-                className="fixed right-0 top-0 z-50 flex h-dvh w-full max-w-sm flex-col bg-white shadow-2xl"
+                className="glass-panel rounded-none fixed right-0 top-0 z-50 flex h-dvh w-full max-w-sm flex-col"
                 aria-label="Menú móvil"
               >
                 <Dialog.Title className="sr-only">
@@ -167,7 +167,7 @@ export function MobileMenu() {
                       rel="noopener noreferrer"
                       onClick={handleClose}
                       aria-label={`Facebook oficial de ${identidad.nombreCorto}`}
-                      className="mt-3 inline-flex items-center gap-3 rounded-lg bg-[var(--color-guinda-deep)] px-4 py-3 text-white transition hover:bg-[var(--color-guinda)]"
+                      className="mt-3 inline-flex items-center gap-3 rounded-lg bg-[var(--color-text)] px-4 py-3 text-white transition hover:opacity-90"
                     >
                       <Facebook
                         aria-hidden="true"
