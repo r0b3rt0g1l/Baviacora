@@ -132,7 +132,7 @@ export function HeroCarousel({ slides }) {
                             <Link
                               href={slide.cta.href}
                               aria-label={`${slide.cta.label} — ${slide.title}`}
-                              className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-cta-bg)] px-6 py-3 text-sm font-semibold text-[var(--color-cta-text)] shadow-lg transition-all duration-200 hover:scale-105 hover:bg-[var(--color-cta-bg-hover)] hover:shadow-xl"
+                              className="glass-dark group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
                             >
                               {slide.cta.label}
                               <ArrowRight

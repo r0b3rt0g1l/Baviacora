@@ -45,6 +45,39 @@
   --shadow-nav: 0 4px 12px rgba(35,41,46,0.08);
   --shadow-card: 0 2px 8px rgba(26, 26, 26, 0.06);
   --shadow-card-hover: 0 8px 24px rgba(35,41,46,0.12);
+
+  /* === Liquid glass NEUTRO (estilo Apple) — cero tinte de marca en el FONDO.
+     El vidrio es gris/blanco translúcido; cobre/carbón solo en texto/iconos. === */
+  --glass-blur: 22px;
+  --glass-saturate: 170%;
+  --glass-bg-light: rgba(255, 255, 255, 0.60);   /* sobre fondos claros */
+  --glass-bg-dark: rgba(22, 24, 28, 0.42);        /* sobre imágenes/hero oscuros (carbón neutro, NO cobre) */
+  --glass-border: rgba(255, 255, 255, 0.55);      /* borde-brillo sobre claro */
+  --glass-border-dark: rgba(255, 255, 255, 0.18); /* borde-brillo sobre oscuro */
+  --glass-gloss: rgba(255, 255, 255, 0.60);       /* línea de brillo del borde superior */
+  --glass-sheen: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.04) 45%, rgba(255,255,255,0));
+  --glass-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 12px 32px -8px rgba(0,0,0,0.18), 0 24px 64px -24px rgba(0,0,0,0.12);
+}
+
+@layer components {
+  /* Vidrio neutro reutilizable. El sheen va como capa de background (no pseudo-elemento
+     → sin líos de z-index sobre el contenido); backdrop-filter difumina lo de atrás.
+     El radio/forma lo pone el elemento (rounded-full botón, rounded-2xl card). */
+  .glass-light {
+    background: var(--glass-sheen), var(--glass-bg-light);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow: var(--glass-shadow), inset 0 1px 0 0 var(--glass-gloss);
+  }
+  .glass-dark {
+    background: var(--glass-sheen), var(--glass-bg-dark);
+    border: 1px solid var(--glass-border-dark);
+    color: #fff;
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow: var(--glass-shadow), inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+  }
 }
 
 @layer base {
