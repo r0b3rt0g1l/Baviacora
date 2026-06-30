@@ -123,7 +123,7 @@ export function PDFViewer({
                           href={pdfUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[var(--color-cta-bg)] px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-[var(--color-cta-bg-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
+                          className="glass-light inline-flex min-h-[48px] items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-[var(--color-text)] transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
                         >
                           <ExternalLink className="h-4 w-4" aria-hidden="true" />
                           Abrir documento

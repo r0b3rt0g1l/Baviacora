@@ -22,7 +22,7 @@ export function MasNoticias({ items = [], basePath = "/acciones-de-gobierno/noti
           </div>
           <Link
             href="/acciones-de-gobierno"
-            className="group inline-flex w-fit items-center gap-1.5 rounded-full border border-[var(--color-guinda)]/20 bg-[var(--color-guinda)]/5 px-4 py-2 text-sm font-semibold text-[var(--color-guinda)] transition hover:bg-[var(--color-guinda)] hover:text-white"
+            className="glass-light group inline-flex w-fit items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold text-[var(--color-text)] transition-all duration-200 hover:scale-105"
           >
             Ver todas
             <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" />

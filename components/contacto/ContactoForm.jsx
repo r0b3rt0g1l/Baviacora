@@ -184,7 +184,7 @@ export function ContactoForm({ accessKey }) {
               <button
                 type="submit"
                 disabled={status === "submitting"}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-guinda)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-guinda-deep)] disabled:cursor-not-allowed disabled:opacity-70"
+                className="glass-light inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-[var(--color-text)] transition-all duration-200 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {status === "submitting" ? (
                   <>

@@ -90,7 +90,7 @@ export function Estadisticas({ estadisticas = [] }) {
         <div className="mx-auto mt-4 flex max-w-5xl justify-end">
           <Link
             href="/turismo"
-            className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-cta-bg)] px-6 py-3 text-sm font-semibold text-[var(--color-cta-text)] shadow-md transition-all duration-200 hover:scale-105 hover:bg-[var(--color-cta-bg-hover)] hover:shadow-lg"
+            className="glass-light group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-[var(--color-text)] transition-all duration-200 hover:scale-105"
           >
             Descubre el turismo
             <ArrowRight

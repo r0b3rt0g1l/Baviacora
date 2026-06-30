@@ -37,7 +37,7 @@ export function TransparenciaCTA() {
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
               href="/transparencia"
-              className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-cta-bg)] px-6 py-3 text-sm font-semibold text-[var(--color-cta-text)] shadow-lg transition hover:bg-[var(--color-cta-bg-hover)]"
+              className="glass-dark group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105"
             >
               Ir al Hub de Transparencia
               <ArrowRight

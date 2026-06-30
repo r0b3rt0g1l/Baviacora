@@ -25,7 +25,7 @@ export function AccionesRecientes({ noticias = [], presidente = null }) {
           </div>
           <Link
             href="/acciones-de-gobierno"
-            className="group inline-flex items-center gap-1.5 rounded-full bg-[var(--color-cta-bg)] px-5 py-2.5 text-sm font-semibold text-[var(--color-cta-text)] shadow-md transition-all duration-200 hover:scale-105 hover:bg-[var(--color-cta-bg-hover)] hover:shadow-lg"
+            className="glass-light group inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold text-[var(--color-text)] transition-all duration-200 hover:scale-105"
           >
             Ver todas
             <ArrowRight
