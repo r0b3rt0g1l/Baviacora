@@ -1,11 +1,10 @@
 import { Breadcrumbs } from "@/components/seo/JsonLd";
-import { FileText, Eye } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { sevac } from "@/lib/sevac";
 import { getSevac } from "@/lib/content";
-import { PDFViewer } from "@/components/transparencia/PDFViewer";
 import { SevacFiltros } from "@/components/transparencia/SevacFiltros";
+import { SevacDocumentCard } from "@/components/transparencia/SevacDocumentCard";
 import { PageHeader } from "@/components/common/PageHeader";
 
 export const revalidate = 60;
@@ -79,7 +78,7 @@ export default async function SevacPage({ searchParams }) {
 
       <section
         aria-label="Documentos SEvAC"
-        className="border-y border-[var(--color-border)] bg-white"
+        className="border-y border-[var(--color-border)] bg-[var(--color-surface)]"
       >
         <div className="mx-auto w-full max-w-5xl px-4 py-12 sm:px-6 md:py-16">
           <header className="mb-8">
@@ -113,10 +112,9 @@ export default async function SevacPage({ searchParams }) {
           ) : (
             <ul className="grid gap-4">
               {documentos.map((doc) => {
-                const badge = CATEGORIA_BADGE[doc.categoria] ?? BADGE_FALLBACK;
                 const label =
                   CATEGORIA_LABEL[doc.categoria] || doc.categoria || "Documento";
-                const disponible = Boolean(doc.url);
+                const badgeClass = CATEGORIA_BADGE[doc.categoria] ?? BADGE_FALLBACK;
                 const subtitlePartes = [label];
                 if (doc.anio != null) subtitlePartes.push(`Ejercicio ${doc.anio}`);
                 if (doc.trimestre != null)
@@ -124,56 +122,13 @@ export default async function SevacPage({ searchParams }) {
                 const subtitle = subtitlePartes.join(" · ");
 
                 return (
-                  <li
+                  <SevacDocumentCard
                     key={doc.id}
-                    className="flex flex-col gap-4 rounded-xl border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)] sm:flex-row sm:items-center"
-                  >
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[var(--color-guinda)]/10 text-[var(--color-guinda)]">
-                      <FileText className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <div className="flex-1 leading-tight">
-                      <span
-                        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest ${badge}`}
-                      >
-                        {label}
-                      </span>
-                      <p className="mt-2 font-display text-base font-semibold text-[var(--color-text)] md:text-lg">
-                        {doc.titulo}
-                      </p>
-                      {doc.descripcion && (
-                        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-                          {doc.descripcion}
-                        </p>
-                      )}
-                      {(doc.anio != null || doc.trimestre != null) && (
-                        <p className="mt-1 text-xs text-[var(--color-text-muted)]">
-                          {doc.anio != null && <>Ejercicio {doc.anio}</>}
-                          {doc.anio != null && doc.trimestre != null && " · "}
-                          {doc.trimestre != null && <>Trim. {doc.trimestre}</>}
-                        </p>
-                      )}
-                    </div>
-                    {disponible ? (
-                      <PDFViewer
-                        pdfUrl={doc.url}
-                        title={doc.titulo}
-                        subtitle={subtitle}
-                        trigger={
-                          <button
-                            type="button"
-                            className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-[var(--color-guinda)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-guinda-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2 sm:self-center"
-                          >
-                            <Eye className="h-4 w-4" aria-hidden="true" />
-                            Ver documento
-                          </button>
-                        }
-                      />
-                    ) : (
-                      <span className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-[var(--color-text-muted)]/15 px-4 py-2 text-sm font-medium italic text-[var(--color-text-muted)] sm:self-center">
-                        Próximamente disponible
-                      </span>
-                    )}
-                  </li>
+                    doc={doc}
+                    label={label}
+                    badgeClass={badgeClass}
+                    subtitle={subtitle}
+                  />
                 );
               })}
             </ul>
