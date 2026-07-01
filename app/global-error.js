@@ -2,7 +2,7 @@
 
 // Último recurso: se activa solo si falla el propio root layout. Reemplaza TODO
 // el documento, por eso renderiza su propio <html>/<body> con estilos inline
-// (globals.css podría no estar cargado). Paleta de Baviácora (verde/oro).
+// (globals.css podría no estar cargado). Paleta de Baviácora (carbón/cobre).
 export default function GlobalError({ reset }) {
   return (
     <html lang="es">
@@ -13,7 +13,7 @@ export default function GlobalError({ reset }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#2D4F1B",
+          background: "#23292E",
           color: "#ffffff",
           fontFamily:
             "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
@@ -27,7 +27,7 @@ export default function GlobalError({ reset }) {
               fontSize: "0.78rem",
               letterSpacing: "0.3em",
               textTransform: "uppercase",
-              color: "#E5B53D",
+              color: "#C98A4E",
               margin: 0,
             }}
           >
@@ -57,8 +57,8 @@ export default function GlobalError({ reset }) {
             type="button"
             onClick={() => reset()}
             style={{
-              background: "#E5B53D",
-              color: "#1F3813",
+              background: "#9C5E22",
+              color: "#ffffff",
               border: "none",
               borderRadius: "9999px",
               padding: "0.85rem 1.9rem",
