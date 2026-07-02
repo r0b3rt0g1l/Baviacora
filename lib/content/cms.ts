@@ -164,6 +164,7 @@ export async function cmsEstadisticas(): Promise<Estadistica[] | null> {
     id: item.id,
     titulo: item.titulo || "",
     valor: item.valor ?? "",
+    subtitulo: item.subtitulo ?? null,
     iconoUrl: item.iconoUrl || null,
     orden: item.orden ?? 0,
   }));

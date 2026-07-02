@@ -64,6 +64,7 @@ export interface Estadistica {
   id: string;
   titulo: string;
   valor: string;
+  subtitulo?: string | null;
   iconoUrl: string | null;
   orden: number;
 }

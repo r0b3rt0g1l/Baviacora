@@ -26,6 +26,17 @@ const cardItem = {
   },
 };
 
+// Mapa estático (Tailwind-safe) de columnas en lg según el nº de recuadros
+// activos → la barra de escritorio se ajusta y no deja hueco si son menos de 6.
+const LG_COLS = {
+  1: "lg:grid-cols-1",
+  2: "lg:grid-cols-2",
+  3: "lg:grid-cols-3",
+  4: "lg:grid-cols-4",
+  5: "lg:grid-cols-5",
+  6: "lg:grid-cols-6",
+};
+
 // "Por designar"/vacío → estilo atenuado (dato aún no confirmado).
 function esPendiente(valor) {
   return !valor || /por\s+designar/i.test(valor);
@@ -38,6 +49,9 @@ export function Estadisticas({ estadisticas = [] }) {
   // municipio configura las suyas; ninguno hereda datos de otro).
   if (!estadisticas || estadisticas.length === 0) return null;
 
+  // lg: tantas columnas como recuadros (máx 6); móvil/tablet mantienen 2/3.
+  const lgCols = LG_COLS[Math.min(estadisticas.length, 6)] ?? "lg:grid-cols-6";
+
   return (
     <section aria-label="Datos del municipio" className="relative z-10">
       <div className="mx-auto max-w-7xl px-6 pb-2">
@@ -48,7 +62,7 @@ export function Estadisticas({ estadisticas = [] }) {
           initial={reduce ? undefined : "hidden"}
           whileInView={reduce ? undefined : "visible"}
           viewport={{ once: true, margin: "-80px" }}
-          className="glass-light relative z-10 mx-auto -mt-8 grid max-w-5xl grid-cols-2 overflow-hidden rounded-2xl sm:grid-cols-3 lg:-mt-12 lg:grid-cols-6"
+          className={`glass-light relative z-10 mx-auto -mt-8 grid max-w-5xl grid-cols-2 overflow-hidden rounded-2xl sm:grid-cols-3 lg:-mt-12 ${lgCols}`}
         >
           {estadisticas.map((e) => {
             const pending = esPendiente(e.valor);
@@ -82,6 +96,11 @@ export function Estadisticas({ estadisticas = [] }) {
                 >
                   {e.valor || "Por designar"}
                 </dd>
+                {e.subtitulo && (
+                  <dd className="text-[10px] leading-tight text-[var(--color-text-muted)]">
+                    {e.subtitulo}
+                  </dd>
+                )}
               </motion.div>
             );
           })}
